@@ -1,4 +1,4 @@
-*** Starting uWSGI 2.0.20 (64bit) on [Thu Jan  5 17:04:20 2023] ***
+*** Starting uWSGI 2.0.20 (64bit) on [Thu Jan  5 17:45:03 2023] ***
 compiled with version: Homebrew Clang 12.0.1 on 24 October 2022 02:02:00
 os: Darwin-21.4.0 Darwin Kernel Version 21.4.0: Fri Mar 18 00:47:26 PDT 2022; root:xnu-8020.101.4~15/RELEASE_ARM64_T8101
 nodename: jingzihaodeMacBook-Air.local
@@ -17,31 +17,29 @@ detected max file descriptor number: 1048575
 lock engine: OSX spinlocks
 thunder lock: disabled (you can enable it with --thunder-lock)
 uWSGI http bound on :8080 fd 7
-uwsgi socket 0 bound to TCP address 127.0.0.1:62671 (port auto-assigned) fd 6
+uwsgi socket 0 bound to TCP address 127.0.0.1:61817 (port auto-assigned) fd 6
 Python version: 3.9.6 (default, Jun 28 2021, 19:24:41)  [Clang 12.0.5 (clang-1205.0.22.9)]
-!!! Python Home is not a directory: /data/env/pyweb !!!
-Set PythonHome to /data/env/pyweb
+Set PythonHome to /opt/homebrew/bin
 Python path configuration:
-  PYTHONHOME = '/data/env/pyweb'
+  PYTHONHOME = '/opt/homebrew/bin'
   PYTHONPATH = (not set)
-  program name = '/data/env/pyweb/bin/python'
+  program name = '/opt/homebrew/bin/bin/python'
   isolated = 0
   environment = 1
   user site = 1
   import site = 1
-  sys._base_executable = '/data/env/pyweb/bin/python'
-  sys.base_prefix = '/data/env/pyweb'
-  sys.base_exec_prefix = '/data/env/pyweb'
+  sys._base_executable = '/opt/homebrew/bin/bin/python'
+  sys.base_prefix = '/opt/homebrew/bin'
+  sys.base_exec_prefix = '/opt/homebrew/bin'
   sys.platlibdir = 'lib'
-  sys.executable = '/data/env/pyweb/bin/python'
-  sys.prefix = '/data/env/pyweb'
-  sys.exec_prefix = '/data/env/pyweb'
+  sys.executable = '/opt/homebrew/bin/bin/python'
+  sys.prefix = '/opt/homebrew/bin'
+  sys.exec_prefix = '/opt/homebrew/bin'
   sys.path = [
-    '/data/env/pyweb/lib/python39.zip',
-    '/data/env/pyweb/lib/python3.9',
-    '/data/env/pyweb/lib/python3.9/lib-dynload',
-  ]
-Fatal Python error: init_fs_encoding*** Starting uWSGI 2.0.20 (64bit) on [Thu Jan  5 17:07:23 2023] ***
+    '/opt/homebrew/bin/lib/python39.zip',
+    '/opt/homebrew/bin/lib/python3.9',
+    '/opt/homebrew/bin/lib/python3.9/lib-dynload',
+*** Starting uWSGI 2.0.20 (64bit) on [Thu Jan  5 17:53:04 2023] ***
 compiled with version: Homebrew Clang 12.0.1 on 24 October 2022 02:02:00
 os: Darwin-21.4.0 Darwin Kernel Version 21.4.0: Fri Mar 18 00:47:26 PDT 2022; root:xnu-8020.101.4~15/RELEASE_ARM64_T8101
 nodename: jingzihaodeMacBook-Air.local
@@ -60,7 +58,7 @@ detected max file descriptor number: 1048575
 lock engine: OSX spinlocks
 thunder lock: disabled (you can enable it with --thunder-lock)
 uWSGI http bound on :8080 fd 7
-uwsgi socket 0 bound to TCP address 127.0.0.1:63200 (port auto-assigned) fd 6
+uwsgi socket 0 bound to TCP address 127.0.0.1:65330 (port auto-assigned) fd 6
 Python version: 3.9.6 (default, Jun 28 2021, 19:24:41)  [Clang 12.0.5 (clang-1205.0.22.9)]
 Set PythonHome to /opt/homebrew/bin
 Python path configuration:
