@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "借用工具列表",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-fab": "../../uni_modules/uni-fab/components/uni-fab/uni-fab",
+    "uni-col": "../../uni_modules/uni-row/components/uni-col/uni-col",
+    "uni-row": "../../uni_modules/uni-row/components/uni-row/uni-row",
+    "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card",
+    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section",
+    "uni-datetime-picker": "../../uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker",
+    "uni-easyinput": "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput",
+    "uni-popup": "../../uni_modules/uni-popup/components/uni-popup/uni-popup"
+  }
+}

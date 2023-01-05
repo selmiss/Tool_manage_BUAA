@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "工具管理",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-row": "../../../uni_modules/uni-row/components/uni-row/uni-row",
+    "uni-card": "../../../uni_modules/uni-card/components/uni-card/uni-card",
+    "uni-section": "../../../uni_modules/uni-section/components/uni-section/uni-section"
+  }
+}

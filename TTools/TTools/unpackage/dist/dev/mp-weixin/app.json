@@ -1,0 +1,25 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/Teacher/tea-main/tea-main",
+    "pages/self/self",
+    "pages/stu-Main/stu-Main",
+    "pages/ToolCats/ToolCats",
+    "pages/ToolList/ToolList",
+    "pages/newPassword/newPassword",
+    "pages/Teacher/tea-main/check-borrow",
+    "pages/Teacher/tea-main/delay-borrow",
+    "pages/Teacher/tea-main/return-borrow",
+    "pages/Teacher/tool-main/tool-list",
+    "pages/Teacher/tool-main/choose-tool",
+    "pages/Teacher/tool-main/tool-edit-list",
+    "pages/Teacher/tool-main/new-tool"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

@@ -1,0 +1,140 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "北航工程训练中心工具信息平台",
+				"enablePullDownRefresh": true
+			}
+		}
+		,
+		{
+		    "path" : "pages/Teacher/tea-main/tea-main",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "工具信息管理",
+		        "enablePullDownRefresh": true
+		    }
+		    
+		},
+		{
+            "path" : "pages/self/self",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人信息",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/stu-Main/stu-Main",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "借用工具列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/ToolCats/ToolCats",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具借用",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/ToolList/ToolList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/newPassword/newPassword",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "更改密码",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        
+        ,{
+            "path" : "pages/Teacher/tea-main/check-borrow",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具借还审批",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/Teacher/tea-main/delay-borrow",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具借还审批",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/Teacher/tea-main/return-borrow",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具借还审批",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/Teacher/tool-main/tool-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具管理",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        
+        ,{
+            "path" : "pages/Teacher/tool-main/choose-tool",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具管理",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/Teacher/tool-main/tool-edit-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具管理",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/Teacher/tool-main/new-tool",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工具管理",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	}
+}

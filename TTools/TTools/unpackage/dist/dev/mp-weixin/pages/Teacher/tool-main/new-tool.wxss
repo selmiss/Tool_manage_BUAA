@@ -1,0 +1,11 @@
+
+.example {
+	width: 80%;
+	margin-left: 10%;
+	height: 100%;
+}
+.button-group {
+		margin-top: 15px;
+		display: flex;
+		justify-content: space-around;
+}

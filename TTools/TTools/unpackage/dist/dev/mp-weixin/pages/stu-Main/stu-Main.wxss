@@ -1,0 +1,40 @@
+
+.card-actions-item {
+		display: inline-block;
+		width: 45%;
+		text-align: center;
+		border: whitesmoke 1px solid;
+		height: 80rpx;
+		margin-bottom: 20rpx;
+}
+.card-actions-item2 {
+		display: inline-block;
+		width: 45%;
+		text-align: center;
+	
+		height: 80rpx;
+		margin-bottom: 20rpx;
+}
+.card-actions-item-text {
+		font-size: 16px;
+		line-height: 80rpx;
+		font-weight: 200;
+		vertical-align: middle;
+}
+.popup-content {
+					align-items: center;
+					justify-content: center;
+					padding: 15px;
+					height: auto;
+					background:transparent;
+}
+.light {
+	text-align: right;
+	margin-right: 20rpx;
+}
+.head {
+	display: inline-block;
+}
+.mainlist {
+	padding-top: 30rpx;
+}

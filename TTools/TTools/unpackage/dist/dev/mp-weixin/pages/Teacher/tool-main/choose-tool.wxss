@@ -1,0 +1,11 @@
+
+.light {
+	text-align: right;
+	margin-right: 20rpx;
+}
+.head {
+	display: inline-block;
+}
+.mainlist {
+	padding-top: 30rpx;
+}
