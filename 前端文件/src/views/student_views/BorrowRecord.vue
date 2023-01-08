@@ -24,7 +24,7 @@
                 <el-table-column align="center" label="操作" min-width="120">
                   <template slot-scope="scope">
                     <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate()">申请续借</el-button>
-                    <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" plain  @click="withdraw()">撤销申请</el-button>
+                    <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" plain  @click="withdraw(scope.row)">撤销申请</el-button>
 					<el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
 					<el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
                     <el-dialog :visible.sync="dialogFormVisible">
@@ -51,7 +51,7 @@
                       </el-form>
                       <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible = false">取消</el-button>
-                        <el-button type="primary" @click="handleRenew(scope.row)">确定</el-button>
+                        <el-button type="primary" @click="handleRenew()">确定</el-button>
                       </div>
                     </el-dialog>
 					
@@ -68,8 +68,8 @@
 					    </el-form-item>
 					  </el-form>
 					  <div slot="footer" class="dialog-footer">
-					    <el-button @click="dialogRepealVisible = false">取消</el-button>
-					    <el-button type="primary" @click="RepealRenew(scope.row)">确定</el-button>
+					    <el-button @click="closeWindow">取消</el-button>
+					    <el-button type="primary" @click="RepealRenew()">确定</el-button>
 					  </div>
 					</el-dialog>
 					
@@ -97,6 +97,7 @@ export default {
   },
   data() {
     return {
+      rowStore: null,
       pickerOptions: {
           disabledDate(time) {
             return (time.getTime() < Date.now());
@@ -145,13 +146,12 @@ export default {
       },
       this.dialogFormVisible = true;
     },
-	withdraw() {
-		this.RepealData={
-			purpose:"",
-		},
+	withdraw(row) {
+		this.rowStore = row
 		this.dialogRepealVisible=true;
 	},
-    handleRenew(row) {
+    handleRenew() {
+      var row = this.rowStore;
       console.log("续借时间", this.formData.postponeTime);
       axios({
 					url: 'http://121.4.160.157/user/applyPostpone',
@@ -178,7 +178,15 @@ export default {
 					}
 				});
     },
-	RepealRenew(row) {
+    closeWindow() {
+      this.RepealData={
+			purpose:"",
+		  },
+      dialogRepealVisible = false
+
+    },
+	  RepealRenew() {
+      var row = this.rowStore;
 		console.log("发起撤销");	
 		axios({
 					url: 'http://127.0.0.1:8000/user/repealRequest',
@@ -203,6 +211,7 @@ export default {
 						alert("申请失败，请检查网络");
 					}
 				});
+        this.closeWindow();
 	},
     loadMessage() {
 				let that = this;
