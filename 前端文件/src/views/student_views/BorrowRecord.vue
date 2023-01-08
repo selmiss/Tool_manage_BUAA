@@ -25,8 +25,8 @@
                   <template slot-scope="scope">
                     <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate()">申请续借</el-button>
                     <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" plain  @click="withdraw(scope.row)">撤销申请</el-button>
-					<el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
-					<el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
+                    <el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
+                    <el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
                     <el-dialog :visible.sync="dialogFormVisible">
                       <el-form
                         :model="formData"
