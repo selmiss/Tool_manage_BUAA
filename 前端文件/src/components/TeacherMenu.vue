@@ -25,6 +25,13 @@
                 <!-- <i class="el-icon-s-operation"></i> -->
                 <span slot="title">归还审批</span>
             </el-menu-item>
+			
+			<!--<el-menu-item index="/Repealaplly"-->
+			<el-menu-item v-if="this.isSuperUser" index="/Repealapply">
+			<!-- <el-menu-item index="/messageProcessing"> -->
+			    <!-- <i class="el-icon-s-promotion"></i> -->
+			    <span slot="title">撤销审批</span>
+			</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 

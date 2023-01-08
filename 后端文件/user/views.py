@@ -174,6 +174,8 @@ def send_test(request):  # 忘记密码发送验证码邮件
         except:
             EmailRecord.objects.create(code=code_num, acc=acc, email_type='注册验证码')
         return JsonResponse({"error_code": 0})  # 1,
+
+
 def sendCode(request):
     if request.method == 'POST':
         error = EasyDict()
@@ -476,6 +478,32 @@ def allBorrowList(request):
         }for i in toolRequests]
 
         return JsonResponse({"error_code": 0, "requestList": ret})
+
+def repealRequest(request):#todo:撤销申请 需要管理员审核
+    if request.method == 'POST':
+        kwargs = json.loads(request.body.decode("utf-8"))
+        Error = EasyDict()
+        Error.key, Error.no_user, Error.no_request,Error.illegl_repeal = 1, 2, 3,4
+        if kwargs.keys() != {'uid', 'requestId',"purpose"}:
+            return JsonResponse({'error_code': Error.key})
+        user = User.get_user_byid(str(kwargs['uid']))
+        if user is None:
+            return JsonResponse({'error_code': Error.no_user})
+        request=ToolRequest.get_request_by_id(kwargs['requestId'])
+        if request is None:
+            return JsonResponse({'error_code': Error.no_request})
+        RepealRequest = RepealPostpone.objects.filter(request=kwargs['requestId'], Status='W')
+        if not RepealRequest.exists():
+            RepealRequest = RepealPostpone.objects.create(request=request, request_user=user)
+            RepealRequest.purpose = kwargs['purpose']
+            RepealRequest.save()
+            request.delete()
+            print("到此")
+        else:
+            RepealRequest = RequestPostpone.get()
+            RepealRequest.purpose = kwargs['purpose']
+            RepealRequest.save()
+        return JsonResponse({"error_code": 0})
 
 def applyPostpone(request): #todo:申请延期，需管理员审核
     if request.method == 'POST':

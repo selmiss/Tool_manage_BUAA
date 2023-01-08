@@ -24,7 +24,9 @@
                 <el-table-column align="center" label="操作" min-width="120">
                   <template slot-scope="scope">
                     <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate()">申请续借</el-button>
-                    <el-button v-if="scope.row.status != 'A'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
+                    <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" plain  @click="withdraw()">撤销申请</el-button>
+					<el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
+					<el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
                     <el-dialog :visible.sync="dialogFormVisible">
                       <el-form
                         :model="formData"
@@ -52,6 +54,26 @@
                         <el-button type="primary" @click="handleRenew(scope.row)">确定</el-button>
                       </div>
                     </el-dialog>
+					
+					
+					<el-dialog :visible.sync="dialogRepealVisible">
+					  <el-form
+					    :model="RepealData"
+					    ref="RepealForm"
+					    label-position="left"
+					    label-width="80px"
+					    style="width: 300px; margin-left:50px;">
+					    <el-form-item label="撤销原因" prop="purpose">
+					      <el-input type="textarea" :rows="2" v-model="formData.purpose"></el-input>
+					    </el-form-item>
+					  </el-form>
+					  <div slot="footer" class="dialog-footer">
+					    <el-button @click="dialogRepealVisible = false">取消</el-button>
+					    <el-button type="primary" @click="RepealRenew(scope.row)">确定</el-button>
+					  </div>
+					</el-dialog>
+					
+					
                   </template>
                 </el-table-column>
               </el-table>
@@ -95,11 +117,15 @@ export default {
             }
           }]
       },
+	  dialogRepealVisible: false,
       dialogFormVisible: false,
       formData:{
           purpose: "",
           postponeTime: "",
       },
+	  RepealData:{
+		  purpose:"",
+	  },
       tableData: [
         {
           toolName: "",
@@ -119,6 +145,12 @@ export default {
       },
       this.dialogFormVisible = true;
     },
+	withdraw() {
+		this.RepealData={
+			purpose:"",
+		},
+		this.dialogRepealVisible=true;
+	},
     handleRenew(row) {
       console.log("续借时间", this.formData.postponeTime);
       axios({
@@ -146,19 +178,45 @@ export default {
 					}
 				});
     },
+	RepealRenew(row) {
+		console.log("发起撤销");	
+		axios({
+					url: 'http://127.0.0.1:8000/user/repealRequest',
+					method: 'post',
+					data: {
+					uid : localStorage.getItem('uid'),
+					requestId: row.requestId,
+					purpose: this.RepealData.purpose,
+					}
+				}).then((response) => {
+					if (response) {
+						if (response.data.error_code === 0) {
+							console.log("撤销成功", response.data);
+							alert("撤销成功");
+							this.reload();
+						} else {
+							console.log("error" + response.data);
+							alert("error" + response.data.error_code);
+						}
+					} else {
+						console.log("申请失败，请检查网络");
+						alert("申请失败，请检查网络");
+					}
+				});
+	},
     loadMessage() {
 				let that = this;
 				axios({
 					url: 'http://121.4.160.157/user/allBorrowList',
 					method: 'post',
 					data: {
-            uid : localStorage.getItem('uid'), 
+						uid : localStorage.getItem('uid'), 
 					}
 				}).then((response) => {
 					if (response) {
 						if (response.data.error_code === 0) {
 							console.log("获取成功", response.data);
-              that.tableData = response.data.requestList;
+							that.tableData = response.data.requestList;
 						} else {
 							console.log("获取失败" + response.data);
 							alert(localStorage.getItem('uid') + " 获取失败,error: " + response.data.error_code);
