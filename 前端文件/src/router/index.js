@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/teacher_views/BorrowProcessing.vue')
   },
   {
+    path: '/Repealapply',
+    name: 'Repealapply.vue',
+    component: () => import('../views/teacher_views/Repealapply.vue')
+  },
+  {
     path: '/messageProcessing',
     name: 'MessageProcessing.vue',
     component: () => import('../views/teacher_views/MessageProcessing.vue')

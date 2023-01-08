@@ -419,6 +419,31 @@ def getPostponeRequestList(request):#获取延期请求列表
                              })
         return JsonResponse({"error_code": 0, "data_list": dataList,"handleCount":len(dataList)})
 
+def getRepealRequestList(request):#获取撤销申请请求
+    if request.method == 'POST':
+        kwargs = json.loads(request.body.decode("utf-8"))
+        Error = EasyDict()
+        Error.uk = -1
+        Error.key, Error.no_user, Error.no_request, Error.illegalRequest, = 1, 2, 3, 4
+        requests =RepealPostpone.objects.filter(Status='W')
+        dataList=[]
+        for i in requests:
+            dataList.append({"toolName":i.request.borrowTool.name,"toolId":i.request.borrowTool.id,
+                             "requestUserName":i.request_user.name,
+                             "userId":i.request_user.id,
+                             "stuCollege":i.request_user.college,
+                             "phoneNumber":i.request_user.phoneNumber,
+                             "borrowCount":i.request.borrowCount,
+                             "purpose":i.request.purpose,
+                             "returnTime":datetime.strftime(i.request.return_time,TIME_FORMAT),
+                             "postPoneTime":datetime.strftime(i.postponeTime,TIME_FORMAT),
+                             "startTime":datetime.strftime(i.request.start_time,TIME_FORMAT),
+                             "requestId":i.id,
+                             "postponePurpose":i.purpose,
+                             "stuEmail":i.request_user.acc,
+                             })
+        return JsonResponse({"error_code": 0, "data_list": dataList,"handleCount":len(dataList)})
+
 def approvePostponeRequest(request):#处理延期请求
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))

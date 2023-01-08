@@ -35,6 +35,8 @@ urlpatterns = [
     path('allBorrowList', views.allBorrowList, name='allBorrowList'),
     # 个人借出延期申请
     path('applyPostpone', views.applyPostpone, name='applyPostpone'),
+    #个人撤销申请
+    path('repealRequest',views.repealRequest, name='repealRequest'),
     # 搜索工具
     path('searchToolByName', views.searchToolByName, name='searchToolByName'),
     # 搜索工具

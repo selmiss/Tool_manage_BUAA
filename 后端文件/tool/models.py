@@ -78,3 +78,20 @@ class RequestPostpone(models.Model):
 
     class Meta:
         ordering = ["-request_time"]
+
+class RepealPostpone(models.Model):
+    def get_request_by_id(id):
+        u = RepealPostpone.objects.filter(id=id)
+        return u.get() if u.exists() else None
+
+    request_user = models.ForeignKey(to=User, related_name="RepealRequest", on_delete=models.CASCADE, null=False)
+    request = models.ForeignKey(to=ToolRequest,related_name='RepealRequest',on_delete=models.CASCADE,null=False)
+    request_time = models.DateTimeField(null=True, default=datetime.now, verbose_name='提交延期申请时间')
+    STATUS_CHOICES = (('W', 'Wait'), ('A', 'Accept'), ('R', 'Refuse'),('F', 'Finish'))
+    Status = models.CharField(
+        verbose_name='审批情况', choices=STATUS_CHOICES, max_length=1, default='W')
+    refuseReason = models.CharField(verbose_name="拒绝里有", default=None, max_length=1000, null=True)
+    purpose = models.CharField(verbose_name="原因", default=None,max_length=1000,null=True)
+
+    class Meta:
+        ordering = ["-request_time"]

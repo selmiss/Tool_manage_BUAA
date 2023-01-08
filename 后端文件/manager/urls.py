@@ -37,6 +37,10 @@ urlpatterns = [
     path('getPostponeRequestList', views.getPostponeRequestList, name='getPostponeRequestList'),
     # 处理延期请求
     path('approvePostponeRequest', views.approvePostponeRequest, name='approvePostponeRequest'),
+    # 获取撤回申请列表
+    path('getRepealRequestList', views.getRepealRequestList, name='getRepealRequestList'),
+    # 处理撤回申请
+    #path('approveRepealRequest', views.approveRepealRequest, name='approveRepealRequest'),
     # 修改设备归还时间
     path('setReturnTime', views.setReturnTime, name='setReturnTime'),
     # 获取所有待归还请求列表
