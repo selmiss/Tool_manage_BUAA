@@ -475,6 +475,10 @@ def allBorrowList(request):
             "status":i.Status,
             "label":i.borrowTool.labelBelong.id,
             "requestId":i.id,
+            "address":i.address,
+            "sttime":i.date_startTime,
+            "endtime":i.date_endTime,
+            "getdate":i.get_date,
         }for i in toolRequests]
 
         return JsonResponse({"error_code": 0, "requestList": ret})

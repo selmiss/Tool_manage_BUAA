@@ -41,13 +41,13 @@
                       size="mini"
                       type="success"
                       plain
-                      @click="handleCreate2()">同意借出</el-button>
+                      @click="handleCreate2(scope.row)">同意借出</el-button>
 
                     <el-button
                       size="mini"
                       type="danger"
                       plain
-                      @click="handleCreate()">拒绝借出</el-button>
+                      @click="handleCreate(scope.row)">拒绝借出</el-button>
 
                       <el-dialog :visible.sync="dialogFormVisible">
                       <el-form
@@ -62,7 +62,7 @@
                       </el-form>
                       <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible = false">取消</el-button>
-                        <el-button type="primary" @click="handleRefuse(scope.$index, scope.row)">拒绝</el-button>
+                        <el-button type="primary" @click="handleRefuse(scope.$index)">拒绝</el-button>
                       </div>
                     </el-dialog>
 
@@ -118,7 +118,7 @@
                       </el-form>
                       <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible2 = false">取消</el-button>
-                        <el-button type="primary" @click="handleAgree(scope.$index, scope.row)">借出</el-button>
+                        <el-button type="primary" @click="handleAgree(scope.$index)">借出</el-button>
                       </div>
                     </el-dialog>
                   </template>
@@ -172,22 +172,26 @@ export default {
           borrowCount: "",
         }
       ],
+	  rowStore: null,
     };
   },
   methods: {
-    handleCreate() {
+    handleCreate(row) {
+		this.rowStore=row
       this.formData = {
         refuseReason: "",
       },
       this.dialogFormVisible = true;
     },
-    handleCreate2() {
+    handleCreate2(row) {
+		this.rowStore=row;
       this.formAgree = {
         address:"工程训练中心南208",
       },
       this.dialogFormVisible2 = true;
     },
-    handleAgree(index, row) {
+    handleAgree(index) {
+		var row=this.rowStore;
       console.log(index, row);
       axios({
 					url: 'http://121.4.160.157/manager/approveBorrowRequest',
@@ -221,7 +225,8 @@ export default {
 					}
 				});
     },
-    handleRefuse(index, row) {
+    handleRefuse(index) {
+		var row=this.rowStore;
       console.log(this.formData.refuseReason);
       axios({
 					url: 'http://121.4.160.157/manager/approveBorrowRequest',

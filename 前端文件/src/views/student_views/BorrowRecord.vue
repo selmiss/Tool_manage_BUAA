@@ -21,12 +21,31 @@
                     <el-button v-if="scope.row.status === 'F'" size="mini" type="success" >工具已归还</el-button>
                   </template>
                 </el-table-column>
+				
+				<el-table-column align="center" label="借用信息" min-width="120">
+				  <template slot-scope="scope">
+					  <el-popover
+					    placement="bottom"
+					    width="250"
+					    trigger="hover">
+						<div>领取信息</div>
+						<div >地址:  &nbsp &nbsp &nbsp &nbsp  {{ scope.row.address }} </div>
+						<div >日期:  &nbsp &nbsp &nbsp &nbsp  {{ scope.row.getdate }}</div>
+						<div >开始时间: &nbsp {{ scope.row.sttime }}</div>
+						<div >结束时间: &nbsp {{ scope.row.endtime }}</div>
+				    <el-button v-if="scope.row.status === 'A'" size="mini" slot="reference" type="primary" >借用信息</el-button>
+				    <el-button v-if="scope.row.status  !='A'" size="mini" type="info" >暂无信息</el-button>
+					</el-popover>
+				  </template>
+				</el-table-column>
+				
+				
                 <el-table-column align="center" label="操作" min-width="120">
                   <template slot-scope="scope">
-                    <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate()">申请续借</el-button>
-                    <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" plain  @click="withdraw(scope.row)">撤销申请</el-button>
-                    <el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
-                    <el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()">申请续借</el-button>
+                    <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate(scope.row)">申请续借</el-button>
+                    <el-button v-if="scope.row.status === 'W'" size="mini" type="warning" plain  @click="withdraw(scope.row)">撤销申请</el-button>
+                    <el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()"></el-button>
+                    <el-button v-if="scope.row.status === 'F'" size="mini" type="info" plain disabled @click="handleCreate()"></el-button>
                     <el-dialog :visible.sync="dialogFormVisible">
                       <el-form
                         :model="formData"
@@ -132,6 +151,12 @@ export default {
           toolName: "",
           startTime:"",
           returnTime: "",
+
+			address:"",
+			sttime:"",  //借用当天开始领取的时间
+			endtime:"",
+			getdate:"",
+			
           requestId: "",
           status: "",
         },
@@ -139,7 +164,8 @@ export default {
     };
   },
   methods: {
-    handleCreate() {
+    handleCreate(row) {
+		this.rowStore=row;
       this.formData = {
           purpose: "",
           postponeTime: "",
@@ -177,6 +203,7 @@ export default {
 						alert("申请失败，请检查网络");
 					}
 				});
+				this.closeWindow();
     },
     closeWindow() {
       this.RepealData={
@@ -187,7 +214,6 @@ export default {
     },
 	  RepealRenew() {
       var row = this.rowStore;
-		console.log("发起撤销");	
 		axios({
 					url: 'http://127.0.0.1:8000/user/repealRequest',
 					method: 'post',
@@ -216,7 +242,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://121.4.160.157/user/allBorrowList',
+					url: 'http://127.0.0.1:8000/user/allBorrowList',
 					method: 'post',
 					data: {
 						uid : localStorage.getItem('uid'), 
