@@ -735,6 +735,35 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         tool.portrait=head_path
         tool.save()
         return JsonResponse({'error_code': 0,'toolId':tool.id})
+
+
+def uploadImag(request):
+    if request.method == "POST":
+        f = request.FILES['csv_file']
+        file_path = os.path.join('media/image', f.name)
+        with open(file_path, 'wb') as fp:
+            for info in f.chunks():
+                fp.write(info)
+            fp.close()
+            message = '上传成功'
+
+def uploadImg1(request):
+    print("进入")
+    if request.method == 'POST':
+        toolId = request.POST.get('toolId')
+        tool = Tool.get_tool_by_id(toolId)
+        if tool is None:
+            return JsonResponse({'message': 1})
+        img=request.FILES.get('img')
+        file_path = os.path.join('media/image', img.name)
+        with open(file_path, 'wb') as fp:
+            for info in img.chunks():
+                fp.write(info)
+            fp.close()
+        tool.save()
+        print("执行完毕")
+        return JsonResponse({'message':"上传成功"})
+
 def editTool(request):
     if request.method == 'POST':
         Error = EasyDict()
@@ -744,6 +773,7 @@ def editTool(request):
         name = request.POST.get('name')
         setCount = request.POST.get('setCount')
         intro = request.POST.get('intro')
+        img = request.POST.get('imgurl')
         toolId=request.POST.get('toolId')
         limit_days=int(request.POST.get('limit_days'))
         manager = Manager.get_manager_by_id(managerId)
@@ -760,13 +790,11 @@ def editTool(request):
             return JsonResponse({'error_code': Error.illegalCount})
         tool.intro = intro
         tool.name = name
+        tool.image = img
         tool.totalCount = setCount
         tool.leftCount = tool.leftCount + addCount
-        img = request.FILES.get('img')
-        tool.image = img
-        tool.limit_days=limit_days
-        tool.save()
-        head_path = 'http://121.4.160.157' + settings.MEDIA_URL + tool.image.name
+        tool.limit_days = limit_days
+        head_path = 'http://121.4.160.157' + img
         tool.portrait = head_path
         tool.save()
         return JsonResponse({'error_code': 0})
@@ -794,6 +822,20 @@ def editToolLabel(request):
         tool.save()
         return JsonResponse({'error_code': 0})
 
+def imgText(request):
+    if request.method == 'POST':
+        img_a = request.FILES['files']
+        img = os.path.join(settings.MEDIA_URL, img_a.name)
+        img_root=os.path.join(settings.MEDIA_ROOT,img_a.name)
+        print(img)
+        with open(img_root, 'wb') as f:
+            for zipFile_Part in request.FILES['files'].chunks():
+                f.write(zipFile_Part)
+        return JsonResponse({'url': img})
+    else:
+        return HttpResponse('method 方法 错误')
+
+
 def deleteTool(request):#todo：判断工具是否全部收回？
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -812,6 +854,7 @@ def deleteTool(request):#todo：判断工具是否全部收回？
             return JsonResponse({'error_code': Error.toolNotReturn})
         tool.delete()
         return JsonResponse({'error_code': 0})
+
 def deleteWithoutJduge(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))

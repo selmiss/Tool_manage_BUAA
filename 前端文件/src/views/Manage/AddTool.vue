@@ -179,7 +179,7 @@ export default {
         formdata.append("limit_days", this.form.limit_days);
         formdata.append("img", this.form.imgfile);
         axios({
-          url:'http://121.4.160.157/manager/createTool',
+          url:'http://127.0.0.1:8000/manager/createTool',
           method:'post',
           data:formdata,
         }).then(res=>{

@@ -23,7 +23,7 @@
         <div style="height: 30px;line-height:30px;width: 160px;">{{tool.name}}</div>
         <div style="height: 40px;width: 160px;margin-top:10px;display:inline-block;">
           <el-button  size="mini" style="margin-top:5px;" @click="info(tool)" icon="el-icon-info"></el-button>
-          <el-button type="primary" size="mini" style="margin-top:5px;" :loading="editButtonLoading" @click="edit(tool)" icon="el-icon-edit"></el-button>
+          <el-button type="primary" size="mini" style="margin-top:5px;" :loading="editButtonLoading" @click="edit1(tool)" icon="el-icon-edit"></el-button>
           <el-button type="danger" size="mini" style="margin-top:5px;" @click="del(tool)" icon="el-icon-delete"></el-button>
         </div>
       </div>
@@ -71,19 +71,15 @@
                 <el-form-item label="工具名称" prop="name">
                   <el-input v-model="thetool.name"></el-input>
                 </el-form-item>
-                <el-form-item label="工具图片" prop="img" ref="uploadElement">
-                  <el-input v-model="thetool.url" v-if="false"></el-input>
-                    <el-upload
-                        class="avatar-uploader" ref="upload"
-                        accept="image/jpeg,image/jpg,image/png"
-                        :auto-upload="false" action=""
-                        :show-file-list="false"
-                        :on-change="handleChange"
-                        :on-success="handleAvatarSuccess">
-                      <img v-if="thetool.url" :src="thetool.url" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item>
+				
+                
+				<el-form-item label="工具图片" >
+				<div v-model="thetool.url" @change="changeFile">
+					 <img v-if="thetool.url" :src="thetool.url" class="avatar">
+				        <input type="file" >
+				</div>
+				</el-form-item>
+				
                 <el-form-item label="工具数量" prop="addCount">
                   <el-input-number v-model="thetool.totalCount" :min="1"></el-input-number>
                   <div>剩余数量：{{thetool.leftCount}}</div>
@@ -121,7 +117,9 @@
 
 <script>
 import axios from "axios";
+import { Upload } from "element-ui";
 export default{
+	file:null,
   name:"ToolSelectMan",
   components:{},
   created(){},
@@ -164,6 +162,23 @@ export default{
     }
   },
   methods:{
+	  
+	  
+	          changeFile(e){
+	              console.log(e.target.files[0]);
+	              this.file=e.target.files[0];
+				  let formData=new FormData()
+				  formData.append('files',this.file)
+				  axios.post('http://127.0.0.1:8000/manager/imgText',formData).then(res=>{
+				      console.log(res);
+					  this.thetool.url=res.data['url'];
+					  console.log(this.thetool.url+"改变成功!!!!!!!!!!!");
+				  })
+	          },
+	  
+	  
+	  
+	  
     init(){
       axios({
         url: "http://121.4.160.157/user/getLabelToolList",
@@ -181,6 +196,7 @@ export default{
         }
       }).catch(err=>{this.$message.error(err)})
     },
+	
     searchtool(){
       if(this.searchkey.length<1) {
         this.init();
@@ -201,7 +217,7 @@ export default{
     },
     del(tool){
       axios({
-        url:'http://121.4.160.157/manager/deleteTool',
+        url:'http://127.0.0.1:8000/manager/deleteTool',
         method:'post',
         data:{
           toolId:tool.id,
@@ -227,6 +243,7 @@ export default{
       this.thetool=tool;
       this.Infodialog=true;
     },
+	
     urlToImg(url){
       var promise=new Promise(function (resolve, reject){
         var image = new Image();
@@ -280,6 +297,16 @@ export default{
       });
       return promise;
     },
+
+
+	edit1(tool){
+		console.log(tool.url)
+		this.thetool=tool;
+		this.thetool.imgfile=tool.url;
+		this.Editdialog=true;
+	},
+
+	
     edit(tool){
       this.editButtonLoading=true;
       console.log(tool.url)
@@ -310,23 +337,39 @@ export default{
     handleAvatarSuccess(){
       this.init();
     },
+	uploadImg(){
+		console.log("调用了")
+		axios({
+			url:'http://127.0.0.1:8000/manager/uploadImg1',
+			method:'post',
+			data:{
+				"toolID":this.thetool.id,
+				"img":this.thetool.imgfile,
+			},
+		}).then(res=>{
+			console.log(res["message"]);
+		})
+      },
+	modification(){
+		this.handleSubmitAdd();
+		this.uploadImg();
+	},
     handleSubmitAdd(){
-      console.log("好像调用的不是这个？？？")
+      console.log("好像调用的不是这个？？？");
       if(this.formLoading){return}
       this.$refs.form.validate(valid=>{
         if(!valid){return}
         this.formLoading=true;
-
         var formdata = new FormData();
         formdata.append("name", this.thetool.name);
         formdata.append("toolId", this.thetool.id);
         formdata.append("intro", this.thetool.intro);
+		formdata.append('imgurl',this.thetool.url);
         formdata.append("setCount", this.thetool.totalCount);
         formdata.append("managerId", this.$store.state.UID);
-        formdata.append("img", this.thetool.imgfile);
         formdata.append("limit_days",this.thetool.limit_days);
         axios({
-          url:'http://121.4.160.157/manager/editTool',
+          url:'http://127.0.0.1:8000/manager/editTool',
           method:'post',
           data:formdata,
         }).then(res=>{
