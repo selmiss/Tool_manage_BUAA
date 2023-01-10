@@ -33,8 +33,7 @@
 						<div >日期:  &nbsp &nbsp &nbsp &nbsp  {{ scope.row.getdate }}</div>
 						<div >开始时间: &nbsp {{ scope.row.sttime }}</div>
 						<div >结束时间: &nbsp {{ scope.row.endtime }}</div>
-				    <el-button v-if="scope.row.status === 'A'" size="mini" slot="reference" type="primary" >借用信息</el-button>
-				    <el-button v-if="scope.row.status  !='A'" size="mini" type="info" >暂无信息</el-button>
+				    <el-button  size="mini" slot="reference">借用信息</el-button>
 					</el-popover>
 				  </template>
 				</el-table-column>
@@ -239,7 +238,7 @@ export default {
 				});
         this.closeWindow();
 	},
-    loadMessage() {
+	loadMessage() {
 				let that = this;
 				axios({
 					url: 'http://127.0.0.1:8000/user/allBorrowList',

@@ -203,7 +203,7 @@ export default{
       this.$refs["thetool"].validate(val=>{
         if(val){
           axios({
-            url: "http://121.4.160.157/user/borrowRequest",
+            url: "http://127.0.0.1:8000/user/borrowRequest",
             method: 'post',
             data: {
               toolId: this.thetool.id,
@@ -220,7 +220,10 @@ export default{
               this.borrowSuccess=true;
             }else if(res.data.error_code==4){
               this.$message.warning("借用时长超过限定期限")
-            }else{
+            }else if(res.data.error_code==5){
+				this.$message.warning("你已经借用过这个工具了");
+			}
+			else{
               this.$message.error("错误代码",res.data.error_code);
             }
           }).catch(err=>{

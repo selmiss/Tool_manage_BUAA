@@ -445,6 +445,10 @@ def borrowRequest(request):#借出申请
         tool=Tool.get_tool_by_id(kwargs['toolId'])
         if tool is None:
             return JsonResponse({'error_code': Error.no_tool})
+        request_exsis1 = ToolRequest.objects.filter(borrowTool_id=kwargs['toolId'],request_user_id=kwargs['uid'],Status= 'A' )
+        request_exsis2 = ToolRequest.objects.filter(borrowTool_id=kwargs['toolId'], request_user_id=kwargs['uid'],Status='W')
+        if request_exsis1 or request_exsis2:
+            return JsonResponse({'error_code': 5})
         returnTime = datetime.strptime(str(kwargs['returnTime']), TIME_FORMAT)
         startTime= datetime.strptime(str(kwargs['startTime']), TIME_FORMAT)
         if (returnTime-startTime).days > tool.limit_days:

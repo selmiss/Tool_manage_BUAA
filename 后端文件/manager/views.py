@@ -729,7 +729,7 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         tool.save()
         tool.totalCount=tool.leftCount
         img = request.FILES.get('img')
-        tool.image=img
+        tool.image = img
         tool.save()
         head_path = 'http://121.4.160.157' + settings.MEDIA_URL + tool.image.name
         tool.portrait=head_path
