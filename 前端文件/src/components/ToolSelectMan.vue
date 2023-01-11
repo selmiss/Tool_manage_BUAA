@@ -171,7 +171,7 @@ export default{
 	              this.file=e.target.files[0];
 				  let formData=new FormData()
 				  formData.append('files',this.file)
-				  axios.post('http://127.0.0.1:8000/manager/imgText',formData).then(res=>{
+				  this.axios.post('/manager/imgText',formData).then(res=>{
 				      console.log(res);
 					  this.thetool.url=res.data['url'];
 					  console.log(this.thetool.url+"改变成功!!!!!!!!!!!");
@@ -371,7 +371,7 @@ export default{
         formdata.append("managerId", this.$store.state.UID);
         formdata.append("limit_days",this.thetool.limit_days);
         axios({
-          url:'http://127.0.0.1:8000/manager/editTool',
+          url:'/manager/editTool',
           method:'post',
           data:formdata,
         }).then(res=>{

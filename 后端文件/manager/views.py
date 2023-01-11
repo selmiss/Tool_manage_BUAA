@@ -831,14 +831,18 @@ def myhash(str):
     ans = hash_str[10:30]
     return ans
 
+import datetime
 
 def imgText(request):
     if request.method == 'POST':
         img_a = request.FILES['files']
-        name = myhash(img_a.name)
+        now = datetime.datetime.now()
+        strnow = datetime.datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_cun = img_a.name + strnow
+        name = myhash(hash_cun)
         print(name)
         img = os.path.join("image/", name)
-        img+='.jpg'
+        img +='.jpg'
         img_root = os.path.join(settings.MEDIA_ROOT,img)
         print(img)
         with open(img_root, 'wb') as f:
