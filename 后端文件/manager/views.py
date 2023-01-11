@@ -794,7 +794,7 @@ def editTool(request):
         tool.totalCount = setCount
         tool.leftCount = tool.leftCount + addCount
         tool.limit_days = limit_days
-        head_path = 'http://121.4.160.157' + img
+        head_path = "http://121.4.160.157/media/" + img
         tool.portrait = head_path
         tool.save()
         return JsonResponse({'error_code': 0})
@@ -822,11 +822,24 @@ def editToolLabel(request):
         tool.save()
         return JsonResponse({'error_code': 0})
 
+import hashlib
+from hashlib import  sha256
+
+def myhash(str):
+    res = hashlib.sha256(str.encode(encoding="utf-8"))
+    hash_str = res.hexdigest()
+    ans = hash_str[10:30]
+    return ans
+
+
 def imgText(request):
     if request.method == 'POST':
         img_a = request.FILES['files']
-        img = os.path.join(settings.MEDIA_URL, img_a.name)
-        img_root=os.path.join(settings.MEDIA_ROOT,img_a.name)
+        name = myhash(img_a.name)
+        print(name)
+        img = os.path.join("image/", name)
+        img+='.jpg'
+        img_root = os.path.join(settings.MEDIA_ROOT,img)
         print(img)
         with open(img_root, 'wb') as f:
             for zipFile_Part in request.FILES['files'].chunks():

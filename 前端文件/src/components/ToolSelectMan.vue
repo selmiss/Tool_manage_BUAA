@@ -75,10 +75,12 @@
                 
 				<el-form-item label="工具图片" >
 				<div v-model="thetool.url" @change="changeFile">
-					 <img v-if="thetool.url" :src="thetool.url" class="avatar">
-				        <input type="file" >
+				        <input type="file"  style="display: none;" id="upfile">
+						<button type="button" onclick="upfile.click()">
+						<img v-if="thetool.url" :src="thetool.url" class="avatar">
+						</button>
 				</div>
-				</el-form-item>
+				</el-form-item>	
 				
                 <el-form-item label="工具数量" prop="addCount">
                   <el-input-number v-model="thetool.totalCount" :min="1"></el-input-number>
@@ -376,7 +378,6 @@ export default{
           console.log(res,formdata)
           if(res.data.error_code==0){
             this.formLoading = false
-            this.$refs.upload.clearFiles();
             this.Editdialog=false;
             this.init();
           }else{
