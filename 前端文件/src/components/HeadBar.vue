@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name:'headbar',
   data(){
@@ -41,6 +42,14 @@ export default {
     logout(){
       this.$router.push('/studentLogin');
       localStorage.setItem('Mail',null);
+	  axios({
+		  method:'post',
+		  url: 'user/unLogin',
+		  data: {
+		  	 token:localStorage.getItem('token'),
+		  }
+	  });
+	  localStorage.setItem('token',"wutoken");
     },
     changeInfo(){
       console.log("Info");

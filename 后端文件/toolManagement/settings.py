@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # 'django_apscheduler',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'migrations.token.ware1'
 ]
 
 ROOT_URLCONF = 'toolManagement.urls'
@@ -159,7 +161,10 @@ DEFAULT_FROM_EMAIL = 'chaoyu13085025601@163.com'
 EMAIL_FROM = 'chaoyu13085025601@163.com'
 
 #跨域配置
-SESSION_ENGINE='django.contrib.sessions.backends.cache'
+#配置缓存 django.contrib.sessions.backends.cache
+SESSION_ENGINE='django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600                    # Session的cookie失效日期（2周）（默认）
+
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True

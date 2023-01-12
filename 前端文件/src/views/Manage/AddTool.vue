@@ -138,7 +138,7 @@ export default {
     },
     init(){
       axios({
-        url:'http://121.4.160.157/user/getFirstLabelList',
+        url:'user/getFirstLabelList',
         method:'post',
         data:{}
       }).then(res=>{
@@ -155,7 +155,7 @@ export default {
     },
     handleAvatarSuccess(){
       axios({
-        url:'http://121.4.160.157/user/getLabelToolList',
+        url:'user/getLabelToolList',
         method:'post',
         data:{
           labelId:this.form.labelId
@@ -175,7 +175,7 @@ export default {
         formdata.append("LabelId", this.form.labelId);
         formdata.append("intro", this.form.intro);
         formdata.append("addCount", this.form.addCount);
-        formdata.append("managerId", this.$store.state.UID);
+        formdata.append("uid", this.$store.state.UID);
         formdata.append("limit_days", this.form.limit_days);
         formdata.append("img", this.form.imgfile);
         axios({

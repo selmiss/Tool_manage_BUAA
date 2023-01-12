@@ -103,7 +103,7 @@ export default{
         this.init();
       }else{
         axios({
-          url:'http://121.4.160.157/user/searchLabelByName',
+          url:'user/searchLabelByName',
           method:'post',
           data:{
             labelName:this.searchkey,
@@ -118,7 +118,7 @@ export default{
     },
     init(){
         axios({
-          url: "http://121.4.160.157/user/getSecondLabelList",
+          url: "user/getSecondLabelList",
           method: "post",
           data: {
             labelId: this.path,
@@ -140,12 +140,12 @@ export default{
     confirmEdit(){
       console.log(this.$store.state.UID,this.tagid,this.newtagname)
       axios({
-        url:"http://121.4.160.157/manager/editLabel",
+        url:"manager/editLabel",
         method:'post',
         data:{
           LabelId:this.tagid,
           newName:this.newtagname,
-          managerId:this.$store.state.UID,
+          uid:this.$store.state.UID,
         }
       }).then(res=>{
         if(res.data.error_code==0){
@@ -168,7 +168,7 @@ export default{
       formdata.append("img",lalala);
       formdata.append("LabelId",this.tagid);
       axios({
-        url:'http://121.4.160.157/manager/putLabelImage',
+        url:'manager/putLabelImage',
         method:'post',
         data: formdata
       }).then(res=>{
@@ -179,10 +179,10 @@ export default{
 
     confirmAdd(){
       axios({
-        url:"http://121.4.160.157/manager/addSecondLable",
+        url:"manager/addSecondLable",
         method:'post',
         data:{
-          managerId:localStorage.getItem('UID'),
+          uid:localStorage.getItem('UID'),
           name:this.newtagname,
           firstLabelId:this.path,
         }
@@ -200,10 +200,10 @@ export default{
     },
     del(tag){
       axios({
-        url:"http://121.4.160.157/manager/deleteLabel",
+        url:"manager/deleteLabel",
         method:'post',
         data:{
-          managerId:this.$store.state.UID,
+          uid:this.$store.state.UID,
           LabelId:tag.id,
         }
       }).then(res=>{

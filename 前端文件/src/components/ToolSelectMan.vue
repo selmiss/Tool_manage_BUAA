@@ -170,6 +170,7 @@ export default{
 	              console.log(e.target.files[0]);
 	              this.file=e.target.files[0];
 				  let formData=new FormData()
+				  formData.append('managerId',this.$store.state.UID)
 				  formData.append('files',this.file)
 				  this.axios.post('/manager/imgText',formData).then(res=>{
 				      console.log(res);
@@ -183,7 +184,7 @@ export default{
 	  
     init(){
       axios({
-        url: "http://121.4.160.157/user/getLabelToolList",
+        url: "user/getLabelToolList",
         method: "post",
         data: {
           labelId: this.tagid,
@@ -204,7 +205,7 @@ export default{
         this.init();
       }else{
         axios({
-          url:'http://121.4.160.157/user/searchToolByName',
+          url:'user/searchToolByName',
           method:'post',
           data:{
             toolName:this.searchkey,
@@ -223,7 +224,7 @@ export default{
         method:'post',
         data:{
           toolId:tool.id,
-          managerId:this.$store.state.UID
+          uid:this.$store.state.UID
         }
       }).then(res=>{
         if(res.data.error_code==0){
@@ -368,7 +369,7 @@ export default{
         formdata.append("intro", this.thetool.intro);
 		formdata.append('imgurl',this.thetool.url);
         formdata.append("setCount", this.thetool.totalCount);
-        formdata.append("managerId", this.$store.state.UID);
+        formdata.append("uid", localStorage.getItem('uid'));
         formdata.append("limit_days",this.thetool.limit_days);
         axios({
           url:'/manager/editTool',

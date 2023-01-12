@@ -115,7 +115,7 @@ export default {
 
   mounted() {
     axios({
-      url:'http://121.4.160.157/user/getFirstLabelList',
+      url:'user/getFirstLabelList',
       method:'post',
       data:{}
     }).then(res=>{
@@ -142,10 +142,10 @@ export default {
     },
     confirmAdd(){
       axios({
-        url:"http://121.4.160.157/manager/addSecondLable",
+        url:"manager/addSecondLable",
         method:'post',
         data:{
-          managerId:localStorage.getItem('UID'),
+          uid:localStorage.getItem('UID'),
           name:this.tag.name,
           firstLabelId:this.tagid-3,
         }
@@ -167,7 +167,7 @@ export default {
       formdata.append("img",lalala);
       formdata.append("LabelId",this.tagid);
       axios({
-        url:'http://121.4.160.157/manager/putLabelImage',
+        url:'manager/putLabelImage',
         method:'post',
         data: formdata
       }).then(res=>{
@@ -181,12 +181,12 @@ export default {
     confirmEdit(){
       console.log(this.$store.state.UID,this.tagid,this.newtagname)
       axios({
-        url:"http://121.4.160.157/manager/editLabel",
+        url:"manager/editLabel",
         method:'post',
         data:{
           LabelId:this.tagid,
           newName:this.tag.name,
-          managerId:this.$store.state.UID,
+          uid:this.$store.state.UID,
         }
       }).then(res=>{
         if(res.data.error_code==0){
@@ -201,10 +201,10 @@ export default {
     },
     del(id){
       axios({
-        url:"http://121.4.160.157/manager/deleteLabel",
+        url:"manager/deleteLabel",
         method:'post',
         data:{
-          managerId:this.$store.state.UID,
+          uid:this.$store.state.UID,
           LabelId:id,
         }
       }).then(res=>{

@@ -83,6 +83,7 @@ import axios from "axios";
 				show: true,
       			count: '',
       			timer: null,
+				
 			}
 		},
 		methods:{
@@ -92,7 +93,7 @@ import axios from "axios";
 				console.log("已发送"),
 						axios({
 						method:"post",
-						url:'http://121.4.160.157/user/forget/sendCode',
+						url:'user/forget/sendCode',
 						data:{
 							acc:this.form.phone,
 						}
@@ -140,21 +141,25 @@ import axios from "axios";
                 }
             },
 			login() {
+				localStorage.setItem('token',"wutoken");
+				var a=localStorage.getItem('token');
+				console.log(a);
 				console.log(this.form.email+ " : "+this.form.password);
 				if (this.form.email != "" && this.form.password != "") {
 					axios({
 						method:'post',
-						url: 'http://121.4.160.157/user/login',
+						url: 'user/login',
 						data: {
 							acc: this.form.email,
-							pwd: this.form.password
+							pwd: this.form.password,
 						}
 					})
 					.then( res => {
 						if(res.data.error_code == 0) {
-
+							console.log(res.data.hash_code)
 							localStorage.setItem('uid',res.data.uid);
 							localStorage.setItem('Mail',this.form.email);
+							localStorage.setItem('token',res.data.hash_code);
 							// let user={};
 							// user.Mail=this.form.email;
 							// user.userID=res.data.uid;
@@ -178,7 +183,7 @@ import axios from "axios";
 				if(this.form.password != "" && this.form.email != ""){
 					axios({
 						method:'post',
-						url: 'http://121.4.160.157/user/register',
+						url: 'user/register',
 						data: {
 							studentId:this.form.sid,
 							name:this.form.name,

@@ -179,7 +179,7 @@ export default {
       var row = this.rowStore;
       console.log("续借时间", this.formData.postponeTime);
       axios({
-					url: 'http://121.4.160.157/user/applyPostpone',
+					url: 'user/applyPostpone',
 					method: 'post',
 					data: {
             uid : localStorage.getItem('uid'),
@@ -240,6 +240,7 @@ export default {
 	},
 	loadMessage() {
 				let that = this;
+				console.log(localStorage.getItem('uid'))
 				axios({
 					url: 'http://127.0.0.1:8000/user/allBorrowList',
 					method: 'post',

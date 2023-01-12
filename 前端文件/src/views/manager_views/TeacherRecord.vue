@@ -67,7 +67,7 @@ export default {
       let that = this;
       var i = row.uid;
       axios({
-        url:'http://121.4.160.157/manager/deleteStudent',
+        url:'manager/deleteStudent',
         method:'post',
         data: {
           uid : i

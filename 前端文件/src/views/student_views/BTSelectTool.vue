@@ -166,7 +166,7 @@ export default{
   methods:{
     init(){
       axios({
-        url: "http://121.4.160.157/user/getLabelToolList",
+        url: "user/getLabelToolList",
         method: "post",
         data: {
           labelId: this.tagid,
@@ -241,7 +241,7 @@ export default{
         this.init();
       }else{
         axios({
-          url:'http://121.4.160.157/user/searchToolByName',
+          url:'user/searchToolByName',
           method:'post',
           data:{
             toolName:this.searchkey,

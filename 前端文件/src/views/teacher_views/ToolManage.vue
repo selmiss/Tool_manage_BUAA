@@ -52,7 +52,7 @@ export default {
   },
   mounted() {
     axios({
-      url:'http://121.4.160.157/user/getFirstLabelList',
+      url:'user/getFirstLabelList',
       method:'post',
       data:{}
     }).then(res=>{

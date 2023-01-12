@@ -78,7 +78,7 @@ export default {
     handleConfirm(index, row) {
       console.log(index, row);
       axios({
-					url: 'http://121.4.160.157/manager/returnTool',
+					url: 'manager/returnTool',
 					method: 'post',
 					data: {
             requestId: row.requestId,
@@ -102,7 +102,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://121.4.160.157/manager/getAllNeedReturnList',
+					url: 'manager/getAllNeedReturnList',
 					method: 'post',
 					data: {
 					}
