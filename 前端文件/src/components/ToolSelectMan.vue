@@ -372,7 +372,7 @@ export default{
         formdata.append("uid", localStorage.getItem('uid'));
         formdata.append("limit_days",this.thetool.limit_days);
         axios({
-          url:'/manager/editTool',
+          url:'manager/editTool',
           method:'post',
           data:formdata,
         }).then(res=>{

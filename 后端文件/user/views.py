@@ -2,6 +2,7 @@ import json
 import random
 import string
 import hashlib
+from threading import Timer
 
 from django.conf import settings
 from datetime import datetime, date
@@ -96,6 +97,13 @@ def myhash(str):
 from user import TOKEN_DIC
 
 
+def delToken(token):
+    print("自动删除了token")
+    print(token)
+    if TOKEN_DIC[token]:
+        del TOKEN_DIC[token]
+
+
 def Login(request):
     print("进来Login函数")
     if request.method == 'POST':
@@ -122,6 +130,7 @@ def Login(request):
         TOKEN_DIC[hash_after] = user.id
         print(hash_after + "这是新生成的token")
         print(TOKEN_DIC)
+        Timer(1270000, delToken, args=[hash_after]).start()
         return JsonResponse({'error_code': 0, 'uid': -2, 'hash_code': hash_after})
 
 

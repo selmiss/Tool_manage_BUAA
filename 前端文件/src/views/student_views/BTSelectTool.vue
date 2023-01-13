@@ -203,7 +203,7 @@ export default{
       this.$refs["thetool"].validate(val=>{
         if(val){
           axios({
-            url: "http://127.0.0.1:8000/user/borrowRequest",
+            url: "user/borrowRequest",
             method: 'post',
             data: {
               toolId: this.thetool.id,

@@ -1,9 +1,15 @@
+from threading import Timer
+
 from django.shortcuts import render
 import json
 import random
 import string
 import hashlib
 
+import schedule
+import time
+
+import sched
 from django.conf import settings
 from datetime import datetime, date
 from django.http import FileResponse, StreamingHttpResponse
@@ -20,6 +26,7 @@ from manager.models import *
 from tool.models import *
 from django.core.mail import send_mail
 from datetime import date, timedelta
+from datetime import datetime as pydatetime
 
 # from apscheduler.schedulers.background import BackgroundScheduler
 # from django_apscheduler.jobstores import DjangoJobStore, register_job
@@ -95,6 +102,15 @@ def searchStudentByName(request):
 
 from user import TOKEN_DIC
 
+
+def delToken(token):
+    print("自动删除了token")
+    print(token)
+    if TOKEN_DIC[token]:
+        del TOKEN_DIC[token]
+
+
+
 def Login(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -115,12 +131,20 @@ def Login(request):
         #     request.session['acc'] = kwargs['acc']
         #     request.session['uid'] = user.id
         #     request.session.save()
-        now = datetime.datetime.now()
-        strnow = datetime.datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        uid=user.id
+        key = None
+        for k,v in TOKEN_DIC.items():
+            if v == uid:
+                key=k
+        if key:
+            del TOKEN_DIC[key]
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
         hash_pre = strnow + "".format(user.id)
         hash_after = myhash(hash_pre)
         TOKEN_DIC[hash_after] = user.id
         print(TOKEN_DIC)
+        Timer(127000, delToken, args=[hash_after]).start()
         return JsonResponse({'error_code': 0, 'uid': -2, 'is_superUser': user.is_supperUser, 'hash_code': hash_after})
 
 
@@ -360,8 +384,8 @@ def getToolRequestList(request):#获取借出请求列表
                              "stuEmail":i.request_user.acc,
                              "borrowCount":i.borrowCount,
                              "purpose":i.purpose,
-                             "returnTime":datetime.datetime.strftime(i.return_time,TIME_FORMAT),
-                             "startTime": datetime.datetime.strftime(i.start_time,TIME_FORMAT),
+                             "returnTime":datetime.strftime(i.return_time,TIME_FORMAT),
+                             "startTime": datetime.strftime(i.start_time,TIME_FORMAT),
                              "requestId":i.id,
                              })
         return JsonResponse({"error_code": 0, "dataList": dataList,"handleCount":len(dataList)})
@@ -405,7 +429,25 @@ def approveBorrowRequest(request):#处理借出请求
         toolReq.save()
         if not send_request_mail(toolReq,isChangeTime):
             return JsonResponse({"error_code": Error.mailFail})
+        expirEmail(toolReq)
         return JsonResponse({"error_code": 0})
+
+
+
+
+def expirEmail(toolReq):
+    if toolReq.Status == 'A':
+        print("执行".format(toolReq.return_time))
+        now = datetime.now()
+        t = toolReq.return_time
+        if (t - now).days <= 2:
+            send_mail("北航工训借用平台通知", "您借用的工具即将到期请尽快归还", settings.EMAIL_FROM, [toolReq.request_user.acc])
+        t = Timer(43200, expirEmail,args=[toolReq])
+        t.start()
+
+
+
+
 
 def getPostponeRequestList(request):#获取延期请求列表
     if request.method == 'POST':
@@ -423,9 +465,9 @@ def getPostponeRequestList(request):#获取延期请求列表
                              "phoneNumber":i.request_user.phoneNumber,
                              "borrowCount":i.request.borrowCount,
                              "purpose":i.request.purpose,
-                             "returnTime":datetime.datetime.strftime(i.request.return_time,TIME_FORMAT),
-                             "postPoneTime":datetime.datetime.strftime(i.postponeTime,TIME_FORMAT),
-                             "startTime":datetime.datetime.strftime(i.request.start_time,TIME_FORMAT),
+                             "returnTime":datetime.strftime(i.request.return_time,TIME_FORMAT),
+                             "postPoneTime":datetime.strftime(i.postponeTime,TIME_FORMAT),
+                             "startTime":datetime.strftime(i.request.start_time,TIME_FORMAT),
                              "requestId":i.id,
                              "postponePurpose":i.purpose,
                              "stuEmail":i.request_user.acc,
@@ -515,8 +557,8 @@ def getAllNeedReturnList(request):#获取待归还请求列表
                              "userId":i.request_user.id,
                              "borrowCount":i.borrowCount,
                              "purpose":i.purpose,
-                             "returnTime":datetime.datetime.strftime(i.return_time,TIME_FORMAT),
-                             "startTime":datetime.datetime.strftime(i.start_time,TIME_FORMAT),
+                             "returnTime":datetime.strftime(i.return_time,TIME_FORMAT),
+                             "startTime":datetime.strftime(i.start_time,TIME_FORMAT),
                              "stuCollege": i.request_user.college,
                              "phoneNumber": i.request_user.phoneNumber,
                              "requestId":i.id,
@@ -846,13 +888,13 @@ def myhash(str):
     ans = hash_str[10:30]
     return ans
 
-import datetime
+
 
 def imgText(request):
     if request.method == 'POST':
         img_a = request.FILES['files']
-        now = datetime.datetime.now()
-        strnow = datetime.datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
         hash_cun = img_a.name + strnow
         name = myhash(hash_cun)
         print(name)

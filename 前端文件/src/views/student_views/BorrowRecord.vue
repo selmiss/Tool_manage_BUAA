@@ -214,7 +214,7 @@ export default {
 	  RepealRenew() {
       var row = this.rowStore;
 		axios({
-					url: 'http://127.0.0.1:8000/user/repealRequest',
+					url: 'user/repealRequest',
 					method: 'post',
 					data: {
 					uid : localStorage.getItem('uid'),
@@ -242,13 +242,17 @@ export default {
 				let that = this;
 				console.log(localStorage.getItem('uid'))
 				axios({
-					url: 'http://127.0.0.1:8000/user/allBorrowList',
+					url: 'user/allBorrowList',
 					method: 'post',
 					data: {
 						uid : localStorage.getItem('uid'), 
 					}
 				}).then((response) => {
 					if (response) {
+						console.log(response.data.token_message)
+						if(response.data.token_message== "token错误"){
+							alert("访问函数失败，请重新登录尝试解决")
+						}
 						if (response.data.error_code === 0) {
 							console.log("获取成功", response.data);
 							that.tableData = response.data.requestList;
