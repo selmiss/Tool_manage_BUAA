@@ -1,9 +1,15 @@
+from threading import Timer
+
 from django.shortcuts import render
 import json
 import random
 import string
 import hashlib
 
+import schedule
+import time
+
+import sched
 from django.conf import settings
 from datetime import datetime, date
 from django.http import FileResponse, StreamingHttpResponse
@@ -20,6 +26,7 @@ from manager.models import *
 from tool.models import *
 from django.core.mail import send_mail
 from datetime import date, timedelta
+from datetime import datetime as pydatetime
 
 # from apscheduler.schedulers.background import BackgroundScheduler
 # from django_apscheduler.jobstores import DjangoJobStore, register_job
@@ -92,6 +99,18 @@ def searchStudentByName(request):
         for i in users:
             dataList.append({"name": i.name, "studentId": i.studentId, "uid": i.id, "acc": i.acc, "phoneNumber":i.phoneNumber, "college":i.college})
         return JsonResponse({'error_code': 0, 'dataList': dataList})
+
+from user import TOKEN_DIC
+
+
+def delToken(token):
+    print("自动删除了token")
+    print(token)
+    if TOKEN_DIC[token]:
+        del TOKEN_DIC[token]
+
+
+
 def Login(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -112,7 +131,24 @@ def Login(request):
         #     request.session['acc'] = kwargs['acc']
         #     request.session['uid'] = user.id
         #     request.session.save()
-        return JsonResponse({'error_code': 0, 'uid': user.id,'is_superUser':user.is_supperUser})
+        uid=user.id
+        key = None
+        for k,v in TOKEN_DIC.items():
+            if v == uid:
+                key=k
+        if key:
+            del TOKEN_DIC[key]
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_pre = strnow + "".format(user.id)
+        hash_after = myhash(hash_pre)
+        TOKEN_DIC[hash_after] = user.id
+        print(TOKEN_DIC)
+        Timer(127000, delToken, args=[hash_after]).start()
+        return JsonResponse({'error_code': 0, 'uid': -2, 'is_superUser': user.is_supperUser, 'hash_code': hash_after})
+
+
+
 def setPwd(request):  # 设置密码
     if request.method == 'POST':
         kwargs: dict = json.loads(request.body)
@@ -144,7 +180,7 @@ def putInfo(request):  # 上传个人信息
         kwargs: dict = json.loads(request.body)
         if kwargs.keys() != {'uid', 'teacherId','name'}:
             return JsonResponse({"error_code": error.key})
-        u = Manager.get_manager_by_id(kwargs['uid'])
+        u = Manager.get_manager_by_id(request.POST.get('uid'))
         if u is None:
             return JsonResponse({"error_code": error.nouser})
         u.studentId=kwargs['studentId']
@@ -164,7 +200,7 @@ def getInfo(request):  # 获取个人信息
         e.uk, e.key,e.noUser = -1, 1, 2
         if kwargs.keys() != {'uid'}:
             return JsonResponse({"error_code": e.key})
-        u = Manager.objects.filter(id=kwargs['uid'])
+        u = Manager.objects.filter(id=request.POST.get('uid'))
         if not u.exists():
             return JsonResponse({"error_code": e.noUser})
         u = u.get()
@@ -211,7 +247,7 @@ def deleteStudent(request):
         Error.key, Error.name ,Error.noTeacher= 1, 2, 3
         if kwargs.keys() != {'uid'}:
             return JsonResponse({'error_code': Error.key})
-        teacher = User.get_user_byid(kwargs['uid'])
+        teacher = User.get_user_byid(request.POST.get('uid'))
         if teacher is None:
             return JsonResponse({'error_code': Error.noTeacher})
         teacher.delete()
@@ -228,6 +264,7 @@ def getTeacherApproveList(request):
         dataList = []
         for i in users:
             dataList.append({"name":i.name,"teacherId":i.teacherId,"uid":i.id,"acc":i.acc})
+        print("可以运行结束")
         return JsonResponse({'error_code': 0,'dataList':dataList,"handleCount":len(dataList)})
 
 # def getTeacherList(request):
@@ -286,9 +323,9 @@ def approveTeacher(request):
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.key, Error.name, Error.pwd ,Error.noTeacher, Error.illegalStatus= 1, 2, 3, 4, 5
-        if kwargs.keys() != {'managerId', 'teacherId','status'}:
+        if kwargs.keys() != {'uid', 'teacherId','status'}:
             return JsonResponse({'error_code': Error.key})
-        user = Manager.get_manager_by_id(kwargs['managerId'])
+        user = Manager.get_manager_by_id(request.POST.get('uid'))
         if user is None:
             return JsonResponse({'error_code': Error.name})  # 输入的用户不存在
         teacher = Manager.get_manager_by_id(kwargs['teacherId'])
@@ -313,7 +350,7 @@ def reSetPwd(request):  # 登录状态下更改密码
         kwargs: dict = json.loads(request.body)
         if kwargs.keys() != {'uid', 'old_pwd', 'new_pwd'}:
             return JsonResponse({"error_code": E.key})
-        u = Manager.objects.filter(id=kwargs['uid'])
+        u = Manager.objects.filter(id=request.POST.get('uid'))
         if not u.exists():
             return JsonResponse({"error_code": E.no_login})
         u = u.get()
@@ -392,7 +429,25 @@ def approveBorrowRequest(request):#处理借出请求
         toolReq.save()
         if not send_request_mail(toolReq,isChangeTime):
             return JsonResponse({"error_code": Error.mailFail})
+        expirEmail(toolReq)
         return JsonResponse({"error_code": 0})
+
+
+
+
+def expirEmail(toolReq):
+    if toolReq.Status == 'A':
+        print("执行".format(toolReq.return_time))
+        now = datetime.now()
+        t = toolReq.return_time
+        if (t - now).days <= 2:
+            send_mail("北航工训借用平台通知", "您借用的工具即将到期请尽快归还", settings.EMAIL_FROM, [toolReq.request_user.acc])
+        t = Timer(43200, expirEmail,args=[toolReq])
+        t.start()
+
+
+
+
 
 def getPostponeRequestList(request):#获取延期请求列表
     if request.method == 'POST':
@@ -615,9 +670,9 @@ def addFirstLable(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.nameExists= 1, 2, 3
-        if kwargs.keys() != {'name','managerId'}:
+        if kwargs.keys() != {'name','uid'}:
             return JsonResponse({'error_code': Error.key})
-        manager=Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager=Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label=Label.objects.filter(name=str(kwargs['name']))
@@ -633,9 +688,9 @@ def addSecondLable(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.nameExists, Error.noFirstLabelExists= 1, 2, 3, 4
-        if kwargs.keys() != {'name','managerId','firstLabelId'}:
+        if kwargs.keys() != {'name','uid','firstLabelId'}:
             return JsonResponse({'error_code': Error.key})
-        manager=Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager=Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label=Label.objects.filter(name=str(kwargs['name']))
@@ -654,9 +709,9 @@ def editLabel(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.nameExists, Error.noFirstLabelExists = 1, 2, 3, 4
-        if kwargs.keys() != {'newName', 'managerId', 'LabelId'}:
+        if kwargs.keys() != {'newName', 'uid', 'LabelId'}:
             return JsonResponse({'error_code': Error.key})
-        manager = Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager = Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label = Label.objects.filter(name=str(kwargs['newName']))
@@ -688,9 +743,9 @@ def deleteLabel(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.nameExists, Error.noFirstLabelExists = 1, 2, 3, 4
-        if kwargs.keys() != {'managerId', 'LabelId'}:
+        if kwargs.keys() != {'uid', 'LabelId'}:
             return JsonResponse({'error_code': Error.key})
-        manager = Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager = Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label2 = Label.get_label_by_id(kwargs['LabelId'])
@@ -706,15 +761,15 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user,  Error.noFirstLabelExists, Error.notSecondLevel= 1, 2, 3, 4
-        # if kwargs.keys() != {'managerId', 'LabelId','name','addCount','intro'}:
+        # if kwargs.keys() != {'uid', 'LabelId','name','addCount','intro'}:
         #     return JsonResponse({'error_code': Error.key})
-        managerId=request.POST.get('managerId')
+        uid=request.POST.get('uid')
         LabelId = request.POST.get('LabelId')
         name = request.POST.get('name')
         addCount = request.POST.get('addCount')
         intro = request.POST.get('intro')
         limit_days = request.POST.get('limit_days')
-        manager = Manager.get_manager_by_id(managerId)
+        manager = Manager.get_manager_by_id(uid)
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label = Label.get_label_by_id(LabelId)
@@ -729,24 +784,56 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         tool.save()
         tool.totalCount=tool.leftCount
         img = request.FILES.get('img')
-        tool.image=img
+        tool.image = img
         tool.save()
         head_path = 'http://121.4.160.157' + settings.MEDIA_URL + tool.image.name
         tool.portrait=head_path
         tool.save()
         return JsonResponse({'error_code': 0,'toolId':tool.id})
+
+
+def uploadImag(request):
+    if request.method == "POST":
+        f = request.FILES['csv_file']
+        file_path = os.path.join('media/image', f.name)
+        with open(file_path, 'wb') as fp:
+            for info in f.chunks():
+                fp.write(info)
+            fp.close()
+            message = '上传成功'
+
+def uploadImg1(request):
+    print("进入")
+    if request.method == 'POST':
+        toolId = request.POST.get('toolId')
+        tool = Tool.get_tool_by_id(toolId)
+        if tool is None:
+            return JsonResponse({'message': 1})
+        img=request.FILES.get('img')
+        file_path = os.path.join('media/image', img.name)
+        with open(file_path, 'wb') as fp:
+            for info in img.chunks():
+                fp.write(info)
+            fp.close()
+        tool.save()
+        print("执行完毕")
+        return JsonResponse({'message':"上传成功"})
+
 def editTool(request):
     if request.method == 'POST':
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.noFirstLabelExists, Error.illegalCount,Error.noTool= 1, 2, 3, 4, 5
-        managerId = request.POST.get('managerId')
+        uid = request.POST.get('uid')
+        print("views里面的uid")
+        print(uid)
         name = request.POST.get('name')
         setCount = request.POST.get('setCount')
         intro = request.POST.get('intro')
+        img = request.POST.get('imgurl')
         toolId=request.POST.get('toolId')
         limit_days=int(request.POST.get('limit_days'))
-        manager = Manager.get_manager_by_id(managerId)
+        manager = Manager.get_manager_by_id(uid)
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         setCount=int(setCount)
@@ -760,13 +847,11 @@ def editTool(request):
             return JsonResponse({'error_code': Error.illegalCount})
         tool.intro = intro
         tool.name = name
+        tool.image = img
         tool.totalCount = setCount
         tool.leftCount = tool.leftCount + addCount
-        img = request.FILES.get('img')
-        tool.image = img
-        tool.limit_days=limit_days
-        tool.save()
-        head_path = 'http://121.4.160.157' + settings.MEDIA_URL + tool.image.name
+        tool.limit_days = limit_days
+        head_path = "http://121.4.160.157/media/" + img
         tool.portrait = head_path
         tool.save()
         return JsonResponse({'error_code': 0})
@@ -777,9 +862,9 @@ def editToolLabel(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.noLabel, Error.notSecondLabel, Error.noTool= 1, 2, 3, 4, 5
-        if kwargs.keys() != {'managerId','toolId','labelId'}:
+        if kwargs.keys() != {'uid','toolId','labelId'}:
             return JsonResponse({'error_code': Error.key})
-        manager = Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager = Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         tool = Tool.get_tool_by_id(kwargs['toolId'])
@@ -794,15 +879,46 @@ def editToolLabel(request):
         tool.save()
         return JsonResponse({'error_code': 0})
 
+import hashlib
+from hashlib import sha256
+
+def myhash(str):
+    res = hashlib.sha256(str.encode(encoding="utf-8"))
+    hash_str = res.hexdigest()
+    ans = hash_str[10:30]
+    return ans
+
+
+
+def imgText(request):
+    if request.method == 'POST':
+        img_a = request.FILES['files']
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_cun = img_a.name + strnow
+        name = myhash(hash_cun)
+        print(name)
+        img = os.path.join("image/", name)
+        img +='.jpg'
+        img_root = os.path.join(settings.MEDIA_ROOT,img)
+        print(img)
+        with open(img_root, 'wb') as f:
+            for zipFile_Part in request.FILES['files'].chunks():
+                f.write(zipFile_Part)
+        return JsonResponse({'url': img})
+    else:
+        return HttpResponse('method 方法 错误')
+
+
 def deleteTool(request):#todo：判断工具是否全部收回？
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.noTool, Error.toolNotReturn= 1, 2, 3, 4
-        if kwargs.keys() != {'managerId','toolId'}:
+        if kwargs.keys() != {'uid','toolId'}:
             return JsonResponse({'error_code': Error.key})
-        manager = Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager = Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         tool=Tool.get_tool_by_id(kwargs['toolId'])
@@ -812,6 +928,7 @@ def deleteTool(request):#todo：判断工具是否全部收回？
             return JsonResponse({'error_code': Error.toolNotReturn})
         tool.delete()
         return JsonResponse({'error_code': 0})
+
 def deleteWithoutJduge(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -832,9 +949,9 @@ def moveSecondLabel(request):
         Error = EasyDict()
         Error.uk = -1
         Error.key, Error.no_user, Error.noLabel, Error.noFirstLabelExists,Error.notSecondLabel ,Error.notFirstLabel= 1, 2, 3, 4, 5, 6
-        if kwargs.keys() != {'newFirstLabelId', 'managerId', 'LabelId'}:
+        if kwargs.keys() != {'newFirstLabelId', 'uid', 'LabelId'}:
             return JsonResponse({'error_code': Error.key})
-        manager = Manager.get_manager_by_id(str(kwargs['managerId']))
+        manager = Manager.get_manager_by_id(str(request.POST.get('uid')))
         if manager is None:
             return JsonResponse({'error_code': Error.no_user})
         label=Label.get_label_by_id(kwargs['newFirstLabelId'])

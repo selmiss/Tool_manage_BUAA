@@ -51,7 +51,7 @@ urlpatterns = [
     path('toolRequestRecord', views.toolRequestRecord, name='toolRequestRecord'),
     # 确认工具是否有等待借出
     path('affirmWait', views.affirmWait, name='affirmWait'),
-
+    path('imgText',views.imgText,name='imgText'),
     # 管理员添加一级标签
     path('addFirstLable', views.addFirstLable, name='addFirstLabel'),
     # 添加二级标签
@@ -60,6 +60,9 @@ urlpatterns = [
     path('editLabel', views.editLabel, name='editLabel'),
     # 上传标签图片
     path('putLabelImage', views.putLabelImage, name='putLabelImage'),
+    # 编辑时上传图片
+    path('uploadImg1',views.uploadImg1,name='uploadImg1'),
+    path('uploadImag',views.uploadImag,name='uploadImag'),
     # 删除标签
     path('deleteLabel', views.deleteLabel, name='deleteLabel'),
     # 新增工具

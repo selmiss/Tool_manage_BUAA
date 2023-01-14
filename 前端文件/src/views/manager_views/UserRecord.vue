@@ -90,7 +90,7 @@ export default {
       this.dialogFormVisible = true;
       let that = this;
       axios({
-        url: 'http://121.4.160.157/user/allBorrowList',
+        url: 'user/allBorrowList',
         method: 'post',
         data: {
           uid : row.uid
@@ -115,7 +115,7 @@ export default {
       let that = this;
       var i = row.uid;
       axios({
-        url:'http://121.4.160.157/manager/deleteStudent',
+        url:'manager/deleteStudent',
         method:'post',
         data: {
           uid : i
@@ -128,7 +128,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://121.4.160.157/manager/getStudentList',
+					url: 'manager/getStudentList',
 					method: 'post',
 					data: {
 					}

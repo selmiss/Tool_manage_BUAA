@@ -11,7 +11,7 @@ urlpatterns = [
     # 发送验证码
     path('forget/sendCode', views.sendCode, name='forgetPwd'),
     path('forget/send_test', views.send_test, name='forgetPwd'),
-
+    path('unLogin', views.unLogin, name='unLogin'),
     # 通过验证码重置密码
     path('forget/setPwd', views.setPwd, name='setPwd'),
     # 登录状态下重设密码

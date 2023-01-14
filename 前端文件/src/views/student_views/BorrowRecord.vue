@@ -33,8 +33,7 @@
 						<div >日期:  &nbsp &nbsp &nbsp &nbsp  {{ scope.row.getdate }}</div>
 						<div >开始时间: &nbsp {{ scope.row.sttime }}</div>
 						<div >结束时间: &nbsp {{ scope.row.endtime }}</div>
-				    <el-button v-if="scope.row.status === 'A'" size="mini" slot="reference" type="primary" >借用信息</el-button>
-				    <el-button v-if="scope.row.status  !='A'" size="mini" type="info" >暂无信息</el-button>
+				    <el-button  size="mini" slot="reference">借用信息</el-button>
 					</el-popover>
 				  </template>
 				</el-table-column>
@@ -180,7 +179,7 @@ export default {
       var row = this.rowStore;
       console.log("续借时间", this.formData.postponeTime);
       axios({
-					url: 'http://121.4.160.157/user/applyPostpone',
+					url: 'user/applyPostpone',
 					method: 'post',
 					data: {
             uid : localStorage.getItem('uid'),
@@ -215,7 +214,7 @@ export default {
 	  RepealRenew() {
       var row = this.rowStore;
 		axios({
-					url: 'http://127.0.0.1:8000/user/repealRequest',
+					url: 'user/repealRequest',
 					method: 'post',
 					data: {
 					uid : localStorage.getItem('uid'),
@@ -239,16 +238,21 @@ export default {
 				});
         this.closeWindow();
 	},
-    loadMessage() {
+	loadMessage() {
 				let that = this;
+				console.log(localStorage.getItem('uid'))
 				axios({
-					url: 'http://127.0.0.1:8000/user/allBorrowList',
+					url: 'user/allBorrowList',
 					method: 'post',
 					data: {
 						uid : localStorage.getItem('uid'), 
 					}
 				}).then((response) => {
 					if (response) {
+						console.log(response.data.token_message)
+						if(response.data.token_message== "token错误"){
+							alert("访问函数失败，请重新登录尝试解决")
+						}
 						if (response.data.error_code === 0) {
 							console.log("获取成功", response.data);
 							that.tableData = response.data.requestList;

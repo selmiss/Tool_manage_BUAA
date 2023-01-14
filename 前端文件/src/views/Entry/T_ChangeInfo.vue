@@ -48,7 +48,7 @@ export default({
             console.log(localStorage.getItem('uid'));
             axios({
                 method:'post',
-                url: 'http://121.4.160.157/user/getInfo',
+                url: 'user/getInfo',
                 data: {
                     uid: localStorage.getItem('uid')
                 }
@@ -66,7 +66,7 @@ export default({
             console.log(localStorage.getItem('uid'));
             axios({
                 method:'post',
-                url: 'http://121.4.160.157/manager/putInfo',
+                url: 'manager/putInfo',
                 data: {
                     uid: localStorage.getItem('uid'),
                     studentId: this.studentId,

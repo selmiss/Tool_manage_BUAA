@@ -62,7 +62,7 @@ export default {
         let that = this;
         axios({
           method:'post',
-          url: 'http://121.4.160.157/manager/getTeacherApproveList',
+          url: 'manager/getTeacherApproveList',
           data: {
           }
         })
@@ -85,10 +85,10 @@ export default {
     handleAgree(index, row) {
       console.log(index, row);
       axios({
-					url: 'http://121.4.160.157/manager/approveTeacher',
+					url: 'manager/approveTeacher',
 					method: 'post',
 					data: {
-            managerId: localStorage.getItem('uid'),
+            uid: localStorage.getItem('uid'),
             teacherId: row.uid,
             status: "Accept",
 					}
@@ -111,10 +111,10 @@ export default {
     handleRefuse(index, row) {
       console.log(index, row);
       axios({
-					url: 'http://121.4.160.157/manager/approveTeacher',
+					url: 'manager/approveTeacher',
 					method: 'post',
 					data: {
-            managerId: localStorage.getItem('uid'),
+            uid: localStorage.getItem('uid'),
             teacherId: row.uid,
             status: "Refuse",
 					}

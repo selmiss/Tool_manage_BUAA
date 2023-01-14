@@ -194,7 +194,7 @@ export default {
 		var row=this.rowStore;
       console.log(index, row);
       axios({
-					url: 'http://121.4.160.157/manager/approveBorrowRequest',
+					url: 'manager/approveBorrowRequest',
 					method: 'post',
 					data: {
             requestId: row.requestId,
@@ -229,7 +229,7 @@ export default {
 		var row=this.rowStore;
       console.log(this.formData.refuseReason);
       axios({
-					url: 'http://121.4.160.157/manager/approveBorrowRequest',
+					url: 'manager/approveBorrowRequest',
 					method: 'post',
 					data: {
             requestId: row.requestId,
@@ -262,7 +262,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://121.4.160.157/manager/getToolRequestList',
+					url: 'manager/getToolRequestList',
 					method: 'post',
 					data: {
 					}

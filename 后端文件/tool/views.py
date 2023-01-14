@@ -29,8 +29,8 @@ def uploadImage(request):
         if not ac.exists():
             return JsonResponse({'error_code': E.no_tool})
         ac=ac.get()
-        img=request.FILES.get('img')
-        ac.image=img
+        img = request.FILES.get('img')
+        ac.image = img
         return JsonResponse({"error_code": 0})
 def returnImage(request):
     if request.method == 'POST':

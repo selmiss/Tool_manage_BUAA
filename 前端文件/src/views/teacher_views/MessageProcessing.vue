@@ -124,7 +124,7 @@ export default {
     },
     handleAgree(row) {
       axios({
-					url: 'http://121.4.160.157/manager/approvePostponeRequest',
+					url: 'manager/approvePostponeRequest',
 					method: 'post',
 					data: {
             requestId: row.requestId,
@@ -148,7 +148,7 @@ export default {
     },
     handleRefuse(row) {
       axios({
-					url: 'http://121.4.160.157/manager/approvePostponeRequest',
+					url: 'manager/approvePostponeRequest',
 					method: 'post',
 					data: {
             requestId: row.requestId,
@@ -174,7 +174,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://121.4.160.157/manager/getPostponeRequestList',
+					url: 'manager/getPostponeRequestList',
 					method: 'post',
 					data: {
 					}

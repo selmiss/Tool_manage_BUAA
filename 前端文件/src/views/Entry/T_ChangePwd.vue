@@ -46,7 +46,7 @@ export default({
             if(this.confirmPassword == this.newPassword){
                 axios({
                 method:'post',
-                url: 'http://121.4.160.157/manager/resetPwd',
+                url: 'manager/resetPwd',
                 data: {
                     uid: localStorage.getItem('uid'),
                     old_pwd: this.password,

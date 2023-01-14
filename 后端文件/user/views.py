@@ -2,6 +2,7 @@ import json
 import random
 import string
 import hashlib
+from threading import Timer
 
 from django.conf import settings
 from datetime import datetime, date
@@ -18,8 +19,9 @@ from user.models import *
 from django.core.mail import send_mail
 from datetime import date, timedelta, datetime
 from tool.models import *
+from django.conf import settings
 
-#from __future__ import print_function
+# from __future__ import print_function
 
 import ssl, hmac, base64, hashlib
 from datetime import datetime as pydatetime
@@ -30,6 +32,7 @@ try:
 except ImportError:
     from urllib.parse import urlencode
     from urllib.request import Request, urlopen
+
 
 def hash_password(pwd):  # 哈希处理用户密码
     m = hashlib.md5()
@@ -44,7 +47,7 @@ def Register(request):
         E.uk = -1
         E.key, E.emailuni, E.no_code, E.code_error = 1, 2, 3, 4
         kwargs = json.loads(request.body.decode("utf-8"))
-        if kwargs.keys() != {'acc', 'pwd', 'key','name','studentId','college','phoneNumber'}:
+        if kwargs.keys() != {'acc', 'pwd', 'key', 'name', 'studentId', 'college', 'phoneNumber'}:
             return JsonResponse({'error_code': E.key})  # 注册信息输入不完整
         ac = User.objects.filter(acc=kwargs['acc'])
         if ac.exists():
@@ -58,9 +61,9 @@ def Register(request):
         new_user = User()
         new_user.acc = kwargs['acc']
         new_user.pwd = hash_password(kwargs['pwd'])
-        new_user.name=kwargs['name']
-        new_user.studentId=kwargs['studentId']
-        new_user.college=kwargs['college']
+        new_user.name = kwargs['name']
+        new_user.studentId = kwargs['studentId']
+        new_user.college = kwargs['college']
         new_user.phoneNumber = kwargs['phoneNumber']
         new_user.save()
         return JsonResponse({'error_code': 0, 'uid': new_user.id})
@@ -80,7 +83,29 @@ def uniNameJudge(request):
         return JsonResponse({'error_code': 0})
 
 
+import hashlib
+from hashlib import sha256
+
+
+def myhash(str):
+    res = hashlib.sha256(str.encode(encoding="utf-8"))
+    hash_str = res.hexdigest()
+    ans = hash_str[10:30]
+    return ans
+
+
+from user import TOKEN_DIC
+
+
+def delToken(token):
+    print("自动删除了token")
+    print(token)
+    if TOKEN_DIC[token]:
+        del TOKEN_DIC[token]
+
+
 def Login(request):
+    print("进来Login函数")
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
@@ -98,7 +123,24 @@ def Login(request):
         #     request.session['acc'] = kwargs['acc']
         #     request.session['uid'] = user.id
         #     request.session.save()
-        return JsonResponse({'error_code': 0, 'uid': user.id})
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_pre = strnow + "".format(user.id)
+        hash_after = myhash(hash_pre)
+        TOKEN_DIC[hash_after] = user.id
+        print(hash_after + "这是新生成的token")
+        print(TOKEN_DIC)
+        Timer(1270000, delToken, args=[hash_after]).start()
+        return JsonResponse({'error_code': 0, 'uid': -2, 'hash_code': hash_after})
+
+
+def unLogin(request):
+    kwargs = json.loads(request.body.decode("utf-8"))
+    token = kwargs['token']
+    del TOKEN_DIC[token]
+    print(TOKEN_DIC)
+    print('删除成功')
+    return HttpResponse("退出成功")
 
 
 def send_test(request):  # 忘记密码发送验证码邮件
@@ -130,7 +172,7 @@ def send_test(request):  # 忘记密码发送验证码邮件
         signStr = "x-date: %s\nx-source: %s" % (datetime, source)
         sign = base64.b64encode(hmac.new(secretKey.encode('utf-8'), signStr.encode('utf-8'), hashlib.sha1).digest())
         auth = 'hmac id="%s", algorithm="hmac-sha1", headers="x-date x-source", signature="%s"' % (
-        secretId, sign.decode('utf-8'))
+            secretId, sign.decode('utf-8'))
 
         # 请求方法
         method = 'POST'
@@ -168,9 +210,9 @@ def send_test(request):  # 忘记密码发送验证码邮件
             print(content.decode('utf-8'))
 
         try:
-                e = EmailRecord.objects.get(acc=acc)
-                e.code = code_num
-                e.save()
+            e = EmailRecord.objects.get(acc=acc)
+            e.code = code_num
+            e.save()
         except:
             EmailRecord.objects.create(code=code_num, acc=acc, email_type='注册验证码')
         return JsonResponse({"error_code": 0})  # 1,
@@ -205,7 +247,7 @@ def sendCode(request):
         signStr = "x-date: %s\nx-source: %s" % (datetime, source)
         sign = base64.b64encode(hmac.new(secretKey.encode('utf-8'), signStr.encode('utf-8'), hashlib.sha1).digest())
         auth = 'hmac id="%s", algorithm="hmac-sha1", headers="x-date x-source", signature="%s"' % (
-        secretId, sign.decode('utf-8'))
+            secretId, sign.decode('utf-8'))
 
         # 请求方法
         method = 'POST'
@@ -250,6 +292,7 @@ def sendCode(request):
             EmailRecord.objects.create(code=code_num, acc=acc, email_type='注册验证码')
         return JsonResponse({"error_code": 0})  # 1,
 
+
 def codeJudge(request):
     if request.method == 'POST':
         kwargs: dict = json.loads(request.body)
@@ -272,7 +315,7 @@ def setPwd(request):  # 设置密码
         kwargs: dict = json.loads(request.body)
         error = EasyDict()
         error.key, error.noAcc, error.pwdIllegal, error.codeError = 1, 2, 3, 4
-        if kwargs.keys() != {'acc', 'pwd', 'key','phoneNumber'}:
+        if kwargs.keys() != {'acc', 'pwd', 'key', 'phoneNumber'}:
             return JsonResponse({"error_code": error.key})
         u = User.objects.filter(acc=kwargs['acc'])
         if not u.exists():
@@ -290,7 +333,6 @@ def setPwd(request):  # 设置密码
         return JsonResponse({"error_code": 0, "name": u.name})
 
 
-
 def reSetPwd(request):  # 登录状态下更改密码
     if request.method == 'POST':
         E = EasyDict()
@@ -299,7 +341,7 @@ def reSetPwd(request):  # 登录状态下更改密码
         kwargs: dict = json.loads(request.body)
         if kwargs.keys() != {'uid', 'old_pwd', 'new_pwd'}:
             return JsonResponse({"error_code": E.key})
-        u = User.objects.filter(id=kwargs['uid'])
+        u = User.objects.filter(id=request.POST.get('uid'))
         if not u.exists():
             return JsonResponse({"error_code": E.no_login})
         u = u.get()
@@ -314,6 +356,7 @@ def reSetPwd(request):  # 登录状态下更改密码
             return JsonResponse({"error_code": E.uk})
         return JsonResponse({"error_code": 0})
 
+
 def putInfo(request):  # 上传个人信息
     if request.method == 'POST':
         kwargs: dict = json.loads(request.body)
@@ -321,14 +364,14 @@ def putInfo(request):  # 上传个人信息
         error.unknown = -1
         error.key, error.nouser, error.ill_name, error.ill_intro, error.rename = 1, 2, 3, 4, 5
         kwargs: dict = json.loads(request.body)
-        if kwargs.keys() != {'uid', 'studentId','name','college'}:
+        if kwargs.keys() != {'uid', 'studentId', 'name', 'college'}:
             return JsonResponse({"error_code": error.key})
-        u = User.get_user_byid(kwargs['uid'])
+        u = User.get_user_byid(request.POST.get('uid'))
         if u is None:
             return JsonResponse({"error_code": error.nouser})
-        u.studentId=kwargs['studentId']
-        u.name=kwargs['name']
-        u.college=kwargs['college']
+        u.studentId = kwargs['studentId']
+        u.name = kwargs['name']
+        u.college = kwargs['college']
         try:
             u.save()
         except:
@@ -340,50 +383,55 @@ def getInfo(request):  # 获取个人信息
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         e = EasyDict()
-        e.uk, e.key,e.noUser = -1, 1, 2
+        e.uk, e.key, e.noUser = -1, 1, 2
         if kwargs.keys() != {'uid'}:
             return JsonResponse({"error_code": e.key})
-        u = User.objects.filter(id=kwargs['uid'])
+        u = User.objects.filter(id=request.POST.get('uid'))
         if not u.exists():
             return JsonResponse({"error_code": e.noUser})
         u = u.get()
         return JsonResponse({"error_code": 0, 'name': u.name, 'acc': u.acc, 'studentId': u.studentId,
-                             'uid': u.id, 'college':u.college,'phoneNumber':u.phoneNumber})
+                             'uid': u.id, 'college': u.college, 'phoneNumber': u.phoneNumber})
 
-#借出工具操作
+
+# 借出工具操作
 
 def getFirstLabelLists(request):
     if request.method == 'POST':
-        #kwargs = json.loads(request.body.decode("utf-8"))
+        # kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.key, Error.name, Error.pwd = 1, 2, 3
-        labels=Label.objects.all()
+        labels = Label.objects.all()
         ret = [{
-            "name":i.name,
-            "id":i.id,
+            "name": i.name,
+            "id": i.id,
             "level": i.level,
-            "count":len(i.lowerLabel.all()),
-        }for i in labels if i.level == 1]
-        return JsonResponse({"error_code":0,"labelList":ret})
+            "count": len(i.lowerLabel.all()),
+        } for i in labels if i.level == 1]
+        return JsonResponse({"error_code": 0, "labelList": ret})
 
-def getFirstLabelList(request):#获取标签列表
+
+def getFirstLabelList(request):  # 获取标签列表
     if request.method == 'POST':
-        #kwargs = json.loads(request.body.decode("utf-8"))
+        # kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.key, Error.name, Error.pwd = 1, 2, 3
-        labels=Label.objects.all()
+        labels = Label.objects.all()
         ret = [{
-            "name":i.name,
-            "id":i.id,
+            "name": i.name,
+            "id": i.id,
             "level": i.level,
-            "lowerLabel":[{"name":j.name,"id":j.id,"level":j.level,"url":j.portrait} for j in i.lowerLabel.all()]
-        }for i in labels if i.level == 1]
-        return JsonResponse({"error_code":0,"labelList":ret})
+            "lowerLabel": [{"name": j.name, "id": j.id, "level": j.level, "url": j.portrait} for j in
+                           i.lowerLabel.all()]
+        } for i in labels if i.level == 1]
+        return JsonResponse({"error_code": 0, "labelList": ret})
+
+
 def getSecondLabelList(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key, Error.no_label, Error.pwd ,Error.noFirstLabel= 1, 2, 3, 4
+        Error.key, Error.no_label, Error.pwd, Error.noFirstLabel = 1, 2, 3, 4
         if kwargs.keys() != {'labelId'}:
             return JsonResponse({'error_code': Error.key})
         firstLabel = Label.get_label_by_id(kwargs['labelId'])
@@ -391,20 +439,22 @@ def getSecondLabelList(request):
             return JsonResponse({'error_code': Error.no_label})
         if not firstLabel.level == 1:
             return JsonResponse({'error_code': Error.noFirstLabel})
-        secondLabels=firstLabel.lowerLabel.all()
+        secondLabels = firstLabel.lowerLabel.all()
         ret = [{
             "name": i.name,
             "id": i.id,
             "level": i.level,
-            "count":len(i.labelTools.all()),
-            "url":i.portrait,
+            "count": len(i.labelTools.all()),
+            "url": i.portrait,
         } for i in secondLabels if i.level == 2]
         return JsonResponse({"error_code": 0, "labelList": ret})
-def getLabelToolList(request):#获取标签下设备列表
+
+
+def getLabelToolList(request):  # 获取标签下设备列表
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key, Error.no_label,Error.noSecondLabel= 1, 2, 3
+        Error.key, Error.no_label, Error.noSecondLabel = 1, 2, 3
         if kwargs.keys() != {'labelId'}:
             return JsonResponse({'error_code': Error.key})
         secondLabel = Label.get_label_by_id(kwargs['labelId'])
@@ -414,48 +464,57 @@ def getLabelToolList(request):#获取标签下设备列表
             return JsonResponse({'error_code': Error.noSecondLabel})
         ret = []
         for i in secondLabel.labelTools.all():
-            reqList=ToolRequest.objects.filter(Status='A',borrowTool=i).order_by('return_time')
-            return_time=None
+            reqList = ToolRequest.objects.filter(Status='A', borrowTool=i).order_by('return_time')
+            return_time = None
             if len(reqList) != 0:
-                req=reqList[0]
-                return_time=req.return_time
+                req = reqList[0]
+                return_time = req.return_time
                 return_time = datetime.strftime(return_time, TIME_FORMAT)
             ret.append({
-            "name":i.name,
-            "totalCount":i.totalCount,
-            "leftCount":i.leftCount,
-            "id":i.id,
-            "url":i.portrait, #todo:返回最短归还时间
-            "shortReturnTime":return_time,
-            "intro":i.intro,
-            "limit_days":i.limit_days,
+                "name": i.name,
+                "totalCount": i.totalCount,
+                "leftCount": i.leftCount,
+                "id": i.id,
+                "url": i.portrait,  # todo:返回最短归还时间
+                "shortReturnTime": return_time,
+                "intro": i.intro,
+                "limit_days": i.limit_days,
             })
         return JsonResponse({"error_code": 0, "toolList": ret})
 
-def borrowRequest(request):#借出申请
+
+def borrowRequest(request):  # 借出申请
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key, Error.no_user, Error.no_tool,Error.overLimitDays = 1, 2, 3,4
-        if kwargs.keys() != {'uid', 'toolId','borrowCount','returnTime','purpose','startTime'}:
+        Error.key, Error.no_user, Error.no_tool, Error.overLimitDays = 1, 2, 3, 4
+        if kwargs.keys() != {'uid', 'toolId', 'borrowCount', 'returnTime', 'purpose', 'startTime'}:
             return JsonResponse({'error_code': Error.key})
-        user = User.get_user_byid(str(kwargs['uid']))
+        user = User.get_user_byid(str(request.POST.get('uid')))
         if user is None:
             return JsonResponse({'error_code': Error.no_user})
-        tool=Tool.get_tool_by_id(kwargs['toolId'])
+        tool = Tool.get_tool_by_id(kwargs['toolId'])
         if tool is None:
             return JsonResponse({'error_code': Error.no_tool})
+        request_exsis1 = ToolRequest.objects.filter(borrowTool_id=kwargs['toolId'], request_user_id=request.POST.get('uid'),
+                                                    Status='A')
+        request_exsis2 = ToolRequest.objects.filter(borrowTool_id=kwargs['toolId'], request_user_id=request.POST.get('uid'),
+                                                    Status='W')
+        if request_exsis1 or request_exsis2:
+            return JsonResponse({'error_code': 5})
         returnTime = datetime.strptime(str(kwargs['returnTime']), TIME_FORMAT)
-        startTime= datetime.strptime(str(kwargs['startTime']), TIME_FORMAT)
-        if (returnTime-startTime).days > tool.limit_days:
+        startTime = datetime.strptime(str(kwargs['startTime']), TIME_FORMAT)
+        if (returnTime - startTime).days > tool.limit_days:
             return JsonResponse({'error_code': Error.overLimitDays})
-        new_toolRequest=ToolRequest.objects.create(request_user=user,borrowTool=tool,return_time=returnTime,start_time=startTime,
-                                                   purpose=kwargs['purpose'],borrowCount=int(kwargs['borrowCount']),
-                                                   )
+        new_toolRequest = ToolRequest.objects.create(request_user=user, borrowTool=tool, return_time=returnTime,
+                                                     start_time=startTime,
+                                                     purpose=kwargs['purpose'], borrowCount=int(kwargs['borrowCount']),
+                                                     )
         new_toolRequest.save()
-        return JsonResponse({"error_code": 0,'requestId':new_toolRequest.id})
+        return JsonResponse({"error_code": 0, 'requestId': new_toolRequest.id})
 
-#个人记录查看
+
+# 个人记录查看
 def allBorrowList(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -463,37 +522,41 @@ def allBorrowList(request):
         Error.key, Error.no_user, Error.no_tool = 1, 2, 3
         if kwargs.keys() != {'uid'}:
             return JsonResponse({'error_code': Error.key})
-        user = User.get_user_byid(str(kwargs['uid']))
+        print("在views函数中uid为")
+        print(request.POST.get('uid'))
+        user = User.get_user_byid(str(request.POST.get('uid')))
+
         if user is None:
             return JsonResponse({'error_code': Error.no_user})
         toolRequests = ToolRequest.objects.filter(request_user=user)
         ret = [{
-            "toolName":i.borrowTool.name,
-            "borrowCount":i.borrowCount,
-            "startTime":datetime.strftime(i.start_time,TIME_FORMAT),#todo:转换成字符串返回，strftime
-            "returnTime":datetime.strftime(i.return_time,TIME_FORMAT),
-            "status":i.Status,
-            "label":i.borrowTool.labelBelong.id,
-            "requestId":i.id,
-            "address":i.address,
-            "sttime":i.date_startTime,
-            "endtime":i.date_endTime,
-            "getdate":i.get_date,
-        }for i in toolRequests]
+            "toolName": i.borrowTool.name,
+            "borrowCount": i.borrowCount,
+            "startTime": datetime.strftime(i.start_time, TIME_FORMAT),  # todo:转换成字符串返回，strftime
+            "returnTime": datetime.strftime(i.return_time, TIME_FORMAT),
+            "status": i.Status,
+            "label": i.borrowTool.labelBelong.id,
+            "requestId": i.id,
+            "address": i.address,
+            "sttime": i.date_startTime,
+            "endtime": i.date_endTime,
+            "getdate": i.get_date,
+        } for i in toolRequests]
 
         return JsonResponse({"error_code": 0, "requestList": ret})
 
-def repealRequest(request):#todo:撤销申请 需要管理员审核
+
+def repealRequest(request):  # todo:撤销申请 需要管理员审核
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key, Error.no_user, Error.no_request,Error.illegl_repeal = 1, 2, 3,4
-        if kwargs.keys() != {'uid', 'requestId',"purpose"}:
+        Error.key, Error.no_user, Error.no_request, Error.illegl_repeal = 1, 2, 3, 4
+        if kwargs.keys() != {'uid', 'requestId', "purpose"}:
             return JsonResponse({'error_code': Error.key})
-        user = User.get_user_byid(str(kwargs['uid']))
+        user = User.get_user_byid(str(request.POST.get('uid')))
         if user is None:
             return JsonResponse({'error_code': Error.no_user})
-        request=ToolRequest.get_request_by_id(kwargs['requestId'])
+        request = ToolRequest.get_request_by_id(kwargs['requestId'])
         if request is None:
             return JsonResponse({'error_code': Error.no_request})
         RepealRequest = RepealPostpone.objects.filter(request=kwargs['requestId'], Status='W')
@@ -509,42 +572,46 @@ def repealRequest(request):#todo:撤销申请 需要管理员审核
             RepealRequest.save()
         return JsonResponse({"error_code": 0})
 
-def applyPostpone(request): #todo:申请延期，需管理员审核
+
+def applyPostpone(request):  # todo:申请延期，需管理员审核
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key, Error.no_user, Error.no_request ,Error.illegal_postpone= 1, 2, 3, 4
-        if kwargs.keys() != {'uid', 'requestId','postponeTime',"purpose"}:
+        Error.key, Error.no_user, Error.no_request, Error.illegal_postpone = 1, 2, 3, 4
+        if kwargs.keys() != {'uid', 'requestId', 'postponeTime', "purpose"}:
             return JsonResponse({'error_code': Error.key})
-        user = User.get_user_byid(str(kwargs['uid']))
+        user = User.get_user_byid(str(request.POST.get('uid')))
         if user is None:
             return JsonResponse({'error_code': Error.no_user})
-        request=ToolRequest.get_request_by_id(kwargs['requestId'])
+        request = ToolRequest.get_request_by_id(kwargs['requestId'])
         if request is None:
             return JsonResponse({'error_code': Error.no_request})
-        #if datetime.now < request.return_time:
-            #return JsonResponse({'error_code': Error.illegal_postpone})
-        postponeRequest = RequestPostpone.objects.filter(request=kwargs['requestId'],Status='W')
+        # if datetime.now < request.return_time:
+        # return JsonResponse({'error_code': Error.illegal_postpone})
+        postponeRequest = RequestPostpone.objects.filter(request=kwargs['requestId'], Status='W')
         if not postponeRequest.exists():
-            postponeRequest = RequestPostpone.objects.create(request=request,request_user=user,postponeTime=datetime.strptime(kwargs['postponeTime'],TIME_FORMAT))
-            postponeRequest.purpose=kwargs['purpose']
+            postponeRequest = RequestPostpone.objects.create(request=request, request_user=user,
+                                                             postponeTime=datetime.strptime(kwargs['postponeTime'],
+                                                                                            TIME_FORMAT))
+            postponeRequest.purpose = kwargs['purpose']
             postponeRequest.save()
         else:
             postponeRequest = postponeRequest.get()
-            postponeRequest.postponeTime=datetime.strptime(kwargs['postponeTime'],TIME_FORMAT)
+            postponeRequest.postponeTime = datetime.strptime(kwargs['postponeTime'], TIME_FORMAT)
             postponeRequest.purpose = kwargs['purpose']
             postponeRequest.save()
         postponeRequest.save()
         return JsonResponse({"error_code": 0})
 
+
 def searchToolByName(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key= 1
+        Error.key = 1
         if kwargs.keys() != {'toolName'}:
             return JsonResponse({'error_code': Error.key})
-        tools=Tool.objects.filter(name__contains=kwargs['toolName'])
+        tools = Tool.objects.filter(name__contains=kwargs['toolName'])
         ret = []
         for i in tools:
             reqList = ToolRequest.objects.filter(Status='A', borrowTool=i).order_by('return_time')
@@ -552,7 +619,7 @@ def searchToolByName(request):
             if len(reqList) != 0:
                 req = reqList[0]
                 return_time = req.return_time
-                return_time = datetime.strftime(return_time,TIME_FORMAT)
+                return_time = datetime.strftime(return_time, TIME_FORMAT)
             ret.append({
                 "name": i.name,
                 "totalCount": i.totalCount,
@@ -562,22 +629,23 @@ def searchToolByName(request):
                 "shortReturnTime": return_time,
                 "intro": i.intro,
             })
-        return JsonResponse({"error_code": 0,"dataList":ret})
+        return JsonResponse({"error_code": 0, "dataList": ret})
+
 
 def searchLabelByName(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
-        Error.key= 1
+        Error.key = 1
         if kwargs.keys() != {'labelName'}:
             return JsonResponse({'error_code': Error.key})
-        labels=Label.objects.filter(name__contains=kwargs['labelName'])
+        labels = Label.objects.filter(name__contains=kwargs['labelName'])
         ret = []
         for i in labels:
             if i.level == 2:
                 ret.append({
-                    "name":i.name,
-                    "id":i.id,
-                    "firstLabel":i.firstLabel.name,
+                    "name": i.name,
+                    "id": i.id,
+                    "firstLabel": i.firstLabel.name,
                 })
         return JsonResponse({"error_code": 0, "dataList": ret})

@@ -111,7 +111,7 @@ export default {
        console.log("已发送"),
 		    axios({
 			  method:"post",
-			  url:'http://121.4.160.157/user/forget/sendCode',
+			  url:'user/forget/sendCode',
 			  data:{
 			  	acc:this.form.phone,
 			  }
@@ -175,7 +175,7 @@ export default {
       if (this.form.email != "" && this.form.password != "") {
         axios({
           method: "post",
-          url: "http://121.4.160.157/manager/forget/setPwd",
+          url: "manager/forget/setPwd",
           data: {
             acc: this.form.email,
             phoneNumber: this.form.phone,
@@ -212,7 +212,7 @@ export default {
         else{
           axios({
           method: "post",
-          url: "http://121.4.160.157/manager/RegisterTeacherAcc",
+          url: "manager/RegisterTeacherAcc",
           data: {
             acc: this.form.email,
             teacherId: this.form.tid,

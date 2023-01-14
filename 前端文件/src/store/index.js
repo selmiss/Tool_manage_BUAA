@@ -17,6 +17,8 @@ export default new Vuex.Store({
     changeLogin(state,user){
       state.UID = user.UID;
       state.Mail = user.Mail;
+	  state.hash_code=user.hash_code;
+	  localStorage.setItem('token',user.hash_code)
       localStorage.setItem('Mail',user.Mail);
       localStorage.setItem('UID',user.UID);
     }

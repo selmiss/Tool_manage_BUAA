@@ -9,13 +9,31 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+//原来的baseURL http://tool.selmiss.xyz/
+Vue.prototype.axios=axios
+axios.defaults.baseURL='http://127.0.0.1:8000/'
 
-Vue.prototype.$axios=axios
-axios.defaults.baseURL='http://tool.selmiss.xyz/'
+
+
+axios.interceptors.request.use(
+  config => {
+    if (localStorage.getItem('token')) {
+      config.headers.Authorization = localStorage.getItem('token');
+    }
+ 
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  });
+
 Vue.config.productionTip = false
+
+
 
 new Vue({
   router,
   store,
+  axios,
   render: h => h(App)
 }).$mount('#app')

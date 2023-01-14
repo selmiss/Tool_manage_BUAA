@@ -125,7 +125,7 @@ export default {
        console.log("已发送"),
 		    axios({
 			  method:"post",
-			  url:'http://121.4.160.157/user/forget/sendCode',
+			  url:'user/forget/sendCode',
 			  data:{
 			  	acc:this.form.phone,
 			  }
@@ -159,7 +159,7 @@ export default {
       if (this.form.email != "" && this.form.password != "") {
         axios({
           method: "post",
-          url: "http://121.4.160.157/manager/resetPwd",
+          url: "manager/resetPwd",
           data: {
             uid: this.userId,
             old_pwd: this.form.password,
@@ -187,10 +187,13 @@ export default {
       }
     },
     login() {
+		localStorage.setItem('token',"wutoken");
+		var a=localStorage.getItem('token');
+		console.log(a);
       if (this.form.email != "" && this.form.password != "") {
         axios({
           method: "post",
-          url: "http://121.4.160.157/manager/Login",
+          url: "manager/Login",
           data: {
             acc: this.form.email,
             pwd: this.form.password,
@@ -201,12 +204,14 @@ export default {
             let user={};
             user.Mail=this.form.email;
             user.UID=res.data.uid;
+			user.hash_code=res.data.hash_code;
+			console.log(user.hash_code);
             //TODO:页面跳转
             if(res.data.error_code==0){
               localStorage.setItem('uid',res.data.uid);
               localStorage.setItem('Mail',this.form.email);
               localStorage.setItem('isSuperUser',res.data.is_superUser);
-
+				localStorage.setItem('token',res.data.hash_code);
               if(!res.data.is_superUser) {
                 this.$router.push('/settools');
                 this.$store.commit("changeLogin",user);
@@ -238,7 +243,7 @@ export default {
         else{
           axios({
           method: "post",
-          url: "http://121.4.160.157/manager/RegisterTeacherAcc",
+          url: "manager/RegisterTeacherAcc",
           data: {
             acc: this.form.email,
             teacherId: this.form.tid,
