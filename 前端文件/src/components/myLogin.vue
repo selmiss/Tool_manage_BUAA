@@ -2,20 +2,20 @@
 	<div class="login-register">
 		<div class="contain">
 			<div class="big-box" :class="{active:isLogin}">
-				<div class="big-contain" v-if="isLogin">
-					<div class="btitle">学生登录</div>
+				<div class="big-contain"  v-if="isLogin">
+					<div class="btitle">用户登录</div>
 						<div class="bform">
-							<input type="email" placeholder="邮箱" v-model="form.email">
+							<input type="email" placeholder="请输入用户名" v-model="form.email">
 							<span class="errTips" v-if="emailError">* 邮箱填写错误 *</span>
 							<input type="password" placeholder="密码" v-model="form.password">
 							<span class="errTips" v-if="emailError">* 密码填写错误 *</span>
 						</div>
 					<button class="bbutton" @click="login">登录</button>
-					&nbsp;&nbsp;<button @click="studentForgetPwd">忘记密码</button>
+					&nbsp;&nbsp;<span @click="studentForgetPwd">忘记密码</span>
 				</div>
 				<div class="big-contain" v-else>
                     <div v-if="!stateReg">
-                        <div class="btitle">学生注册</div>
+                        <div class="btitle">用户注册</div>
                         <div class="bform">
                             <input type="text" placeholder="学号" v-model="form.sid"><br>
                             <span class="errTips" v-if="existed">* 该学号已经注册！ *</span>
@@ -40,7 +40,7 @@
                     </div>
 				</div>
 			</div>
-			<div class="small-box" :class="{active:isLogin}">
+			<!-- <div class="small-box" :class="{active:isLogin}">
 				<div class="small-contain" v-if="isLogin">
 					<div class="stitle">北航工程训练中心<br>工具信息平台</div>
 					<p class="scontent">尚无账号？点击下方按钮进行注册。</p>
@@ -55,7 +55,7 @@
 					<br />
 					<button class="sbutton" @click="teacherEntry">教师入口</button>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -213,11 +213,9 @@ import axios from "axios";
 		width: 100vw;
 		height: 100vh;
 		box-sizing: border-box;
-		background-image: url("/MainMenu.jpeg");
-		background-size: 1920px 980px;
 	}
 	.contain{
-		width: 60%;
+		width: 40%;
 		height: 60%;
 		position: relative;
 		top: 47%;
@@ -229,13 +227,14 @@ import axios from "axios";
 					0 0 6px #f0f0f0;
 	}
 	.big-box{
-		width: 70%;
+		width: 100%;
 		height: 100%;
 		position: absolute;
 		top: 0;
 		left: 30%;
 		transform: translateX(0%);
 		transition: all 1s;
+        background-color: aliceblue;
 	}
 	.big-contain{
         margin-top: 10%;
@@ -245,6 +244,7 @@ import axios from "axios";
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+        
 	}
 	.btitle{
 		font-size: 1.5em;

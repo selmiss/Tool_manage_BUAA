@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path:"/testlogin",
+    name: "loginOK",
+    component: ()=>import('@/components/myLogin.vue')
+  },
+  {
     path:'/',
     name:'StudentLogin',
     component: ()=>import('@/views/Entry/S_Entry.vue')
