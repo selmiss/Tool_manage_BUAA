@@ -2,7 +2,7 @@
 	export default {
 		globalData: {
 			uid: -1,
-			urlRoot: "https://tool.selmiss.xyz"
+			urlRoot: "http://127.0.0.1:8000"
 		},
 		onLaunch: function() {
 			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！')
