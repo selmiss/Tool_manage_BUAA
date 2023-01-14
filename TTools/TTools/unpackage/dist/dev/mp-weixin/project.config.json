@@ -18,7 +18,7 @@
         }
     },
     "compileType": "miniprogram",
-    "libVersion": "2.27.0",
+    "libVersion": "2.29.2",
     "appid": "wxc6210b45fc53b29d",
     "projectname": "TTools",
     "condition": {},

@@ -159,7 +159,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     s: common_vendor.o((...args) => $options.cancel && $options.cancel(...args)),
     t: common_vendor.o((...args) => $options.upload && $options.upload(...args)),
-    v: common_vendor.sr("baseForm", "626cf16e-2,626cf16e-1"),
+    v: common_vendor.sr("baseForm", "3bac002b-2,3bac002b-1"),
     w: common_vendor.p({
       labelWidth: "170rpx",
       ["label-position"]: "left"
@@ -177,5 +177,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/uniapps/TTools/TTools/pages/Teacher/tool-main/new-tool.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/new-tool.vue"]]);
 wx.createPage(MiniProgramPage);

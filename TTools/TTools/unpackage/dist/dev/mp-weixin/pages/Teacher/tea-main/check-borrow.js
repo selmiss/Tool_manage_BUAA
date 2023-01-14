@@ -198,16 +198,16 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.requestUserName),
         b: common_vendor.t(item.purpose),
-        c: "700d31c0-2-" + i0 + "," + ("700d31c0-1-" + i0),
-        d: "700d31c0-4-" + i0 + "," + ("700d31c0-3-" + i0),
+        c: "76de759e-2-" + i0 + "," + ("76de759e-1-" + i0),
+        d: "76de759e-4-" + i0 + "," + ("76de759e-3-" + i0),
         e: common_vendor.o(($event) => $options.seeMessage(index)),
-        f: "700d31c0-5-" + i0 + "," + ("700d31c0-3-" + i0),
+        f: "76de759e-5-" + i0 + "," + ("76de759e-3-" + i0),
         g: common_vendor.o(($event) => $options.approve(item.requestId, 0)),
-        h: "700d31c0-6-" + i0 + "," + ("700d31c0-3-" + i0),
+        h: "76de759e-6-" + i0 + "," + ("76de759e-3-" + i0),
         i: common_vendor.o(($event) => $options.approve(item.requestId, 1)),
-        j: "700d31c0-7-" + i0 + "," + ("700d31c0-3-" + i0),
-        k: "700d31c0-3-" + i0 + "," + ("700d31c0-1-" + i0),
-        l: "700d31c0-1-" + i0 + ",700d31c0-0",
+        j: "76de759e-7-" + i0 + "," + ("76de759e-3-" + i0),
+        k: "76de759e-3-" + i0 + "," + ("76de759e-1-" + i0),
+        l: "76de759e-1-" + i0 + ",76de759e-0",
         m: common_vendor.p({
           title: item.toolName,
           ["sub-title"]: item.startTime + " \u5230 " + item.returnTime,
@@ -249,11 +249,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["sub-title"]: $data.nowInfo.stuCollege,
       type: "line"
     }),
-    m: common_vendor.sr("seeInfo", "700d31c0-8"),
+    m: common_vendor.sr("seeInfo", "76de759e-8"),
     n: common_vendor.p({
       type: "dialog"
     }),
-    o: common_vendor.sr("inputClose", "700d31c0-11,700d31c0-10"),
+    o: common_vendor.sr("inputClose", "76de759e-11,76de759e-10"),
     p: common_vendor.o($options.refuse),
     q: common_vendor.p({
       mode: "input",
@@ -261,7 +261,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       value: "",
       placeholder: "\u8BF7\u8F93\u5165\u62D2\u7EDD\u7406\u7531"
     }),
-    r: common_vendor.sr("refuseDialog", "700d31c0-10"),
+    r: common_vendor.sr("refuseDialog", "76de759e-10"),
     s: common_vendor.p({
       type: "dialog"
     }),
@@ -285,11 +285,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       titleFontSize: "20px",
       type: "line"
     }),
-    K: common_vendor.sr("agree", "700d31c0-12"),
+    K: common_vendor.sr("agree", "76de759e-12"),
     L: common_vendor.p({
       type: "dialog"
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/uniapps/TTools/TTools/pages/Teacher/tea-main/check-borrow.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/check-borrow.vue"]]);
 wx.createPage(MiniProgramPage);

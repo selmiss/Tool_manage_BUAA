@@ -87,8 +87,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.f($data.tool_list, (item, index, i0) => {
       return {
         a: common_vendor.t(item.limit_days),
-        b: "3e019e82-2-" + i0 + "," + ("3e019e82-1-" + i0),
-        c: "3e019e82-1-" + i0 + ",3e019e82-0",
+        b: "106bd41d-2-" + i0 + "," + ("106bd41d-1-" + i0),
+        c: "106bd41d-1-" + i0 + ",106bd41d-0",
         d: common_vendor.p({
           title: index + 1 + "." + item.name,
           ["sub-title"]: "\u7C7B\u522B : " + item.cat,
@@ -109,5 +109,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/uniapps/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
 wx.createPage(MiniProgramPage);

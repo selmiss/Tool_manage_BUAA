@@ -219,7 +219,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     k: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
     l: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
-    m: common_vendor.sr("fab", "324a37a2-7,324a37a2-5"),
+    m: common_vendor.sr("fab", "c7f3f8e6-7,c7f3f8e6-5"),
     n: common_vendor.o($options.trigger),
     o: common_vendor.o($options.fabClick),
     p: common_vendor.p({
@@ -280,12 +280,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       href: "http://121.4.160.157:8080/",
       text: "http://121.4.160.157:8080/"
     }),
-    J: common_vendor.sr("toWeb", "324a37a2-17"),
+    J: common_vendor.sr("toWeb", "c7f3f8e6-17"),
     K: common_vendor.p({
       type: "top",
       ["background-color"]: "#fff"
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/uniapps/TTools/TTools/pages/index/index.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

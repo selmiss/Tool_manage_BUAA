@@ -106,9 +106,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         e: common_vendor.t(item.totalCount),
         f: common_vendor.o(($event) => $options.showInfo(index)),
         g: common_vendor.o(($event) => $options.toggle("center", index)),
-        h: "cf1b74a0-3-" + i0 + "," + ("cf1b74a0-2-" + i0),
+        h: "1a49e5dc-3-" + i0 + "," + ("1a49e5dc-2-" + i0),
         i: index,
-        j: "cf1b74a0-2-" + i0 + ",cf1b74a0-1",
+        j: "1a49e5dc-2-" + i0 + ",1a49e5dc-1",
         k: common_vendor.p({
           index
         })
@@ -168,7 +168,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     t: common_vendor.p({
       label: "\u5DE5\u5177\u7B80\u4ECB"
     }),
-    v: common_vendor.sr("baseForm", "cf1b74a0-7,cf1b74a0-6"),
+    v: common_vendor.sr("baseForm", "1a49e5dc-7,1a49e5dc-6"),
     w: common_vendor.p({
       labelWidth: "150rpx",
       ["label-position"]: "left"
@@ -181,7 +181,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     z: common_vendor.o((...args) => $options.submitEdit && $options.submitEdit(...args)),
     A: common_vendor.o($options.onClick),
     B: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
-    C: common_vendor.sr("popup", "cf1b74a0-4"),
+    C: common_vendor.sr("popup", "1a49e5dc-4"),
     D: common_vendor.p({
       ["background-color"]: "#fff"
     }),
@@ -201,11 +201,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     N: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
     O: common_vendor.o($options.onClick),
     P: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
-    Q: common_vendor.sr("popupinfo", "cf1b74a0-16"),
+    Q: common_vendor.sr("popupinfo", "1a49e5dc-16"),
     R: common_vendor.p({
       ["background-color"]: "#fff"
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/uniapps/TTools/TTools/pages/Teacher/tool-main/tool-edit-list.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-edit-list.vue"]]);
 wx.createPage(MiniProgramPage);
