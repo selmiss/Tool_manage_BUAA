@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -20,6 +20,7 @@ const _sfc_main = {
   methods: {
     getList() {
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/user/getLabelToolList",
         data: {
           labelId: 4
@@ -36,6 +37,7 @@ const _sfc_main = {
         }
       });
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/user/getLabelToolList",
         data: {
           labelId: 5
@@ -52,6 +54,7 @@ const _sfc_main = {
         }
       });
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/user/getLabelToolList",
         data: {
           labelId: 6
@@ -87,8 +90,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.f($data.tool_list, (item, index, i0) => {
       return {
         a: common_vendor.t(item.limit_days),
-        b: "106bd41d-2-" + i0 + "," + ("106bd41d-1-" + i0),
-        c: "106bd41d-1-" + i0 + ",106bd41d-0",
+        b: "06aed59c-2-" + i0 + "," + ("06aed59c-1-" + i0),
+        c: "06aed59c-1-" + i0 + ",06aed59c-0",
         d: common_vendor.p({
           title: index + 1 + "." + item.name,
           ["sub-title"]: "\u7C7B\u522B : " + item.cat,
@@ -109,5 +112,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
 wx.createPage(MiniProgramPage);

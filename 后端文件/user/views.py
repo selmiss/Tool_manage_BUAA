@@ -136,7 +136,7 @@ def Login(request):
 
 def unLogin(request):
     kwargs = json.loads(request.body.decode("utf-8"))
-    token = kwargs['token']
+    token = request.META.get('HTTP_AUTHORIZATION')
     del TOKEN_DIC[token]
     print(TOKEN_DIC)
     print('删除成功')

@@ -34,6 +34,7 @@
 				})
 			}
 			uni.request({
+				 header: {'Authorization':getApp().globalData.token},
 				url: getApp().globalData.urlRoot+"/user/getInfo",
 				data: {uid: getApp().globalData.uid},
 				method:"POST",
@@ -51,6 +52,7 @@
 
 				console.log(this.userInfo);
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/putInfo",
 					data:{
 						uid:getApp().globalData.uid,

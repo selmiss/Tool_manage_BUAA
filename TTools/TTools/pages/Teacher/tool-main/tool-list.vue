@@ -32,6 +32,7 @@
 		methods: {
 			getList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/getLabelToolList",
 					data: {
 						labelId:4
@@ -48,6 +49,7 @@
 					}
 				})
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/getLabelToolList",
 					data: {
 						labelId:5
@@ -64,6 +66,7 @@
 					}
 				})
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/getLabelToolList",
 					data: {
 						labelId:6

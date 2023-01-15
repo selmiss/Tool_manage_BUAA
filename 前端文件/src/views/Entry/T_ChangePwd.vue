@@ -8,13 +8,13 @@
                 <div style="margin: 0 auto; align-items: center;">
                     <el-form label-width="80px">
                         <el-form-item label="现密码" style="width: 80%">
-                            <el-input v-model="password"></el-input>
+                            <el-input type="password" v-model="password"></el-input>
                         </el-form-item>
                         <el-form-item label="新密码" style="width: 80%">
-                            <el-input v-model="newPassword"></el-input>
+                            <el-input type="password" v-model="newPassword"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" style="width: 80%">
-                            <el-input v-model="confirmPassword"></el-input>
+                            <el-input type="password" v-model="confirmPassword"></el-input>
                         </el-form-item>
                         <el-form-item style="width: 80%">
                             <el-button @click="confirm">确认修改</el-button>

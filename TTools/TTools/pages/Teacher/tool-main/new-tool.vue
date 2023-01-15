@@ -101,6 +101,7 @@
 			submit() {
 				console.log(this.toolInfo)
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot +"/manager/createTool",
 					data: this.toolInfo,
 					method:"POST",

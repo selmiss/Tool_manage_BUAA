@@ -20,8 +20,12 @@
                     <el-button type="primary" plain  @click="handleCreate(scope.row)">查看记录</el-button>
                     <el-button type="danger" plain @click="deleteUser(scope.row)">删除用户</el-button>
                     <el-dialog :visible.sync="dialogFormVisible">
+						
+						
                       <div class="title" style="margin-top: 0px">工具借用记录表</div>
                       <div style="margin: 0 auto; align-items: center;">
+						  
+						  
                         <el-card class="box-card" style="width: 80%">
                             <el-table :data="tableRecordData" style="width: 100%" border>
                               <el-table-column align="center" prop="toolName" label="工具名称" min-width="120"></el-table-column>
@@ -37,6 +41,8 @@
                               </el-table-column>
                             </el-table>
                         </el-card>
+						
+						
                       </div>
                     </el-dialog>
                   </template>
@@ -89,11 +95,13 @@ export default {
       //打开弹窗
       this.dialogFormVisible = true;
       let that = this;
+	  console.log(row.uid)
       axios({
-        url: 'user/allBorrowList',
+        url: 'manager/allBorrowList',
         method: 'post',
         data: {
-          uid : row.uid
+			uid: -2,
+          stu_uid : row.uid,
         }
       }).then((response) => {
         if (response) {
@@ -110,6 +118,8 @@ export default {
         }
       });
     },
+	
+	
     deleteUser(row){
       console.log(row);
       let that = this;
@@ -118,13 +128,16 @@ export default {
         url:'manager/deleteStudent',
         method:'post',
         data: {
-          uid : i
+			uid:-2,
+          stu_uid : i,
         }
       }).then((res) => {
         this.reload();
         alert('已删除该用户');
       })
     },
+	
+	
     loadMessage() {
 				let that = this;
 				axios({

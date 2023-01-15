@@ -162,6 +162,7 @@
 			},
 			lend() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/returnTool",
 					data: {
 						requestId: this.agree_id
@@ -225,6 +226,7 @@
 				this.$refs.inputClose.close()
 				console.log(this.refuse_id,this.refuse_reason)
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/approveBorrowRequest",
 					data:{
 						address:"",
@@ -255,6 +257,7 @@
 			},
 			getBorrowList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/getAllNeedReturnList",
 					data:{},
 					method:"POST",

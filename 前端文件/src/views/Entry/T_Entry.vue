@@ -217,7 +217,7 @@ export default {
                 this.$store.commit("changeLogin",user);
               }
               else{
-                this.$router.push('/addTeacher');
+                this.$router.push('/borrowProcessing');
                 this.$store.commit("changeLogin",user);
               }
             }

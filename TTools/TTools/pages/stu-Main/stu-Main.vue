@@ -29,15 +29,65 @@
 								<uni-col :span="8">
 									<view class="demo-uni-col uni-dark">
 										<button v-if="item.status === 'A'" style="background-color:blanchedalmond;" class="uni-button" size="mini" type="default" @click="showMore(index)">申请续借</button>
+										<button v-else-if="item.status === 'W'" style="background-color:blanchedalmond;" class="uni-button" size="mini" type="default" @click="withDraw(index)">撤销申请</button>
 										<button v-else disabled="true" style="background-color:blanchedalmond;" class="uni-button" size="mini" type="default">无操作</button>
 									</view>
 								</uni-col>
-								
+						</uni-row>
+						<uni-row  class="demo-uni-row" :width="nvueWidth">
+							<uni-col :span="8">
+								<view class="demo-uni-col uni-dark">
+									<button v-if="item.status === 'A'" style="background-color:blanchedalmond;" class="uni-button" size="mini" type="default" @click="seeMessage(item)">借用信息</button>
+								</view>
+							</uni-col>
 						</uni-row>
 					</uni-card>
 					
 				</uni-section>
 				<!-- 普通弹窗 -->
+
+				<uni-popup ref="message" type="dialog">
+					<view class="info">
+					<uni-section class="mb-10" type="line">
+						<view style="margin-left: 50rpx;padding-bottom: 50rpx;">
+						<p>地点    :{{this.nowInfo.address}}</p>
+						<p>领取日期:{{this.nowInfo.getdate}}</p>
+						<p>开始时间:{{this.nowInfo.sttime}}</p>
+						<p>结束时间:{{this.nowInfo.endtime}}</p>
+						</view>
+					</uni-section>
+					</view>
+				</uni-popup>
+	
+	
+				
+				<uni-popup ref="popup1" background-color="#fff" >
+					<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }">
+						<uni-card  @click="onClick">
+						
+							<!-- <image slot='cover' style="width: 100%;" :src="cover"></image> -->
+							<text style="font-weight: 800;">{{name}}</text>
+							<view>
+								<uni-section title="*撤销理由" type="line" padding>
+											<uni-easyinput type="textarea" v-model="purpose"  placeholder="请输入内容"></uni-easyinput>
+										</uni-section>
+							</view>
+							
+							
+							<view slot="actions" class="card-actions">
+								<view class="card-actions-item2">
+									<button style="width: 70%;" size="mini" @click="actionsClick('取消')">取消</button>
+								</view>
+								
+								<view class="card-actions-item2">
+									<button style="width: 70%;" type="primary" size="mini" @click="RepealRenew()">确定</button>
+								</view>
+							</view>
+						</uni-card>
+					</view>
+				</uni-popup>
+				
+				
 				<uni-popup ref="popup" background-color="#fff" >
 					<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }">
 						<uni-card  @click="onClick">
@@ -83,6 +133,7 @@
 				name:"",
 				toolId:-1,
 				username: 'JING',
+				nowInfo :{},
 				title : "工具借用列表",
 				toolList:[
 					{
@@ -114,8 +165,13 @@
 			}
 		},
 		methods: {
+			seeMessage(item) {
+				this.nowInfo = item
+				this.$refs.message.open()
+			},
 			submitBorrow() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+ "/user/applyPostpone",
 					data:{
 						uid: getApp().globalData.uid,
@@ -136,6 +192,33 @@
 					}
 				})
 			},
+			RepealRenew() {
+				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
+					url: getApp().globalData.urlRoot+ "/user/repealRequest",
+					data:{
+						uid: getApp().globalData.uid,
+						requestId: this.toolId,
+						purpose: this.purpose
+					},
+					method:"POST",
+					success: (res) => {
+						if (res.data.error_code === 0){
+							uni.showToast({
+								title: "撤销成功",
+								icon: 'none'
+							})
+							this.$refs.popup1.close();
+							this.getToolList();
+						}
+					}
+				})
+			},
+			withDraw(index){
+				this.name = this.toolList[index].toolName
+				this.toolId = this.toolList[index].requestId
+				this.$refs.popup1.open('center')
+			},
 			showMore(index) {
 				this.name = this.toolList[index].toolName
 				this.toolId = this.toolList[index].requestId
@@ -148,6 +231,7 @@
 			},
 			getToolList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/allBorrowList",
 					data: {uid: getApp().globalData.uid},
 					method: 'POST',

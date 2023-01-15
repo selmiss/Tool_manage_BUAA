@@ -1,5 +1,5 @@
 "use strict";
-var popup = {
+const popup = {
   data() {
     return {};
   },

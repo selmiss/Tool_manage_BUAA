@@ -41,4 +41,5 @@ urlpatterns = [
     path('searchToolByName', views.searchToolByName, name='searchToolByName'),
     # 搜索工具
     path('searchLabelByName', views.searchLabelByName, name='searchLabelByName'),
+
 ]

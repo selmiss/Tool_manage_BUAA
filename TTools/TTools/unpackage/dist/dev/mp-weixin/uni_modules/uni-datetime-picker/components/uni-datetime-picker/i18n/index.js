@@ -1,5 +1,5 @@
 "use strict";
-var en = {
+const en = {
   "uni-datetime-picker.selectDate": "select date",
   "uni-datetime-picker.selectTime": "select time",
   "uni-datetime-picker.selectDateTime": "select datetime",
@@ -21,7 +21,7 @@ var en = {
   "uni-calender.SUN": "SUN",
   "uni-calender.confirm": "confirm"
 };
-var zhHans = {
+const zhHans = {
   "uni-datetime-picker.selectDate": "\u9009\u62E9\u65E5\u671F",
   "uni-datetime-picker.selectTime": "\u9009\u62E9\u65F6\u95F4",
   "uni-datetime-picker.selectDateTime": "\u9009\u62E9\u65E5\u671F\u65F6\u95F4",
@@ -43,7 +43,7 @@ var zhHans = {
   "uni-calender.SAT": "\u516D",
   "uni-calender.confirm": "\u786E\u8BA4"
 };
-var zhHant = {
+const zhHant = {
   "uni-datetime-picker.selectDate": "\u9078\u64C7\u65E5\u671F",
   "uni-datetime-picker.selectTime": "\u9078\u64C7\u6642\u9593",
   "uni-datetime-picker.selectDateTime": "\u9078\u64C7\u65E5\u671F\u6642\u9593",
@@ -65,7 +65,7 @@ var zhHant = {
   "uni-calender.SAT": "\u516D",
   "uni-calender.confirm": "\u78BA\u8A8D"
 };
-var messages = {
+const messages = {
   en,
   "zh-Hans": zhHans,
   "zh-Hant": zhHant

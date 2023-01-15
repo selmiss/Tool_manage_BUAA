@@ -80,7 +80,7 @@ export default {
     loadMessage() {
 				let that = this;
 				axios({
-					url: 'http://8.130.48.144/manager/getTeacherList',
+					url: 'manager/getTeacherList',
 					method: 'post',
 					data: {
 					}

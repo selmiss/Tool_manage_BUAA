@@ -142,6 +142,7 @@
 				this.startTime = this.range[0]
 				this.returnTime = this.range[1]
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url:getApp().globalData.urlRoot+"/user/borrowRequest",
 					data:{
 							borrowCount:this.borrowCount,
@@ -153,11 +154,17 @@
 						},
 						method:"POST",
 					success: (res) => {
+						console.log(res.data.error_code)
 						if (res.data.error_code === 0){
 							uni.showToast({
 								title: "借用成功，请耐心等待审核！",
 								icon: 'none'
 							})
+						}else if(res.data.error_code === 5){
+							uni.showToast({
+								title: '你已经借用过这个工具了',
+								icon: 'none',    //如果要纯文本，不要icon，将值设为'none'
+							}) 
 						}
 					}
 				})
@@ -169,6 +176,7 @@
 			},
 			getList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot + "/user/getLabelToolList",
 					data:{labelId: this.labelId},
 					method:"POST",

@@ -33,7 +33,7 @@
 						<div >日期:  &nbsp &nbsp &nbsp &nbsp  {{ scope.row.getdate }}</div>
 						<div >开始时间: &nbsp {{ scope.row.sttime }}</div>
 						<div >结束时间: &nbsp {{ scope.row.endtime }}</div>
-				    <el-button  size="mini" slot="reference">借用信息</el-button>
+				    <el-button  size="mini" v-show="scope.row.status === 'A'" slot="reference">领取信息</el-button>
 					</el-popover>
 				  </template>
 				</el-table-column>
@@ -90,8 +90,6 @@
 					    <el-button type="primary" @click="RepealRenew()">确定</el-button>
 					  </div>
 					</el-dialog>
-					
-					
                   </template>
                 </el-table-column>
               </el-table>
@@ -107,6 +105,7 @@
 import axios from "axios";
 import HeadBar from "@/components/HeadBar";
 import StudentMenu from "@/components/StudentMenu";
+import { Loading } from "element-ui";
 export default {
   inject: ['reload'],
   components:{HeadBar,StudentMenu},
@@ -115,6 +114,7 @@ export default {
   },
   data() {
     return {
+		loading: true,
       rowStore: null,
       pickerOptions: {
           disabledDate(time) {
@@ -256,6 +256,7 @@ export default {
 						if (response.data.error_code === 0) {
 							console.log("获取成功", response.data);
 							that.tableData = response.data.requestList;
+							loading=false;
 						} else {
 							console.log("获取失败" + response.data);
 							alert(localStorage.getItem('uid') + " 获取失败,error: " + response.data.error_code);

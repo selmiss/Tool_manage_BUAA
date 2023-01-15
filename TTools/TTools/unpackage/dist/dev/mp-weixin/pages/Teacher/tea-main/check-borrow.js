@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     const currentDate = this.getDate({
@@ -65,6 +65,7 @@ const _sfc_main = {
     },
     lend() {
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/approveBorrowRequest",
         data: {
           address: this.position,
@@ -134,6 +135,7 @@ const _sfc_main = {
       this.$refs.inputClose.close();
       console.log(this.refuse_id, this.refuse_reason);
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/approveBorrowRequest",
         data: {
           address: "",
@@ -164,6 +166,7 @@ const _sfc_main = {
     },
     getBorrowList() {
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/getToolRequestList",
         data: {},
         method: "POST",
@@ -198,16 +201,16 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.requestUserName),
         b: common_vendor.t(item.purpose),
-        c: "76de759e-2-" + i0 + "," + ("76de759e-1-" + i0),
-        d: "76de759e-4-" + i0 + "," + ("76de759e-3-" + i0),
+        c: "2f31d946-2-" + i0 + "," + ("2f31d946-1-" + i0),
+        d: "2f31d946-4-" + i0 + "," + ("2f31d946-3-" + i0),
         e: common_vendor.o(($event) => $options.seeMessage(index)),
-        f: "76de759e-5-" + i0 + "," + ("76de759e-3-" + i0),
+        f: "2f31d946-5-" + i0 + "," + ("2f31d946-3-" + i0),
         g: common_vendor.o(($event) => $options.approve(item.requestId, 0)),
-        h: "76de759e-6-" + i0 + "," + ("76de759e-3-" + i0),
+        h: "2f31d946-6-" + i0 + "," + ("2f31d946-3-" + i0),
         i: common_vendor.o(($event) => $options.approve(item.requestId, 1)),
-        j: "76de759e-7-" + i0 + "," + ("76de759e-3-" + i0),
-        k: "76de759e-3-" + i0 + "," + ("76de759e-1-" + i0),
-        l: "76de759e-1-" + i0 + ",76de759e-0",
+        j: "2f31d946-7-" + i0 + "," + ("2f31d946-3-" + i0),
+        k: "2f31d946-3-" + i0 + "," + ("2f31d946-1-" + i0),
+        l: "2f31d946-1-" + i0 + ",2f31d946-0",
         m: common_vendor.p({
           title: item.toolName,
           ["sub-title"]: item.startTime + " \u5230 " + item.returnTime,
@@ -249,11 +252,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["sub-title"]: $data.nowInfo.stuCollege,
       type: "line"
     }),
-    m: common_vendor.sr("seeInfo", "76de759e-8"),
+    m: common_vendor.sr("seeInfo", "2f31d946-8"),
     n: common_vendor.p({
       type: "dialog"
     }),
-    o: common_vendor.sr("inputClose", "76de759e-11,76de759e-10"),
+    o: common_vendor.sr("inputClose", "2f31d946-11,2f31d946-10"),
     p: common_vendor.o($options.refuse),
     q: common_vendor.p({
       mode: "input",
@@ -261,7 +264,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       value: "",
       placeholder: "\u8BF7\u8F93\u5165\u62D2\u7EDD\u7406\u7531"
     }),
-    r: common_vendor.sr("refuseDialog", "76de759e-10"),
+    r: common_vendor.sr("refuseDialog", "2f31d946-10"),
     s: common_vendor.p({
       type: "dialog"
     }),
@@ -285,11 +288,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       titleFontSize: "20px",
       type: "line"
     }),
-    K: common_vendor.sr("agree", "76de759e-12"),
+    K: common_vendor.sr("agree", "2f31d946-12"),
     L: common_vendor.p({
       type: "dialog"
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/check-borrow.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/check-borrow.vue"]]);
 wx.createPage(MiniProgramPage);

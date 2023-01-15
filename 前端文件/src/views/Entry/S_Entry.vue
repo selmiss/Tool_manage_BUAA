@@ -164,7 +164,6 @@ import axios from "axios";
 							// user.Mail=this.form.email;
 							// user.userID=res.data.uid;
 							// this.$store.commit("changeLogin",user);
-							alert('登录成功！');
 							this.$router.push('/borrowRecord');
 						}
 						else if(res.data.error_code == 1){ alert('输入有误！请重新登录。'); }

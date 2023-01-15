@@ -219,8 +219,10 @@ export default{
       }
     },
     del(tool){
+		if(window.confirm('你确定要删除吗？')){
       axios({
-        url:'http://127.0.0.1:8000/manager/deleteTool',
+		  
+        url:'manager/deleteTool',
         method:'post',
         data:{
           toolId:tool.id,
@@ -241,6 +243,9 @@ export default{
           this.$message.error(msg)
         }
       })
+	  }else{
+		  
+	  }
     },
     info(tool){
       this.thetool=tool;

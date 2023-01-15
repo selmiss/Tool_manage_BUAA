@@ -111,6 +111,7 @@
 		onShow() {
 			console.log(getApp().globalData.uid)
 			uni.request({
+				 header: {'Authorization':getApp().globalData.token},
 				url: getApp().globalData.urlRoot+"/user/getInfo",
 				data: {uid: getApp().globalData.uid},
 				method:"POST",
@@ -130,7 +131,8 @@
 				this.isLogin = 0;
 				getApp().globalData.uid = -1;
 				uni.request({
-					url: getApp().globalData.urlRoot+"/user/getInfo",
+					 header: {'Authorization':getApp().globalData.token},
+					url: getApp().globalData.urlRoot+"/user/unLogin",
 					data: {uid: getApp().globalData.uid},
 					method:"POST",
 					success: (res) => {
@@ -138,6 +140,7 @@
 						if (res.data.error_code === 0) {
 							this.isLogin = 1;
 							this.userInfo = res.data;
+							getApp().globalData.token="wutoken"
 						}
 					}
 				})
@@ -161,23 +164,25 @@
 				})
 			},
 			submitLogin() {
-				
+				getApp().globalData.token='wutoken';
 				console.log(this.form);
 				this.target = "/user/login"
 				if (this.isManager) {
 					this.target = "/manager/Login";
 				}
 				console.log(this.target)
+				console.log(getApp().globalData.token)
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+this.target,
 					data: {'acc':this.form.email,'pwd':this.form.password},
+					 header: {'Authorization':getApp().globalData.token},
 					method: 'POST',
 					success : (res) => {
 						console.log(res.data);
-						
 						if (res.data.error_code == 0) {
 							getApp().globalData.uid = res.data.uid;
-							
+							getApp().globalData.token=res.data.hash_code;
 							uni.showToast({
 								title: "登录成功！",
 								icon: 'none'
@@ -188,6 +193,7 @@
 								})
 							} else {
 								uni.request({
+									 header: {'Authorization':getApp().globalData.token},
 									url: getApp().globalData.urlRoot+"/user/getInfo",
 									data: {uid: getApp().globalData.uid},
 									method:"POST",

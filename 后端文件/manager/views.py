@@ -6,7 +6,7 @@ import random
 import string
 import hashlib
 
-import schedule
+
 import time
 
 import sched
@@ -217,6 +217,7 @@ def getStudentList(request):
             dataList.append({"name": i.name, "studentId": i.studentId, "uid": i.id, "acc": i.acc, "phoneNumber":i.phoneNumber, "college":i.college})
         return JsonResponse({'error_code': 0, 'dataList': dataList, "handleCount": len(dataList)})
 def getTeacherList(request):
+    print("进入函数")
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
@@ -228,6 +229,8 @@ def getTeacherList(request):
                 dataList.append(
                     {"name": i.name, "teacherId": i.teacherId, "uid": i.id, "acc": i.acc, "phoneNumber": i.phoneNumber})
         return JsonResponse({'error_code': 0, 'dataList': dataList, "handleCount": len(dataList)})
+
+
 def deleteTeacher(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -240,18 +243,21 @@ def deleteTeacher(request):
             return JsonResponse({'error_code': Error.noTeacher})
         teacher.delete()
         return JsonResponse({'error_code': 0})
+
+
 def deleteStudent(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.key, Error.name ,Error.noTeacher= 1, 2, 3
-        if kwargs.keys() != {'uid'}:
+        if kwargs.keys() != {'uid','stu_uid'}:
             return JsonResponse({'error_code': Error.key})
-        teacher = User.get_user_byid(request.POST.get('uid'))
+        teacher = User.get_user_byid(kwargs['stu_uid'])
         if teacher is None:
             return JsonResponse({'error_code': Error.noTeacher})
         teacher.delete()
         return JsonResponse({'error_code': 0})
+
 
 
 
@@ -261,6 +267,8 @@ def getTeacherApproveList(request):
         Error = EasyDict()
         Error.key, Error.name, Error.pwd ,Error.noTeacher, Error.illegalStatus= 1, 2, 3, 4, 5
         users = Manager.objects.filter(isActive=False)
+        if users:
+            print("user非空")
         dataList = []
         for i in users:
             dataList.append({"name":i.name,"teacherId":i.teacherId,"uid":i.id,"acc":i.acc})
@@ -340,6 +348,38 @@ def approveTeacher(request):
         else:
             teacher.delete()
         return JsonResponse({'error_code': 0})
+
+
+def allBorrowList(request):
+    if request.method == 'POST':
+        kwargs = json.loads(request.body.decode("utf-8"))
+        Error = EasyDict()
+        Error.key, Error.no_user, Error.no_tool = 1, 2, 3
+        if kwargs.keys() != {'uid','stu_uid'}:
+            return JsonResponse({'error_code': Error.key})
+        print("在views函数中uid为")
+        print(request.POST.get('stu_uid'))
+        user = User.get_user_byid(str(kwargs['stu_uid']))
+        if user is None:
+            return JsonResponse({'error_code': Error.no_user})
+        toolRequests = ToolRequest.objects.filter(request_user=user)
+        ret = [{
+            "toolName": i.borrowTool.name,
+            "borrowCount": i.borrowCount,
+            "startTime": datetime.strftime(i.start_time, TIME_FORMAT),  # todo:转换成字符串返回，strftime
+            "returnTime": datetime.strftime(i.return_time, TIME_FORMAT),
+            "status": i.Status,
+            "label": i.borrowTool.labelBelong.id,
+            "requestId": i.id,
+            "address": i.address,
+            "sttime": i.date_startTime,
+            "endtime": i.date_endTime,
+            "getdate": i.get_date,
+        } for i in toolRequests]
+        return JsonResponse({"error_code": 0, "requestList": ret})
+
+
+
 
 
 def reSetPwd(request):  # 登录状态下更改密码
@@ -441,7 +481,9 @@ def expirEmail(toolReq):
         now = datetime.now()
         t = toolReq.return_time
         if (t - now).days <= 2:
-            send_mail("北航工训借用平台通知", "您借用的工具即将到期请尽快归还", settings.EMAIL_FROM, [toolReq.request_user.acc])
+            tool=toolReq.borrowTool
+            message="您借用的工具"+tool.name+"即将到期，请按时归还"
+            send_mail("北航工训借用平台通知", message, settings.EMAIL_FROM, [toolReq.request_user.acc])
         t = Timer(43200, expirEmail,args=[toolReq])
         t.start()
 
@@ -765,6 +807,8 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         #     return JsonResponse({'error_code': Error.key})
         uid=request.POST.get('uid')
         LabelId = request.POST.get('LabelId')
+        print("labelid是")
+        print(LabelId)
         name = request.POST.get('name')
         addCount = request.POST.get('addCount')
         intro = request.POST.get('intro')
@@ -832,6 +876,7 @@ def editTool(request):
         intro = request.POST.get('intro')
         img = request.POST.get('imgurl')
         toolId=request.POST.get('toolId')
+        print(request.POST.get('limit_days'))
         limit_days=int(request.POST.get('limit_days'))
         manager = Manager.get_manager_by_id(uid)
         if manager is None:

@@ -19,7 +19,7 @@
                   <el-popover
                     placement="bottom"
                     width="250"
-                    trigger="click">
+                    trigger="hover">
                     <div>{{ scope.row.requestUserName }} &nbsp &nbsp &nbsp {{ scope.row.stuid }}</div>
                     <div >学院: &nbsp &nbsp &nbsp &nbsp {{ scope.row.stuCollege }}</div>
                     <div >联系邮箱: &nbsp{{ scope.row.stuEmail }}</div>

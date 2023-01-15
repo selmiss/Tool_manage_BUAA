@@ -167,6 +167,7 @@
 			},
 			lend() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/approvePostponeRequest",
 					data: {
 						refuseReason:"",
@@ -231,6 +232,7 @@
 				this.$refs.inputClose.close()
 				console.log(this.refuse_id,this.refuse_reason)
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/approvePostponeRequest",
 					data:{
 						refuseReason:this.refuse_reason,
@@ -255,6 +257,7 @@
 			},
 			getBorrowList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/manager/getPostponeRequestList",
 					data:{},
 					method:"POST",

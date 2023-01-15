@@ -6,28 +6,28 @@
         <div class="big-contain" v-if="isLogin">
           <div class="btitle">忘记密码</div>
           <div class="bform">
-              <input
+              <span class="count">邮箱  &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;: &nbsp;<input
                 type="text"
                 placeholder="邮箱"
                 v-model="form.email"
-						  /><br />
-              <input
+						  /></span><br />
+              <span class="count">手机号码  &nbsp;&nbsp; : &nbsp;<input
                 type="text"
                 placeholder="手机号码"
                 v-model="form.phone"
-              /><br />
+              /></span><br />
               <button @click="sendCode">获取验证码<span v-show="!show" class="count"> {{count}} s</span></button>
               <br />
-              <input
+              <span class="count">验证码  &nbsp;&nbsp;&nbsp;   &nbsp; : &nbsp;<input
                 type="code"
                 placeholder="验证码"
                 v-model="form.code"
-              /><br />
-              <input
+              /></span><br />
+              <span class="count">设置新密码: &nbsp;<input
                 type="password"
                 placeholder="设置新密码"
                 v-model="form.password"
-              /><br />
+              /></span><br />
           </div>
           <button class="bbutton" @click="confirmChange">确认修改</button>
           &nbsp;&nbsp;<button @click="teacherEntry">返回登录</button>

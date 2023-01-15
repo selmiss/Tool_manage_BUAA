@@ -8,7 +8,7 @@ class ware1(MiddlewareMixin):
 
     def process_request(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')
-        print("前端带来的Token是"+token)
+        print("前端带来的Token是".format(token))
         print(TOKEN_DIC)
         if token != "wutoken":
             if token in TOKEN_DIC.keys():

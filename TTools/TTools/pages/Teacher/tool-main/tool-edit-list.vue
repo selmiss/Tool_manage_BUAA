@@ -39,10 +39,12 @@
 							<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }">
 									<!-- Card start -->
 									<uni-card  @click="onClick">
-										<template v-slot:cover>
+										<template v-slot:cover v-model="toolInfo.url" >
 												<view class="custom-cover">
-													<image style=" margin-left: -20rpx; max-height: 500rpx;" class="cover-image" mode="widthFix" :src="toolInfo.url">
-													</image>
+													<input type="file"  style="display: none;" id="upfile">
+													<uni-button type="button" onclick="upfile.click()">
+														<image style=" margin-left: -20rpx; max-height: 500rpx;" class="cover-image" mode="widthFix" :src="toolInfo.url"></image>
+													</uni-button>
 												</view>
 											</template>
 											<uni-section title="编辑工具信息" type="line">
@@ -55,7 +57,7 @@
 															<uni-forms-item label="工具数量" required>
 																<uni-number-box :min="1" v-model="toolInfo.totalCount"  />
 															</uni-forms-item>
-															<uni-forms-item label="限借天数" required>
+															<uni-forms-item label="限借天数" required prop="limit_days">
 																<uni-number-box :min="1" v-model="toolInfo.limit_days"  />
 																<view>
 																	剩余数量: {{toolInfo.leftCount}}
@@ -75,7 +77,7 @@
 											</view>
 											
 											<view class="card-actions-item2">
-												<button style="width: 70%;" type="primary" size="mini" @click="submitEdit">确定</button>
+												<button style="width: 70%;" type="primary" size="mini" @click="submitEdit()">确定</button>
 											</view>
 										</view>
 									</uni-card>
@@ -145,19 +147,25 @@
 			}
 		},
 		methods: {
-			
 			submitEdit() {
-				this.uid = getApp().globalData.uid
-				
-				
-				this.$refs.popup.close()
-				uni.reLaunch({
-					url: '/pages/Teacher/tea-main/tea-main'
+				uni.request({
+					header: {'Authorization':getApp().globalData.token},
+					url: getApp().globalData.urlRoot + "/manager/editTool",
+					data: this.toolInfo,
+					method:"POST",
+					success: (res) => {
+						if (res.data.error_code === 0) {
+							this.$refs.popup.close()
+							uni.reLaunch({
+								url: '/pages/Teacher/tea-main/tea-main'
+							})
+						}
+					},
 				})
-					
 			},
 			getList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot + "/user/getLabelToolList",
 					data:{labelId: this.labelId},
 					method:"POST",

@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -58,6 +58,7 @@ const _sfc_main = {
     submit() {
       console.log(this.toolInfo);
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/createTool",
         data: this.toolInfo,
         method: "POST",
@@ -159,7 +160,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     s: common_vendor.o((...args) => $options.cancel && $options.cancel(...args)),
     t: common_vendor.o((...args) => $options.upload && $options.upload(...args)),
-    v: common_vendor.sr("baseForm", "3bac002b-2,3bac002b-1"),
+    v: common_vendor.sr("baseForm", "1a5352cc-2,1a5352cc-1"),
     w: common_vendor.p({
       labelWidth: "170rpx",
       ["label-position"]: "left"
@@ -177,5 +178,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/new-tool.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/new-tool.vue"]]);
 wx.createPage(MiniProgramPage);

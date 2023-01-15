@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -38,6 +38,7 @@ const _sfc_main = {
   onShow() {
     console.log(getApp().globalData.uid);
     common_vendor.index.request({
+      header: { "Authorization": getApp().globalData.token },
       url: getApp().globalData.urlRoot + "/user/getInfo",
       data: { uid: getApp().globalData.uid },
       method: "POST",
@@ -57,7 +58,8 @@ const _sfc_main = {
       this.isLogin = 0;
       getApp().globalData.uid = -1;
       common_vendor.index.request({
-        url: getApp().globalData.urlRoot + "/user/getInfo",
+        header: { "Authorization": getApp().globalData.token },
+        url: getApp().globalData.urlRoot + "/user/unLogin",
         data: { uid: getApp().globalData.uid },
         method: "POST",
         success: (res) => {
@@ -65,6 +67,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.isLogin = 1;
             this.userInfo = res.data;
+            getApp().globalData.token = "wutoken";
           }
         }
       });
@@ -88,20 +91,25 @@ const _sfc_main = {
       });
     },
     submitLogin() {
+      getApp().globalData.token = "wutoken";
       console.log(this.form);
       this.target = "/user/login";
       if (this.isManager) {
         this.target = "/manager/Login";
       }
       console.log(this.target);
+      console.log(getApp().globalData.token);
       common_vendor.index.request({
+        header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + this.target,
         data: { "acc": this.form.email, "pwd": this.form.password },
+        header: { "Authorization": getApp().globalData.token },
         method: "POST",
         success: (res) => {
           console.log(res.data);
           if (res.data.error_code == 0) {
             getApp().globalData.uid = res.data.uid;
+            getApp().globalData.token = res.data.hash_code;
             common_vendor.index.showToast({
               title: "\u767B\u5F55\u6210\u529F\uFF01",
               icon: "none"
@@ -112,6 +120,7 @@ const _sfc_main = {
               });
             } else {
               common_vendor.index.request({
+                header: { "Authorization": getApp().globalData.token },
                 url: getApp().globalData.urlRoot + "/user/getInfo",
                 data: { uid: getApp().globalData.uid },
                 method: "POST",
@@ -219,7 +228,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     k: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
     l: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
-    m: common_vendor.sr("fab", "c7f3f8e6-7,c7f3f8e6-5"),
+    m: common_vendor.sr("fab", "2ba1e30c-7,2ba1e30c-5"),
     n: common_vendor.o($options.trigger),
     o: common_vendor.o($options.fabClick),
     p: common_vendor.p({
@@ -280,12 +289,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       href: "http://121.4.160.157:8080/",
       text: "http://121.4.160.157:8080/"
     }),
-    J: common_vendor.sr("toWeb", "c7f3f8e6-17"),
+    J: common_vendor.sr("toWeb", "2ba1e30c-17"),
     K: common_vendor.p({
       type: "top",
       ["background-color"]: "#fff"
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -44,6 +44,7 @@
 			},
 			getLabelList() {
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/getFirstLabelList",
 					data:{},
 					method:"POST",

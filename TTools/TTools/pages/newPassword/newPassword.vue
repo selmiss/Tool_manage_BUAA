@@ -48,6 +48,7 @@
 					this.new_pwd2 = "";
 				}
 				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot+"/user/reSetPwd",
 					data:{
 						old_pwd: this.old_pwd,

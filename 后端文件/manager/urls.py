@@ -19,7 +19,7 @@ urlpatterns = [
     # 获取教师申请注册列表
     path('getTeacherApproveList', views.getTeacherApproveList, name='getTeacherApproveList'),
     # 获取教师列表
-    #path('getTeacherList', views.getTeacherList, name='getTeacherList'),
+    path('getTeacherList', views.getTeacherList, name='getTeacherList'),
     # 处理注册请求
     path('approveTeacher', views.approveTeacher, name='approveTeacher'),
 
@@ -88,5 +88,6 @@ urlpatterns = [
     path('deleteStudent', views.deleteStudent, name='deleteStudent'),
     # 删除学生
     path('searchStudentByName', views.searchStudentByName, name='searchStudentByName'),
+    path('allBorrowList', views.allBorrowList, name='allBorrowList'),
 
 ]
