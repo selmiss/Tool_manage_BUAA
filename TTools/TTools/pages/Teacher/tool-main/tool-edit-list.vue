@@ -50,14 +50,14 @@
 											<uni-section title="编辑工具信息" type="line">
 													<view class="example">
 														<!-- 基础用法，不包含校验规则 -->
-														<uni-forms ref="baseForm" labelWidth="150rpx" label-position="left">
+														<uni-forms ref="baseForm" :modelValue="toolInfo" labelWidth="150rpx" label-position="left">
 															<uni-forms-item label="工具名称" required>
 																<uni-easyinput v-model="toolInfo.name" placeholder="请输入工具名称" />
 															</uni-forms-item>
 															<uni-forms-item label="工具数量" required>
 																<uni-number-box :min="1" v-model="toolInfo.totalCount"  />
 															</uni-forms-item>
-															<uni-forms-item label="限借天数" required prop="limit_days">
+															<uni-forms-item label="限借天数" required>
 																<uni-number-box :min="1" v-model="toolInfo.limit_days"  />
 																<view>
 																	剩余数量: {{toolInfo.leftCount}}
@@ -148,13 +148,24 @@
 		},
 		methods: {
 			submitEdit() {
+				console.log('进入函数');
+				console.log(this.toolInfo.limit_days);
+				console.log(this.toolInfo.url);
 				uni.request({
 					header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot + "/manager/editTool",
-					data: this.toolInfo,
+					data:{'limit_days':this.toolInfo.limit_days,
+							'name':this.toolInfo.name,
+							'toolId':this.toolInfo.id,
+							'intro':this.toolInfo.intro,
+							'setCount':this.toolInfo.totalCount,
+							'imgurl':this.toolInfo.url,
+							'uid':-2,
+							},
 					method:"POST",
 					success: (res) => {
 						if (res.data.error_code === 0) {
+							console.log('正常返回')
 							this.$refs.popup.close()
 							uni.reLaunch({
 								url: '/pages/Teacher/tea-main/tea-main'

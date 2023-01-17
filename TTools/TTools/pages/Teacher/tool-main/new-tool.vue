@@ -99,7 +99,7 @@
 				this.submit();
 			},
 			submit() {
-				console.log(this.toolInfo)
+				console.log(this.toolInfo.LabelId)
 				uni.request({
 					 header: {'Authorization':getApp().globalData.token},
 					url: getApp().globalData.urlRoot +"/manager/createTool",
@@ -116,7 +116,8 @@
 						} else {
 							uni.showToast({
 								title:"工具添加失败",
-								icon:'error'
+								icon:'error',
+								error_code:res.error_code,
 							})
 						}
 					}

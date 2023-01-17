@@ -34,13 +34,25 @@ const _sfc_main = {
   },
   methods: {
     submitEdit() {
+      console.log("\u8FDB\u5165\u51FD\u6570");
+      console.log(this.toolInfo.limit_days);
+      console.log(this.toolInfo.url);
       common_vendor.index.request({
         header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/editTool",
-        data: this.toolInfo,
+        data: {
+          "limit_days": this.toolInfo.limit_days,
+          "name": this.toolInfo.name,
+          "toolId": this.toolInfo.id,
+          "intro": this.toolInfo.intro,
+          "setCount": this.toolInfo.totalCount,
+          "imgurl": this.toolInfo.url,
+          "uid": -2
+        },
         method: "POST",
         success: (res) => {
           if (res.data.error_code === 0) {
+            console.log("\u6B63\u5E38\u8FD4\u56DE");
             this.$refs.popup.close();
             common_vendor.index.reLaunch({
               url: "/pages/Teacher/tea-main/tea-main"
@@ -174,8 +186,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {}, {
     r: common_vendor.p({
       label: "\u9650\u501F\u5929\u6570",
-      required: true,
-      prop: "limit_days"
+      required: true
     }),
     s: common_vendor.o(($event) => $data.toolInfo.intro = $event),
     t: common_vendor.p({
@@ -187,6 +198,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     w: common_vendor.sr("baseForm", "07efba1a-8,07efba1a-7"),
     x: common_vendor.p({
+      modelValue: $data.toolInfo,
       labelWidth: "150rpx",
       ["label-position"]: "left"
     }),

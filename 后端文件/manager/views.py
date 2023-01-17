@@ -876,6 +876,7 @@ def editTool(request):
         intro = request.POST.get('intro')
         img = request.POST.get('imgurl')
         toolId=request.POST.get('toolId')
+        print(toolId,intro,setCount,name)
         print(request.POST.get('limit_days'))
         limit_days=int(request.POST.get('limit_days'))
         manager = Manager.get_manager_by_id(uid)

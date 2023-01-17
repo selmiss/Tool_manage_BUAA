@@ -56,7 +56,7 @@ const _sfc_main = {
       this.submit();
     },
     submit() {
-      console.log(this.toolInfo);
+      console.log(this.toolInfo.LabelId);
       common_vendor.index.request({
         header: { "Authorization": getApp().globalData.token },
         url: getApp().globalData.urlRoot + "/manager/createTool",
@@ -73,7 +73,8 @@ const _sfc_main = {
           } else {
             common_vendor.index.showToast({
               title: "\u5DE5\u5177\u6DFB\u52A0\u5931\u8D25",
-              icon: "error"
+              icon: "error",
+              error_code: res.error_code
             });
           }
         }
