@@ -14,9 +14,9 @@ const _sfc_main = {
         img: null
       },
       range: [
-        { value: 0, text: "\u673A\u68B0\u5DE5\u5177" },
-        { value: 1, text: "\u7535\u63A7\u5DE5\u5177" },
-        { value: 2, text: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907" }
+        { value: 4, text: "机械工具" },
+        { value: 5, text: "电控工具" },
+        { value: 6, text: "机械电子设备" }
       ],
       filesize: 0
     };
@@ -36,10 +36,11 @@ const _sfc_main = {
       common_vendor.index.chooseImage({
         count: 1,
         sizeType: "original",
+        //指定原图
         success: (res) => {
           that.filesize = res.tempFiles[0].size / 1024 / 1024;
           if (that.filesize > 1) {
-            that.$util.msg("\u4E0A\u4F20\u6587\u4EF6\u5927\u5C0F\u4E0D\u80FD\u8D85\u8FC71MB");
+            that.$util.msg("上传文件大小不能超过1MB");
             return;
           }
           console.log(res.tempFilePaths[0]);
@@ -57,22 +58,33 @@ const _sfc_main = {
     },
     submit() {
       console.log(this.toolInfo.LabelId);
+      console.log(this.toolInfo.img);
       common_vendor.index.request({
-        header: { "Authorization": getApp().globalData.token },
+        header: {
+          "Authorization": getApp().globalData.token,
+          "content-type": "application/x-www-form-urlencoded"
+        },
         url: getApp().globalData.urlRoot + "/manager/createTool",
-        data: this.toolInfo,
+        data: {
+          "limit_days": this.toolInfo.limit_days,
+          "name": this.toolInfo.name,
+          "LabelId": this.toolInfo.LabelId,
+          "intro": this.toolInfo.intro,
+          "addCount": this.toolInfo.addCount,
+          "img": this.toolInfo.img,
+          "uid": -2
+        },
         method: "POST",
-        dataType: "form-data",
         success: (res) => {
           console.log(res.data);
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u5DE5\u5177\u6DFB\u52A0\u6210\u529F",
+              title: "工具添加成功",
               icon: "success"
             });
           } else {
             common_vendor.index.showToast({
-              title: "\u5DE5\u5177\u6DFB\u52A0\u5931\u8D25",
+              title: "工具添加失败",
               icon: "error",
               error_code: res.error_code
             });
@@ -111,11 +123,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.o(($event) => $data.toolInfo.name = $event),
     b: common_vendor.p({
-      placeholder: "\u8BF7\u8F93\u5165\u5DE5\u5177\u540D\u79F0",
+      placeholder: "请输入工具名称",
       modelValue: $data.toolInfo.name
     }),
     c: common_vendor.p({
-      label: "\u5DE5\u5177\u540D\u79F0",
+      label: "工具名称",
       required: true
     }),
     d: common_vendor.o(($event) => $data.toolInfo.LabelId = $event),
@@ -124,13 +136,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.toolInfo.LabelId
     }),
     f: common_vendor.p({
-      label: "\u5DE5\u5177\u5206\u7C7B",
+      label: "工具分类",
       required: ""
     }),
     g: $data.toolInfo.img2 ? $data.toolInfo.img2 : $data.Img,
     h: common_vendor.o((...args) => $options.upFile && $options.upFile(...args)),
     i: common_vendor.p({
-      label: "\u5DE5\u5177\u56FE\u7247",
+      label: "工具图片",
       required: ""
     }),
     j: common_vendor.o(($event) => $data.toolInfo.addCount = $event),
@@ -139,7 +151,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.toolInfo.addCount
     }),
     l: common_vendor.p({
-      label: "\u5DE5\u5177\u6570\u91CF",
+      label: "工具数量",
       required: true
     }),
     m: common_vendor.o(($event) => $data.toolInfo.limit_days = $event),
@@ -148,7 +160,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.toolInfo.limit_days
     }),
     o: common_vendor.p({
-      label: "\u9650\u501F\u5929\u6570",
+      label: "限借天数",
       required: true
     }),
     p: common_vendor.o(($event) => $data.toolInfo.intro = $event),
@@ -157,7 +169,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.toolInfo.intro
     }),
     r: common_vendor.p({
-      label: "\u5DE5\u5177\u8BE6\u60C5"
+      label: "工具详情"
     }),
     s: common_vendor.o((...args) => $options.cancel && $options.cancel(...args)),
     t: common_vendor.o((...args) => $options.upload && $options.upload(...args)),
@@ -167,11 +179,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["label-position"]: "left"
     }),
     x: common_vendor.p({
-      title: "\u65B0\u589E\u5DE5\u5177",
+      title: "新增工具",
       type: "line"
     }),
     y: common_vendor.p({
-      title: "\u5DE5\u5177\u7BA1\u7406",
+      title: "工具管理",
       subTitle: "",
       titleFontSize: "20px",
       subTitleFontSize: "18px",

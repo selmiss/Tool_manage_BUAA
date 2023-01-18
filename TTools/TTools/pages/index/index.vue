@@ -28,6 +28,7 @@
 
 					</uni-forms>
 					<button @click="submitLogin" size="default" type="default">登录</button>
+					<button @click="wxlogin" size="default" type="default">使用微信账号登录</button>
 				</view>
 				<view v-if="isLogin === 1">
 					<uni-section titleFontSize="18px" title="已登录" type="line">
@@ -69,18 +70,116 @@
 				<view class="popup-content" ><p class="text">请在浏览器中打开:</p><uni-link href="http://121.4.160.157:8080/" text="http://121.4.160.157:8080/"></uni-link></view>
 		</uni-popup>
 	</view>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<uni-popup ref="managerRe" background-color="#fff" >
+		<view>
+				<!-- Card start -->
+				<uni-card>
+					<uni-title type="h1" align="center" title="填写个人信息"></uni-title>
+						<uni-forms :modelValue="managerform" label-position="left">
+								<uni-forms-item label="工号" name="name">
+									<uni-easyinput v-model="managerform.tId" type="text"  placeholder="您的学号" />
+								</uni-forms-item>
+								<uni-forms-item label="姓名" name="name">
+									<uni-easyinput v-model="managerform.name" type="text"  placeholder="您的姓名" />
+								</uni-forms-item>
+								<uni-forms-item label="邮箱" name="name">
+									<uni-easyinput v-model="managerform.email" type="text"  placeholder="您的邮箱" />
+								</uni-forms-item>
+								<uni-forms-item label="电话" name="name">
+									<uni-easyinput v-model="managerform.number" type="text"  placeholder="您的电话" />
+								</uni-forms-item>
+								<uni-forms-item label="密码" name="name">
+									<uni-easyinput v-model="managerform.password" type="password"  placeholder="您的密码" />
+								</uni-forms-item>
+								<uni-forms-item label="确认密码" name="name">
+									<uni-easyinput v-model="managerform.password1" type="password"  placeholder="重新输入您的密码" />
+								</uni-forms-item>
+							</uni-forms>
+	
+	
+	
+					<view slot="actions" class="card-actions">
+						<view class="card-actions-item2">
+							<button style="width: 70%;" type="primary" size="mini" @click="managerEdit()">提交</button>
+						</view>
+					</view>
+				</uni-card>
+		</view>
+	</uni-popup>
+	
+	
+	
+	
+	<uni-popup ref="userRe" background-color="#fff" >
+		<view>
+				<!-- Card start -->
+				<uni-card>
+						<uni-title type="h1" align="center" title="填写个人信息"></uni-title>
+						
+						<uni-forms :modelValue="userform" label-position="left">
+								<uni-forms-item label="学号" name="name">
+									<uni-easyinput v-model="userform.studentId" type="text"  placeholder="您的学号" />
+								</uni-forms-item>
+								<uni-forms-item label="姓名" name="name">
+									<uni-easyinput v-model="userform.name" type="text"  placeholder="您的姓名" />
+								</uni-forms-item>
+								<uni-forms-item label="学院" name="name">
+									<uni-easyinput v-model="userform.college" type="text"  placeholder="您的学院" />
+								</uni-forms-item>
+								<uni-forms-item label="邮箱" name="name">
+									<uni-easyinput v-model="userform.email" type="text"  placeholder="您的邮箱" />
+								</uni-forms-item>
+								<uni-forms-item label="电话" name="name">
+									<uni-easyinput v-model="userform.number" type="text"  placeholder="您的电话" />
+								</uni-forms-item>
+								<uni-forms-item label="密码" name="name">
+									<uni-easyinput v-model="userform.password" type="password"  placeholder="您的密码" />
+								</uni-forms-item>
+								<uni-forms-item label="确认密码" name="name">
+									<uni-easyinput v-model="userform.password1" type="password"  placeholder="重新输入您的密码" />
+								</uni-forms-item>
+								
+							</uni-forms>
+						
+					
+					<view slot="actions" class="card-actions">
+						<view class="card-actions-item2">
+							<button style="width: 70%;" type="primary" size="mini" @click="userEdit()">提交</button>
+						</view>
+					</view>
+				</uni-card>
+		</view>
+	</uni-popup>
+	
+	
+	
+	
+	
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
+				openid:'',
+				managerform:{},
+				userform:{},
 				target:"",
 				isManager: false,
 				isLogin:0,
 				userInfo:{},
-				pattern: {
 							color: '#7A7E83',
+				pattern: {
 							backgroundColor: '#fff',
 							selectedColor: '#007AFF',
 							buttonColor: '#007AFF',
@@ -127,6 +226,135 @@
 			})
 		},
 		methods: {
+			
+			
+			
+			userEdit(){
+			    var that=this;
+			    if(that.userform.password===that.userform.password1){
+			     uni.request({
+			      header: {'Authorization':getApp().globalData.token,
+			         'content-type':'application/x-www-form-urlencoded'},
+			      url: getApp().globalData.urlRoot+"/user/wx_Register",
+			      data: {
+						'studentId':that.userform.studentId,
+						'name':that.userform.name,
+						'college':that.userform.college,
+						'acc':that.userform.email,
+						'pwd':that.userform.password,
+						'phoneNumber':that.userform.number,
+						'openid':that.openid,
+			      },
+			      method:"POST",
+			      success: (res) => {
+			       that.form.email=that.userform.email;
+			       that.form.password=that.userform.password;
+			       that.submitLogin();
+				   that.$refs.userRe.close()
+			      }
+			     })
+			    }else{
+			     console.log("两次密码不一致")
+			    }
+			   },
+			   
+			   
+			   
+			   managerEdit(){
+			    var that=this;
+			    if(that.managerform.password==that.managerform.password1){
+			     uni.request({
+			      header: {'Authorization':getApp().globalData.token,
+			         'content-type':'application/x-www-form-urlencoded'},
+			      url: getApp().globalData.urlRoot+"/manager/wx_Register",
+			      data: {
+			       'acc':that.managerform.email,
+				   'teacherId':that.managerform.tId,
+				   'name':that.managerform.name,
+				   'pwd':that.managerform.password,
+				   'phoneNumber':that.managerform.number,
+			       'openid':that.openid,
+			      },
+			      method:"POST",
+			      success: (res) => {
+			       that.form.email=that.managerform.email;
+			       that.form.password=that.managerform.password;
+			       that.submitLogin();
+				   that.$refs.managerRe.close()
+			      }
+			     })
+			    }else{
+			     console.log("两次密码不一致")
+			    }
+			   },
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			wxlogin(){
+				var that=this;
+				let wxspAppid = 'wxc6210b45fc53b29d';
+				let wxspSecret='a84513f04d24a63539294f919b61cacd';
+				let oid='';
+				let isM='0';
+				if(this.isManager){
+					isM='1';
+				}else{
+					isM='0';
+				}
+				uni.login({
+					provider:'weixin',
+				      success(res) {
+				        if (res.code) {
+				          //发起网络请求
+				          uni.request({
+				          //这里填你自己的appid 和 wxspSecret 
+				            url: "https://api.weixin.qq.com/sns/jscode2session?appid=" + wxspAppid+"&secret=" + wxspSecret + "&js_code=" + res.code + "&grant_type=authorization_code" ,
+				            method: "POST",
+				            success(res){
+								oid=res.data.openid
+								that.openid=oid
+								uni.request({
+									header: {'Authorization':"wutoken",
+												'content-type':'application/x-www-form-urlencoded'},
+									url: getApp().globalData.urlRoot + "/manager/wxlogin",
+									data:{
+										'openid':oid,
+										'isM':isM,
+									},
+									method:"POST",
+									success: (res) => {
+										if(res.data.haveuser === "1"){          //可能出现错误表单不存在
+										console.log("到这里")
+											that.form.email=res.data.email;
+											that.form.password=res.data.pwd;
+											that.wxsubmitLogin();
+										}else{
+											console.log("没有检测到")
+											if(that.isManager){
+												that.$refs.managerRe.open('center')
+											}else{
+												that.$refs.userRe.open('center')
+											}
+										}
+									}
+								})
+							},
+				            fail(data){}
+				          })
+				        } else {console.log('登录失败！' + res.errMsg)}
+				      }
+				   })
+			},
+			
+			
+			
 			logout() {
 				this.isLogin = 0;
 				getApp().globalData.uid = -1;
@@ -164,6 +392,7 @@
 				})
 			},
 			submitLogin() {
+				console.log(this.form.password)
 				getApp().globalData.token='wutoken';
 				console.log(this.form);
 				this.target = "/user/login"
@@ -218,6 +447,73 @@
 					}
 				})
 			},
+			
+			
+			
+			
+			
+			
+			wxsubmitLogin() {
+				console.log(this.form.password)
+				getApp().globalData.token='wutoken';
+				console.log(this.form);
+				this.target = "/user/hashLogin"
+				if (this.isManager) {
+					this.target = "/manager/hashLogin";
+				}
+				console.log(this.target)
+				console.log(getApp().globalData.token)
+				uni.request({
+					 header: {'Authorization':getApp().globalData.token},
+					url: getApp().globalData.urlRoot+this.target,
+					data: {'acc':this.form.email,'pwd':this.form.password},
+					 header: {'Authorization':getApp().globalData.token},
+					method: 'POST',
+					success : (res) => {
+						console.log(res.data);
+						if (res.data.error_code == 0) {
+							getApp().globalData.uid = res.data.uid;
+							getApp().globalData.token=res.data.hash_code;
+							uni.showToast({
+								title: "登录成功！",
+								icon: 'none'
+							})
+							if (this.isManager) {
+								uni.navigateTo({
+									url:"/pages/Teacher/tea-main/tea-main"
+								})
+							} else {
+								uni.request({
+									 header: {'Authorization':getApp().globalData.token},
+									url: getApp().globalData.urlRoot+"/user/getInfo",
+									data: {uid: getApp().globalData.uid},
+									method:"POST",
+									success: (res) => {
+										if (res.data.error_code === 0) {
+											this.isLogin = 1;
+											this.userInfo = res.data;
+										
+										}
+									}
+								})
+							}
+							
+						} else if (res.data.error_code == 2 || res.data.error_code == 4) {
+							uni.showToast({
+								title: String("用户名或密码不正确！"),
+								icon: 'none'
+							})
+						}
+						//存储全局变量
+						
+					}
+				})
+			},
+			
+			
+			
+			
+			
 			fabClick() {
 						uni.showToast({
 							title: '切换登录方式',

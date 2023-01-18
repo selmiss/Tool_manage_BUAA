@@ -59,18 +59,23 @@ const _sfc_main = {
     contentWidthMin() {
       return "55px";
     },
+    // 动态计算宽度
     boxWidth() {
       return this.getPosition(3, "horizontal");
     },
+    // 动态计算高度
     boxHeight() {
       return this.getPosition(3, "vertical");
     },
+    // 计算左下位置
     leftBottom() {
       return this.getPosition(0, "left", "bottom");
     },
+    // 计算右下位置
     rightBottom() {
       return this.getPosition(0, "right", "bottom");
     },
+    // 计算左上位置
     leftTop() {
       return this.getPosition(0, "left", "top");
     },
@@ -89,6 +94,7 @@ const _sfc_main = {
     horizontalRight() {
       return this.getPosition(2, "horizontal", "right");
     },
+    // 计算 nvue bottom
     nvueBottom() {
       common_vendor.index.getSystemInfoSync().windowBottom;
       return 30;
@@ -123,12 +129,18 @@ const _sfc_main = {
     close() {
       this.isShow = false;
     },
+    /**
+     * 按钮点击事件
+     */
     _onItemClick(index, item) {
       this.$emit("trigger", {
         index,
         item
       });
     },
+    /**
+     * 获取 位置信息
+     */
     getPosition(types, paramA, paramB) {
       if (types === 0) {
         return this.horizontal === paramA && this.vertical === paramB;

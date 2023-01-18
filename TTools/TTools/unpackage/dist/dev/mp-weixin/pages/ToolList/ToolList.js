@@ -53,13 +53,14 @@ const _sfc_main = {
           console.log(res.data.error_code);
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u501F\u7528\u6210\u529F\uFF0C\u8BF7\u8010\u5FC3\u7B49\u5F85\u5BA1\u6838\uFF01",
+              title: "借用成功，请耐心等待审核！",
               icon: "none"
             });
           } else if (res.data.error_code === 5) {
             common_vendor.index.showToast({
-              title: "\u4F60\u5DF2\u7ECF\u501F\u7528\u8FC7\u8FD9\u4E2A\u5DE5\u5177\u4E86",
+              title: "你已经借用过这个工具了",
               icon: "none"
+              //如果要纯文本，不要icon，将值设为'none'
             });
           }
         }
@@ -147,7 +148,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       square: false
     }),
     c: common_vendor.p({
-      title: "\u5DE5\u5177\u501F\u7528",
+      title: "工具借用",
       subTitle: "",
       titleFontSize: "20px",
       subTitleFontSize: "18px",
@@ -164,22 +165,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.range
     }),
     k: common_vendor.p({
-      title: "*\u501F\u7528\u65F6\u95F4",
+      title: "*借用时间",
       type: "line",
       padding: true
     }),
     l: common_vendor.o(($event) => $data.purpose = $event),
     m: common_vendor.p({
       type: "textarea",
-      placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
+      placeholder: "请输入内容",
       modelValue: $data.purpose
     }),
     n: common_vendor.p({
-      title: "*\u501F\u7528\u7406\u7531",
+      title: "*借用理由",
       type: "line",
       padding: true
     }),
-    o: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    o: common_vendor.o(($event) => $options.actionsClick("取消")),
     p: common_vendor.o(($event) => $options.submitBorrow()),
     q: common_vendor.o($options.onClick),
     r: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
@@ -192,7 +193,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     x: common_vendor.t($data.toolInfo.limit_days),
     y: common_vendor.t($data.toolInfo.leftCount),
     z: common_vendor.t($data.toolInfo.totalCount),
-    A: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    A: common_vendor.o(($event) => $options.actionsClick("取消")),
     B: common_vendor.o($options.onClick),
     C: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
     D: common_vendor.sr("popupinfo", "087ca766-10"),

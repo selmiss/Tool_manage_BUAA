@@ -13,6 +13,7 @@ const FORMAT_MAPPING = {
   "double": "number",
   "long": "number",
   "password": "string"
+  // "fileurls": 'array'
 };
 function formatMessage(args, resources = "") {
   var defaultMessage = ["label"];
@@ -387,33 +388,33 @@ class SchemaValidator extends RuleValidator {
 function Message() {
   return {
     TAG: "",
-    default: "\u9A8C\u8BC1\u9519\u8BEF",
-    defaultInvalid: "\u63D0\u4EA4\u7684\u5B57\u6BB5{field}\u5728\u6570\u636E\u5E93\u4E2D\u5E76\u4E0D\u5B58\u5728",
-    validateFunction: "\u9A8C\u8BC1\u65E0\u6548",
-    required: "{label}\u5FC5\u586B",
-    "enum": "{label}\u8D85\u51FA\u8303\u56F4",
-    timestamp: "{label}\u683C\u5F0F\u65E0\u6548",
-    whitespace: "{label}\u4E0D\u80FD\u4E3A\u7A7A",
-    typeError: "{label}\u7C7B\u578B\u65E0\u6548",
+    default: "验证错误",
+    defaultInvalid: "提交的字段{field}在数据库中并不存在",
+    validateFunction: "验证无效",
+    required: "{label}必填",
+    "enum": "{label}超出范围",
+    timestamp: "{label}格式无效",
+    whitespace: "{label}不能为空",
+    typeError: "{label}类型无效",
     date: {
-      format: "{label}\u65E5\u671F{value}\u683C\u5F0F\u65E0\u6548",
-      parse: "{label}\u65E5\u671F\u65E0\u6CD5\u89E3\u6790,{value}\u65E0\u6548",
-      invalid: "{label}\u65E5\u671F{value}\u65E0\u6548"
+      format: "{label}日期{value}格式无效",
+      parse: "{label}日期无法解析,{value}无效",
+      invalid: "{label}日期{value}无效"
     },
     length: {
-      minLength: "{label}\u957F\u5EA6\u4E0D\u80FD\u5C11\u4E8E{minLength}",
-      maxLength: "{label}\u957F\u5EA6\u4E0D\u80FD\u8D85\u8FC7{maxLength}",
-      range: "{label}\u5FC5\u987B\u4ECB\u4E8E{minLength}\u548C{maxLength}\u4E4B\u95F4"
+      minLength: "{label}长度不能少于{minLength}",
+      maxLength: "{label}长度不能超过{maxLength}",
+      range: "{label}必须介于{minLength}和{maxLength}之间"
     },
     number: {
-      minimum: "{label}\u4E0D\u80FD\u5C0F\u4E8E{minimum}",
-      maximum: "{label}\u4E0D\u80FD\u5927\u4E8E{maximum}",
-      exclusiveMinimum: "{label}\u4E0D\u80FD\u5C0F\u4E8E\u7B49\u4E8E{minimum}",
-      exclusiveMaximum: "{label}\u4E0D\u80FD\u5927\u4E8E\u7B49\u4E8E{maximum}",
-      range: "{label}\u5FC5\u987B\u4ECB\u4E8E{minimum}and{maximum}\u4E4B\u95F4"
+      minimum: "{label}不能小于{minimum}",
+      maximum: "{label}不能大于{maximum}",
+      exclusiveMinimum: "{label}不能小于等于{minimum}",
+      exclusiveMaximum: "{label}不能大于等于{maximum}",
+      range: "{label}必须介于{minimum}and{maximum}之间"
     },
     pattern: {
-      mismatch: "{label}\u683C\u5F0F\u4E0D\u5339\u914D"
+      mismatch: "{label}格式不匹配"
     }
   };
 }

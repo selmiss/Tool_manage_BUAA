@@ -41,5 +41,6 @@ urlpatterns = [
     path('searchToolByName', views.searchToolByName, name='searchToolByName'),
     # 搜索工具
     path('searchLabelByName', views.searchLabelByName, name='searchLabelByName'),
-
+    path('wx_Register', views.wx_Register, name='wx_Register'),
+    path('hashLogin', views.hashLogin, name='hashLogin'),
 ]

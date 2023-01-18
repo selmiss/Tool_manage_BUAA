@@ -41,6 +41,25 @@ def hash_password(pwd):  # 哈希处理用户密码
     return m.digest()
 
 
+def wx_Register(request):
+            new_user = User()
+            new_user.acc = request.POST['acc']
+            new_user.pwd = hash_password(request.POST['pwd'])
+            new_user.name = request.POST['name']
+            new_user.studentId = request.POST['studentId']
+            new_user.college = request.POST['college']
+            new_user.phoneNumber = request.POST['phoneNumber']
+            new_user.oid = request.POST['openid']
+            new_user.save()
+            print("函数结束")
+            return JsonResponse({'error_code': 0})
+
+
+
+
+
+
+
 def Register(request):
     if request.method == 'POST':
         E = EasyDict()
@@ -102,6 +121,41 @@ def delToken(token):
     print(token)
     if TOKEN_DIC[token]:
         del TOKEN_DIC[token]
+
+
+def hashLogin(request):
+    print("进来Login函数")
+    if request.method == 'POST':
+        kwargs = json.loads(request.body.decode("utf-8"))
+        Error = EasyDict()
+        Error.key, Error.name, Error.pwd = 1, 2, 3
+        if kwargs.keys() != {'pwd', 'acc'}:
+            return JsonResponse({'error_code': Error.key})
+        users = User.objects.filter(acc=kwargs['acc'])
+        if not users.exists():
+            return JsonResponse({'error_code': Error.name})  # 输入的用户不存在
+        user = User.objects.get(acc=kwargs['acc'])
+        if str(user.pwd) != str(kwargs['pwd']):
+            return JsonResponse({'error_code': Error.pwd})
+        # else:
+        #     request.session['Is_login'] = True
+        #     request.session['acc'] = kwargs['acc']
+        #     request.session['uid'] = user.id
+        #     request.session.save()
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_pre = strnow + "".format(user.id)
+        hash_after = myhash(hash_pre)
+        TOKEN_DIC[hash_after] = user.id
+        print(hash_after + "这是新生成的token")
+        print(TOKEN_DIC)
+        Timer(1270000, delToken, args=[hash_after]).start()
+        return JsonResponse({'error_code': 0, 'uid': -2, 'hash_code': hash_after})
+
+
+
+
+
 
 
 def Login(request):

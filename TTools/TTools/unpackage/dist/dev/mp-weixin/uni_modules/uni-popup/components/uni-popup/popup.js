@@ -7,6 +7,9 @@ const popup = {
     this.popup = this.getParent();
   },
   methods: {
+    /**
+     * 获取父元素实例
+     */
     getParent(name = "uniPopup") {
       let parent = this.$parent;
       let parentName = parent.$options.name;

@@ -92,6 +92,9 @@ const _sfc_main = {
     this.focus = true;
   },
   methods: {
+    /**
+     * 点击确认按钮
+     */
     onOk() {
       if (this.mode === "input") {
         this.$emit("confirm", this.val);
@@ -102,6 +105,9 @@ const _sfc_main = {
         return;
       this.popup.close();
     },
+    /**
+     * 点击取消按钮
+     */
     closeDialog() {
       this.$emit("close");
       if (this.beforeClose)
