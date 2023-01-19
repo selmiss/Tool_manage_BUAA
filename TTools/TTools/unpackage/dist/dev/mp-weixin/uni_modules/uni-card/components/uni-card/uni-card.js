@@ -37,10 +37,12 @@ const _sfc_main = {
       default: ""
     },
     isFull: {
+      // 内容区域是否通栏
       type: Boolean,
       default: false
     },
     isShadow: {
+      // 是否开启阴影
       type: Boolean,
       default: true
     },

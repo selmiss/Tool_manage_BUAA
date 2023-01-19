@@ -62,6 +62,20 @@ def hash_password(pwd):  # 哈希处理用户密码
     return m.digest()
 
 
+
+def wx_Register(request):
+    if request.method == 'POST':
+        new_user = Manager()
+        new_user.acc = request.POST['acc']
+        new_user.pwd = hash_password(request.POST['pwd'])
+        new_user.name=request.POST['name']
+        new_user.phoneNumber = request.POST['phoneNumber']
+        new_user.teacherId=request.POST['teacherId']
+        new_user.oid = request.POST['openid']
+        new_user.save()
+        return JsonResponse({'error_code': 0})
+
+
 def RegisterTeacherAcc(request):
     if request.method == 'POST':
         E = EasyDict()
@@ -111,6 +125,43 @@ def delToken(token):
 
 
 
+def hashLogin(request):
+    if request.method == 'POST':
+        kwargs = json.loads(request.body.decode("utf-8"))
+        Error = EasyDict()
+        Error.key, Error.name, Error.pwd,Error.noUser = 1, 2, 3, 4
+        if kwargs.keys() != {'pwd', 'acc'}:
+            return JsonResponse({'error_code': Error.key})
+        users = Manager.objects.filter(acc=kwargs['acc'])
+        if not users.exists():
+            return JsonResponse({'error_code': Error.noUser})  # 输入的用户不存在
+        user = Manager.objects.get(acc=kwargs['acc'])
+        if str(user.pwd) != str(kwargs['pwd']):
+            return JsonResponse({'error_code': Error.pwd})
+        # else:
+        #     request.session['Is_login'] = True
+        #     request.session['acc'] = kwargs['acc']
+        #     request.session['uid'] = user.id
+        #     request.session.save()
+        uid=user.id
+        key = None
+        for k,v in TOKEN_DIC.items():
+            if v == uid:
+                key=k
+        if key:
+            del TOKEN_DIC[key]
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_pre = strnow + "".format(user.id)
+        hash_after = myhash(hash_pre)
+        TOKEN_DIC[hash_after] = user.id
+        print(TOKEN_DIC)
+        Timer(127000, delToken, args=[hash_after]).start()
+        return JsonResponse({'error_code': 0, 'uid': -2, 'is_superUser': user.is_supperUser, 'hash_code': hash_after})
+
+
+
+
 def Login(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -122,8 +173,6 @@ def Login(request):
         if not users.exists():
             return JsonResponse({'error_code': Error.noUser})  # 输入的用户不存在
         user = Manager.objects.get(acc=kwargs['acc'])
-        if not user.isActive:
-            return JsonResponse({'error_code': Error.name})
         if str(user.pwd) != str(hash_password(kwargs['pwd'])):
             return JsonResponse({'error_code': Error.pwd})
         # else:
@@ -796,6 +845,92 @@ def deleteLabel(request):
         label2.delete()
         return JsonResponse({'error_code': 0})
 
+
+
+
+def editTool1(request):
+    if request.method == 'POST':
+        Error = EasyDict()
+        Error.uk = -1
+        Error.key, Error.no_user, Error.noFirstLabelExists, Error.illegalCount,Error.noTool= 1, 2, 3, 4, 5
+        uid = request.POST.get('uid')
+        print("views里面的uid")
+        print(uid)
+        name = request.POST.get('name')
+        setCount = request.POST.get('setCount')
+        intro = request.POST.get('intro')
+        toolId=request.POST.get('toolId')
+        limit_days=int(request.POST.get('limit_days'))
+        manager = Manager.get_manager_by_id(uid)
+        if manager is None:
+            return JsonResponse({'error_code': Error.no_user})
+        setCount=int(setCount)
+        if setCount < 0:
+            return JsonResponse({'error_code': Error.illegalCount})
+        tool=Tool.get_tool_by_id(toolId)
+        if tool is None:
+            return JsonResponse({'error_code': Error.noTool})
+        addCount = setCount-tool.totalCount
+        if tool.leftCount + addCount <= 0:
+            return JsonResponse({'error_code': Error.illegalCount})
+        tool.intro = intro
+        tool.name = name
+        tool.totalCount = setCount
+        tool.leftCount = tool.leftCount + addCount
+        tool.limit_days = limit_days
+        tool.save()
+
+        img = request.FILES.get('img')
+        tool.image = img
+        tool.save()
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_cun = 'll' + strnow
+        name = myhash(hash_cun)
+        print(name)
+        img = os.path.join("image/", name)
+        img += '.jpg'
+        img_root = os.path.join(settings.MEDIA_ROOT, img)
+
+        tool.portrait = img_root
+        tool.save()
+
+        return JsonResponse({'error_code': 0})
+
+
+def wxlogin(request):
+    print("到达函数")
+    isM = request.POST.get('isM')
+    openid = request.POST.get('openid')
+    print(isM)
+    if isM == '1':
+        print("是老师")
+        try:
+            ur = Manager.objects.get(oid=openid)
+        except Manager.DoesNotExist:
+            print('出现异常')
+        if ur:
+            return JsonResponse({'haveuser':"1",'email':ur.acc,'pwd':ur.pwd})
+        else:
+            return JsonResponse({'haveuser':"0"})
+    else:
+        print("是学生")
+        try:
+            ur = User.objects.get(oid=openid)
+        except User.DoesNotExist:
+            print("出现异常")
+        if ur:
+            acc=ur.acc
+            pwd= ur.pwd
+            print(pwd)
+            return JsonResponse({'haveuser': "1", 'email': acc, 'pwd': pwd,})
+        else:
+            return JsonResponse({'haveuser': "0"})
+
+
+
+
+
 #工具添加删除
 def createTool(request):#todo：考虑修改工具数量导致其leftcount是否合理
     if request.method == 'POST':
@@ -827,11 +962,26 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         tool.limit_days=limit_days
         tool.save()
         tool.totalCount=tool.leftCount
+
+
         img = request.FILES.get('img')
         tool.image = img
         tool.save()
-        head_path = 'http://121.4.160.157' + settings.MEDIA_URL + tool.image.name
-        tool.portrait=head_path
+
+
+
+        now = datetime.now()
+        strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
+        hash_cun = 'll'+ strnow
+        name = myhash(hash_cun)
+        print(name)
+        img = os.path.join("image/", name)
+        img += '.jpg'
+        img_root = os.path.join(settings.MEDIA_ROOT, img)
+
+
+
+        tool.portrait=img_root
         tool.save()
         return JsonResponse({'error_code': 0,'toolId':tool.id})
 
@@ -876,8 +1026,6 @@ def editTool(request):
         intro = request.POST.get('intro')
         img = request.POST.get('imgurl')
         toolId=request.POST.get('toolId')
-        print(toolId,intro,setCount,name)
-        print(request.POST.get('limit_days'))
         limit_days=int(request.POST.get('limit_days'))
         manager = Manager.get_manager_by_id(uid)
         if manager is None:
@@ -938,10 +1086,10 @@ def myhash(str):
 
 def imgText(request):
     if request.method == 'POST':
-        img_a = request.FILES['files']
+        img_a = request.FILES.get('files')
         now = datetime.now()
         strnow = datetime.strftime(now, '%Y-%m-%d %H:%M:%S')
-        hash_cun = img_a.name + strnow
+        hash_cun = "123abc" + strnow
         name = myhash(hash_cun)
         print(name)
         img = os.path.join("image/", name)
@@ -949,7 +1097,7 @@ def imgText(request):
         img_root = os.path.join(settings.MEDIA_ROOT,img)
         print(img)
         with open(img_root, 'wb') as f:
-            for zipFile_Part in request.FILES['files'].chunks():
+            for zipFile_Part in request.FILES.get('files').chunks():
                 f.write(zipFile_Part)
         return JsonResponse({'url': img})
     else:

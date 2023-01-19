@@ -9,46 +9,55 @@ const _sfc_main = {
     virtualHost: true
   },
   props: {
+    // 即将弃用
     value: {
       type: Object,
       default() {
         return null;
       }
     },
+    // vue3 替换 value 属性
     modelValue: {
       type: Object,
       default() {
         return null;
       }
     },
+    // 1.4.0 开始将不支持 v-model ，且废弃 value 和 modelValue
     model: {
       type: Object,
       default() {
         return null;
       }
     },
+    // 表单校验规则
     rules: {
       type: Object,
       default() {
         return {};
       }
     },
+    //校验错误信息提示方式 默认 undertext 取值 [undertext|toast|modal]
     errShowType: {
       type: String,
       default: "undertext"
     },
+    // 校验触发器方式 默认 bind 取值 [bind|submit]
     validateTrigger: {
       type: String,
       default: "submit"
     },
+    // label 位置，默认 left 取值  top/left
     labelPosition: {
       type: String,
       default: "left"
     },
+    // label 宽度
     labelWidth: {
       type: [String, Number],
       default: ""
     },
+    // label 居中方式，默认 left 取值 left/center/right
     labelAlign: {
       type: String,
       default: "left"
@@ -65,11 +74,13 @@ const _sfc_main = {
   },
   data() {
     return {
+      // 表单本地值的记录，不应该与传如的值进行关联
       formData: {},
       formRules: {}
     };
   },
   computed: {
+    // 计算数据源变化的
     localData() {
       const localVal = this.model || this.modelValue || this.value;
       if (localVal) {
@@ -79,6 +90,9 @@ const _sfc_main = {
     }
   },
   watch: {
+    // 监听数据变化 ,暂时不使用，需要单独赋值
+    // localData: {},
+    // 监听规则变化
     rules: {
       handler: function(val, oldVal) {
         this.setRules(val);
@@ -103,7 +117,7 @@ const _sfc_main = {
             }
           }
           if (!formVm)
-            return console.error("\u5F53\u524D uni-froms \u7EC4\u4EF6\u7F3A\u5C11 ref \u5C5E\u6027");
+            return console.error("当前 uni-froms 组件缺少 ref 属性");
           formVm.setValue(name, value);
         }
       };
@@ -113,10 +127,21 @@ const _sfc_main = {
     this.setRules(this.rules);
   },
   methods: {
+    /**
+     * 外部调用方法
+     * 设置规则 ，主要用于小程序自定义检验规则
+     * @param {Array} rules 规则源数据
+     */
     setRules(rules) {
       this.formRules = Object.assign({}, this.formRules, rules);
       this.validator = new uni_modules_uniForms_components_uniForms_validate.SchemaValidator(rules);
     },
+    /**
+     * 外部调用方法
+     * 设置数据，用于设置表单数据，公开给用户使用 ， 不支持在动态表单中使用
+     * @param {Object} key
+     * @param {Object} value
+     */
     setValue(key, value) {
       let example = this.childrens.find((child) => child.name === key);
       if (!example)
@@ -124,9 +149,22 @@ const _sfc_main = {
       this.formData[key] = uni_modules_uniForms_components_uniForms_utils.getValue(key, value, this.formRules[key] && this.formRules[key].rules || []);
       return example.onFieldChange(this.formData[key]);
     },
+    /**
+     * 外部调用方法
+     * 手动提交校验表单
+     * 对整个表单进行校验的方法，参数为一个回调函数。
+     * @param {Array} keepitem 保留不参与校验的字段
+     * @param {type} callback 方法回调
+     */
     validate(keepitem, callback) {
       return this.checkAll(this.formData, keepitem, callback);
     },
+    /**
+     * 外部调用方法
+     * 部分表单校验
+     * @param {Array|String} props 需要校验的字段
+     * @param {Function} 回调函数
+     */
     validateField(props = [], callback) {
       props = [].concat(props);
       let invalidFields = {};
@@ -140,6 +178,11 @@ const _sfc_main = {
       });
       return this.checkAll(invalidFields, [], callback);
     },
+    /**
+     * 外部调用方法
+     * 移除表单项的校验结果。传入待移除的表单项的 prop 属性或者 prop 组成的数组，如不传则移除整个表单的校验结果
+     * @param {Array|String} props 需要移除校验的字段 ，不填为所有
+     */
     clearValidate(props = []) {
       props = [].concat(props);
       this.childrens.forEach((item) => {
@@ -153,6 +196,13 @@ const _sfc_main = {
         }
       });
     },
+    /**
+     * 外部调用方法 ，即将废弃
+     * 手动提交校验表单
+     * 对整个表单进行校验的方法，参数为一个回调函数。
+     * @param {Array} keepitem 保留不参与校验的字段
+     * @param {type} callback 方法回调
+     */
     submit(keepitem, callback, type) {
       for (let i in this.dataValue) {
         const itemData = this.childrens.find((v) => v.name === i);
@@ -163,10 +213,11 @@ const _sfc_main = {
         }
       }
       if (!type) {
-        console.warn("submit \u65B9\u6CD5\u5373\u5C06\u5E9F\u5F03\uFF0C\u8BF7\u4F7F\u7528validate\u65B9\u6CD5\u4EE3\u66FF\uFF01");
+        console.warn("submit 方法即将废弃，请使用validate方法代替！");
       }
       return this.checkAll(this.formData, keepitem, callback, "submit");
     },
+    // 校验所有
     async checkAll(invalidFields, keepitem, callback, type) {
       if (!this.validator)
         return;
@@ -232,6 +283,10 @@ const _sfc_main = {
         return null;
       }
     },
+    /**
+     * 返回validate事件
+     * @param {Object} result
+     */
     validateCheck(result) {
       this.$emit("validate", result);
     },

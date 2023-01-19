@@ -30,10 +30,12 @@ const _sfc_main = {
       isRange: false,
       hasTime: false,
       mobileRange: false,
+      // 单选
       singleVal: "",
       tempSingleDate: "",
       defSingleDate: "",
       time: "",
+      // 范围选
       caleRange: {
         startDate: "",
         startTime: "",
@@ -42,7 +44,9 @@ const _sfc_main = {
       },
       range: {
         startDate: "",
+        // startTime: '',
         endDate: ""
+        // endTime: ''
       },
       tempRange: {
         startDate: "",
@@ -50,6 +54,7 @@ const _sfc_main = {
         endDate: "",
         endTime: ""
       },
+      // 左右日历同步数据
       startMultipleStatus: {
         before: "",
         after: "",
@@ -212,6 +217,9 @@ const _sfc_main = {
     datePopupWidth() {
       return this.isRange ? 653 : 301;
     },
+    /**
+     * for i18n
+     */
     singlePlaceholderText() {
       return this.placeholder || (this.type === "date" ? this.selectDateText : t("uni-datetime-picker.selectDateTime"));
     },
@@ -510,6 +518,9 @@ const _sfc_main = {
         this[type].endDate = before;
       }
     },
+    /**
+     * 比较时间大小
+     */
     dateCompare(startDate, endDate) {
       startDate = new Date(startDate.replace("-", "/").replace("-", "/"));
       endDate = new Date(endDate.replace("-", "/").replace("-", "/"));
@@ -519,6 +530,9 @@ const _sfc_main = {
         return false;
       }
     },
+    /**
+     * 比较时间差
+     */
     diffDate(startDate, endDate) {
       startDate = new Date(startDate.replace("-", "/").replace("-", "/"));
       endDate = new Date(endDate.replace("-", "/").replace("-", "/"));
@@ -580,6 +594,7 @@ const _sfc_main = {
     lessTen(item) {
       return item < 10 ? "0" + item : item;
     },
+    //兼容 iOS、safari 日期格式
     fixIosDateFormat(value) {
       if (typeof value === "string") {
         value = value.replace(/-/g, "/");

@@ -4,18 +4,22 @@ const _sfc_main = {
   name: "UniGrid",
   emits: ["change"],
   props: {
+    // 每列显示个数
     column: {
       type: Number,
       default: 3
     },
+    // 是否显示边框
     showBorder: {
       type: Boolean,
       default: true
     },
+    // 边框颜色
     borderColor: {
       type: String,
       default: "#D2D2D2"
     },
+    // 是否正方形显示,默认为 true
     square: {
       type: Boolean,
       default: true

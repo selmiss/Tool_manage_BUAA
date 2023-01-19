@@ -4,7 +4,7 @@ const _sfc_main = {
   data() {
     return {
       username: "JING",
-      title: "\u501F\u7528\u5DE5\u5177",
+      title: "借用工具",
       labelList: [],
       pattern: {
         color: "#488800",
@@ -72,9 +72,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       };
     }),
     b: common_vendor.p({
-      title: "\u7F16\u8F91\u5DE5\u5177",
+      title: "编辑工具",
       subTitleFontSize: "16px",
-      subTitle: "\u8BF7\u9009\u62E9\u5DE5\u5177\u5206\u7C7B",
+      subTitle: "请选择工具分类",
       titleFontSize: "20px",
       type: "line"
     })

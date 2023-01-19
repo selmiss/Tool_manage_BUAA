@@ -56,9 +56,9 @@
 					img:null
 				},
 				range: [
-				  { value: 0, text: "机械工具" },
-				  { value: 1, text: "电控工具" },
-				  { value: 2, text: "机械电子设备" }
+				  { value: 4, text: "机械工具" },
+				  { value: 5, text: "电控工具" },
+				  { value: 6, text: "机械电子设备" }
 				],
 				filesize:0,
 				
@@ -100,12 +100,20 @@
 			},
 			submit() {
 				console.log(this.toolInfo.LabelId)
+				console.log(this.toolInfo.img)
 				uni.request({
-					 header: {'Authorization':getApp().globalData.token},
+					 header: {'Authorization':getApp().globalData.token,
+					 			'content-type':'application/x-www-form-urlencoded'},
 					url: getApp().globalData.urlRoot +"/manager/createTool",
-					data: this.toolInfo,
+					data: {'limit_days':this.toolInfo.limit_days,
+							'name':this.toolInfo.name,
+							'LabelId':this.toolInfo.LabelId,
+							'intro':this.toolInfo.intro,
+							'addCount':this.toolInfo.addCount,
+							'img':this.toolInfo.img,
+							'uid':-2,
+							},
 					method:"POST",
-					dataType:"form-data",
 					success: (res) => {
 						console.log(res.data)
 						if (res.data.error_code === 0){

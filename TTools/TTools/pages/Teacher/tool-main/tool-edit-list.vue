@@ -39,17 +39,14 @@
 							<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }">
 									<!-- Card start -->
 									<uni-card  @click="onClick">
-										<template v-slot:cover v-model="toolInfo.url" >
-												<view class="custom-cover">
-													<input type="file"  style="display: none;" id="upfile">
-													<uni-button type="button" onclick="upfile.click()">
-														<image style=" margin-left: -20rpx; max-height: 500rpx;" class="cover-image" mode="widthFix" :src="toolInfo.url"></image>
-													</uni-button>
-												</view>
-											</template>
 											<uni-section title="编辑工具信息" type="line">
 													<view class="example">
 														<!-- 基础用法，不包含校验规则 -->
+														<uni-forms-item label="工具图片" required="">
+															<view style="" class="pic" @click="upFile" @change="uploadImg">
+																<image style="width: 400rpx;border: aqua solid 3rpx;" :src="toolInfo.img2 ? toolInfo.img2 : Img" mode="aspectFit"></image>
+															</view>
+														</uni-forms-item>
 														<uni-forms ref="baseForm" :modelValue="toolInfo" labelWidth="150rpx" label-position="left">
 															<uni-forms-item label="工具名称" required>
 																<uni-easyinput v-model="toolInfo.name" placeholder="请输入工具名称" />
@@ -147,19 +144,43 @@
 			}
 		},
 		methods: {
+			upFile(){
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: 'original',  //指定原图
+					success: res=> {
+						that.filesize = res.tempFiles[0].size/1024/1024;  //转换MB
+						if(that.filesize > 1){
+							that.$util.msg('上传文件大小不能超过1MB');
+							return;
+						}
+						
+						that.toolInfo.img = res.tempFiles[0];
+						console.log(res.tempFiles[0])
+						that.toolInfo.img2 = res.tempFilePaths[0];
+					},
+					error: err=>{
+						console.log(err)
+					}
+				})
+			},
+			
 			submitEdit() {
 				console.log('进入函数');
 				console.log(this.toolInfo.limit_days);
 				console.log(this.toolInfo.url);
+				
 				uni.request({
-					header: {'Authorization':getApp().globalData.token},
-					url: getApp().globalData.urlRoot + "/manager/editTool",
+					header: {'Authorization':getApp().globalData.token,
+								'content-type':'application/x-www-form-urlencoded'},
+					url: getApp().globalData.urlRoot + "/manager/editTool1",
 					data:{'limit_days':this.toolInfo.limit_days,
 							'name':this.toolInfo.name,
 							'toolId':this.toolInfo.id,
 							'intro':this.toolInfo.intro,
 							'setCount':this.toolInfo.totalCount,
-							'imgurl':this.toolInfo.url,
+							'img':this.toolInfo.img,
 							'uid':-2,
 							},
 					method:"POST",

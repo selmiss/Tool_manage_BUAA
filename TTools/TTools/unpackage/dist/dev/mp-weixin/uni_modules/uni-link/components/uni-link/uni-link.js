@@ -21,7 +21,7 @@ const _sfc_main = {
     },
     copyTips: {
       type: String,
-      default: "\u5DF2\u81EA\u52A8\u590D\u5236\u7F51\u5740\uFF0C\u8BF7\u5728\u624B\u673A\u6D4F\u89C8\u5668\u91CC\u7C98\u8D34\u8BE5\u7F51\u5740"
+      default: "已自动复制网址，请在手机浏览器里粘贴该网址"
     },
     color: {
       type: String,

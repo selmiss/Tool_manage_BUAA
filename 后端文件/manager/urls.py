@@ -89,5 +89,8 @@ urlpatterns = [
     # 删除学生
     path('searchStudentByName', views.searchStudentByName, name='searchStudentByName'),
     path('allBorrowList', views.allBorrowList, name='allBorrowList'),
-
+    path('editTool1', views.editTool1, name='editTool1'),
+    path('wxlogin', views.wxlogin, name='wxlogin'),
+    path('wx_Register', views.wx_Register, name='wx_Register'),
+    path('hashLogin', views.hashLogin, name='hashLogin'),
 ]
