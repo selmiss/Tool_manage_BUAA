@@ -1,6 +1,25 @@
 "use strict";
-const uni_modules_uniTransition_components_uniTransition_createAnimation = require("./createAnimation.js");
-const common_vendor = require("../../../../common/vendor.js");
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var uni_modules_uniTransition_components_uniTransition_createAnimation = require("./createAnimation.js");
+var common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uniTransition",
   emits: ["click", "change"],
@@ -56,10 +75,9 @@ const _sfc_main = {
   },
   computed: {
     stylesObject() {
-      let styles = {
-        ...this.styles,
+      let styles = __spreadProps(__spreadValues({}, this.styles), {
         "transition-duration": this.duration / 1e3 + "s"
-      };
+      });
       let transform = "";
       for (let i in styles) {
         let line = this.toLine(i);
@@ -237,5 +255,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.o((...args) => $options.onClick && $options.onClick(...args))
   } : {});
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-transition/components/uni-transition/uni-transition.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-transition/components/uni-transition/uni-transition.vue"]]);
 wx.createComponent(Component);

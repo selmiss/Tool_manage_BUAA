@@ -1,5 +1,5 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
+var common_vendor = require("../../../../common/vendor.js");
 const ComponentClass = "uni-col";
 const _sfc_main = {
   name: "uniCol",
@@ -73,9 +73,7 @@ const _sfc_main = {
           classList.push(`${ComponentClass}-${point}-${props}`);
         } else if (typeof props === "object" && props) {
           Object.keys(props).forEach((pointProp) => {
-            classList.push(
-              pointProp === "span" ? `${ComponentClass}-${point}-${props[pointProp]}` : `${ComponentClass}-${point}-${pointProp}-${props[pointProp]}`
-            );
+            classList.push(pointProp === "span" ? `${ComponentClass}-${point}-${props[pointProp]}` : `${ComponentClass}-${point}-${pointProp}-${props[pointProp]}`);
           });
         }
       });
@@ -98,9 +96,7 @@ const _sfc_main = {
         for (let size in newVal) {
           const curSize = newVal[size];
           if ((curSize || curSize === 0) && curSize !== -1) {
-            classList.push(
-              size === "span" ? `${ComponentClass}-${curSize}` : `${ComponentClass}-${size}-${curSize}`
-            );
+            classList.push(size === "span" ? `${ComponentClass}-${curSize}` : `${ComponentClass}-${size}-${curSize}`);
           }
         }
         this.sizeClass = classList.join(" ");
@@ -116,5 +112,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     d: `${Number($data.gutter)}rpx`
   };
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-row/components/uni-col/uni-col.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-row/components/uni-col/uni-col.vue"]]);
 wx.createComponent(Component);

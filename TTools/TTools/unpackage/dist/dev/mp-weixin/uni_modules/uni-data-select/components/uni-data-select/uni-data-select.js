@@ -1,8 +1,8 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
+var common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uni-stat-select",
-  mixins: [common_vendor.Es.mixinDatacom || {}],
+  mixins: [common_vendor.pn.mixinDatacom || {}],
   data() {
     return {
       showSelector: false,
@@ -223,5 +223,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     r: $data.current ? 1 : ""
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-data-select/components/uni-data-select/uni-data-select.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-data-select/components/uni-data-select/uni-data-select.vue"]]);
 wx.createComponent(Component);

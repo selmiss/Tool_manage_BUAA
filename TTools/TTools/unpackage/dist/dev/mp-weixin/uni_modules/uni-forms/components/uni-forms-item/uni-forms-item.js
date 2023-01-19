@@ -1,5 +1,5 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
+var common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uniFormsItem",
   options: {
@@ -86,22 +86,18 @@ const _sfc_main = {
   created() {
     this.init(true);
     if (this.name && this.form) {
-      this.$watch(
-        () => {
-          const val = this.form._getDataValue(this.name, this.form.localData);
-          return val;
-        },
-        (value, oldVal) => {
-          const isEqual = this.form._isEqual(value, oldVal);
-          if (!isEqual) {
-            const val = this.itemSetValue(value);
-            this.onFieldChange(val, false);
-          }
-        },
-        {
-          immediate: false
+      this.$watch(() => {
+        const val = this.form._getDataValue(this.name, this.form.localData);
+        return val;
+      }, (value, oldVal) => {
+        const isEqual = this.form._isEqual(value, oldVal);
+        if (!isEqual) {
+          const val = this.itemSetValue(value);
+          this.onFieldChange(val, false);
         }
-      );
+      }, {
+        immediate: false
+      });
     }
   },
   unmounted() {
@@ -135,12 +131,9 @@ const _sfc_main = {
       const isRequiredField = _isRequiredField(this.itemRules.rules || []);
       let result = null;
       if (validateTrigger === "bind" || formtrigger) {
-        result = await this.validator.validateUpdate(
-          {
-            [name]: value
-          },
-          formData
-        );
+        result = await this.validator.validateUpdate({
+          [name]: value
+        }, formData);
         if (!isRequiredField && (value === void 0 || value === "")) {
           result = null;
         }
@@ -302,5 +295,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     j: common_vendor.n($data.border && $data.isFirstBorder ? "is-first-border" : "")
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue"]]);
 wx.createComponent(Component);

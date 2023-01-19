@@ -1,6 +1,6 @@
 "use strict";
-const common_vendor = require("../../../../common/vendor.js");
-const uni_modules_uniDatetimePicker_components_uniDatetimePicker_i18n_index = require("./i18n/index.js");
+var common_vendor = require("../../../../common/vendor.js");
+var uni_modules_uniDatetimePicker_components_uniDatetimePicker_i18n_index = require("./i18n/index.js");
 const { t } = common_vendor.initVueI18n(uni_modules_uniDatetimePicker_components_uniDatetimePicker_i18n_index.messages);
 const _sfc_main = {
   name: "UniDatetimePicker",
@@ -416,9 +416,7 @@ const _sfc_main = {
           point = parseInt(point);
         }
         const hasTime = /[0-9]:[0-9]/;
-        if (this.type === "datetime" && pointType === "end" && typeof point === "string" && !hasTime.test(
-          point
-        )) {
+        if (this.type === "datetime" && pointType === "end" && typeof point === "string" && !hasTime.test(point)) {
           point = point + " 23:59:59";
         }
         const pointDate = new Date(point);
@@ -613,5 +611,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     K: common_vendor.s($data.fixNvueBug)
   }) : {});
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-datetime-picker/components/uni-datetime-picker/time-picker.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-datetime-picker/components/uni-datetime-picker/time-picker.vue"]]);
 wx.createComponent(Component);

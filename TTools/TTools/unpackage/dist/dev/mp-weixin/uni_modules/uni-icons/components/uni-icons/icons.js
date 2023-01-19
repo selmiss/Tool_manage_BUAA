@@ -1,5 +1,5 @@
 "use strict";
-const icons = {
+var icons = {
   "id": "2852637",
   "name": "uniui\u56FE\u6807\u5E93",
   "font_family": "uniicons",
