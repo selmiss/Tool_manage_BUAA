@@ -5,23 +5,18 @@ const _sfc_main = {
   components: {},
   emits: ["change", "maskClick"],
   props: {
-    // 开启动画
     animation: {
       type: Boolean,
       default: true
     },
-    // 弹出层类型，可选值，top: 顶部弹出层；bottom：底部弹出层；center：全屏弹出层
-    // message: 消息提示 ; dialog : 对话框
     type: {
       type: String,
       default: "center"
     },
-    // maskClick
     isMaskClick: {
       type: Boolean,
       default: null
     },
-    // TODO 2 个版本后废弃属性 ，使用 isMaskClick
     maskClick: {
       type: Boolean,
       default: null
@@ -40,9 +35,6 @@ const _sfc_main = {
     }
   },
   watch: {
-    /**
-     * 监听type类型
-     */
     type: {
       handler: function(type) {
         if (!this.config[type])
@@ -59,10 +51,6 @@ const _sfc_main = {
       },
       immediate: true
     },
-    /**
-     * 监听遮罩是否可点击
-     * @param {Object} val
-     */
     maskClick: {
       handler: function(val) {
         this.mkclick = val;
@@ -75,7 +63,6 @@ const _sfc_main = {
       },
       immediate: true
     },
-    // H5 下禁止底部滚动
     showPopup(show) {
     }
   },
@@ -146,7 +133,6 @@ const _sfc_main = {
     };
     fixSize();
   },
-  // TODO vue3
   unmounted() {
     this.setH5Visible();
   },
@@ -168,19 +154,12 @@ const _sfc_main = {
   methods: {
     setH5Visible() {
     },
-    /**
-     * 公用方法，不显示遮罩层
-     */
     closeMask() {
       this.maskShow = false;
     },
-    /**
-     * 公用方法，遮罩层禁止点击
-     */
     disableMask() {
       this.mkclick = false;
     },
-    // TODO nvue 取消冒泡
     clear(e) {
       e.stopPropagation();
       this.clearPropagation = true;
@@ -195,7 +174,7 @@ const _sfc_main = {
         direction = this.type;
       }
       if (!this.config[direction]) {
-        console.error("缺少类型：", direction);
+        console.error("\u7F3A\u5C11\u7C7B\u578B\uFF1A", direction);
         return;
       }
       this[this.config[direction]]();
@@ -215,7 +194,6 @@ const _sfc_main = {
         this.showPopup = false;
       }, 300);
     },
-    // TODO 处理冒泡事件，头条的冒泡事件有问题 ，先这样兼容
     touchstart() {
       this.clearPropagation = false;
     },
@@ -229,9 +207,6 @@ const _sfc_main = {
         return;
       this.close();
     },
-    /**
-     * 顶部弹出样式处理
-     */
     top(type) {
       this.popupstyle = this.isDesktop ? "fixforpc-top" : "top";
       this.ani = ["slide-top"];
@@ -251,9 +226,6 @@ const _sfc_main = {
         }
       });
     },
-    /**
-     * 底部弹出样式处理
-     */
     bottom(type) {
       this.popupstyle = "bottom";
       this.ani = ["slide-bottom"];
@@ -270,9 +242,6 @@ const _sfc_main = {
       this.showPopup = true;
       this.showTrans = true;
     },
-    /**
-     * 中间弹出样式处理
-     */
     center(type) {
       this.popupstyle = "center";
       this.ani = ["zoom-out", "fade"];

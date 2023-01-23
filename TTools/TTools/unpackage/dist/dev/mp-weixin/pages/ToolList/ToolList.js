@@ -1,5 +1,5 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
+var common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -53,14 +53,13 @@ const _sfc_main = {
           console.log(res.data.error_code);
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "借用成功，请耐心等待审核！",
+              title: "\u501F\u7528\u6210\u529F\uFF0C\u8BF7\u8010\u5FC3\u7B49\u5F85\u5BA1\u6838\uFF01",
               icon: "none"
             });
           } else if (res.data.error_code === 5) {
             common_vendor.index.showToast({
-              title: "你已经借用过这个工具了",
+              title: "\u4F60\u5DF2\u7ECF\u501F\u7528\u8FC7\u8FD9\u4E2A\u5DE5\u5177\u4E86",
               icon: "none"
-              //如果要纯文本，不要icon，将值设为'none'
             });
           }
         }
@@ -131,76 +130,76 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: common_vendor.t(item.limit_days),
         d: common_vendor.t(item.leftCount),
         e: common_vendor.t(item.totalCount),
-        f: common_vendor.o(($event) => $options.showInfo(index), index),
-        g: common_vendor.o(($event) => $options.toggle("center", index), index),
-        h: common_vendor.o($options.onClick, index),
-        i: "087ca766-3-" + i0 + "," + ("087ca766-2-" + i0),
-        j: index,
-        k: "087ca766-2-" + i0 + ",087ca766-1",
-        l: common_vendor.p({
+        f: common_vendor.o(($event) => $options.showInfo(index)),
+        g: common_vendor.o(($event) => $options.toggle("center", index)),
+        h: "0d4ca327-3-" + i0 + "," + ("0d4ca327-2-" + i0),
+        i: index,
+        j: "0d4ca327-2-" + i0 + ",0d4ca327-1",
+        k: common_vendor.p({
           index
         })
       };
     }),
-    b: common_vendor.p({
+    b: common_vendor.o($options.onClick),
+    c: common_vendor.p({
       column: 2,
       highlight: true,
       square: false
     }),
-    c: common_vendor.p({
-      title: "工具借用",
+    d: common_vendor.p({
+      title: "\u5DE5\u5177\u501F\u7528",
       subTitle: "",
       titleFontSize: "20px",
       subTitleFontSize: "18px",
       type: "line"
     }),
-    d: $data.toolInfo.url,
-    e: common_vendor.t($data.toolInfo.name),
-    f: common_vendor.t($data.toolInfo.limit_days),
-    g: common_vendor.t($data.toolInfo.leftCount),
-    h: common_vendor.t($data.toolInfo.totalCount),
-    i: common_vendor.o(($event) => $data.range = $event),
-    j: common_vendor.p({
+    e: $data.toolInfo.url,
+    f: common_vendor.t($data.toolInfo.name),
+    g: common_vendor.t($data.toolInfo.limit_days),
+    h: common_vendor.t($data.toolInfo.leftCount),
+    i: common_vendor.t($data.toolInfo.totalCount),
+    j: common_vendor.o(($event) => $data.range = $event),
+    k: common_vendor.p({
       type: "daterange",
       modelValue: $data.range
     }),
-    k: common_vendor.p({
-      title: "*借用时间",
+    l: common_vendor.p({
+      title: "*\u501F\u7528\u65F6\u95F4",
       type: "line",
       padding: true
     }),
-    l: common_vendor.o(($event) => $data.purpose = $event),
-    m: common_vendor.p({
+    m: common_vendor.o(($event) => $data.purpose = $event),
+    n: common_vendor.p({
       type: "textarea",
-      placeholder: "请输入内容",
+      placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
       modelValue: $data.purpose
     }),
-    n: common_vendor.p({
-      title: "*借用理由",
+    o: common_vendor.p({
+      title: "*\u501F\u7528\u7406\u7531",
       type: "line",
       padding: true
     }),
-    o: common_vendor.o(($event) => $options.actionsClick("取消")),
-    p: common_vendor.o(($event) => $options.submitBorrow()),
-    q: common_vendor.o($options.onClick),
-    r: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
-    s: common_vendor.sr("popup", "087ca766-4"),
-    t: common_vendor.p({
+    p: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    q: common_vendor.o(($event) => $options.submitBorrow()),
+    r: common_vendor.o($options.onClick),
+    s: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
+    t: common_vendor.sr("popup", "0d4ca327-4"),
+    v: common_vendor.p({
       ["background-color"]: "#fff"
     }),
-    v: $data.toolInfo.url,
-    w: common_vendor.t($data.toolInfo.name),
-    x: common_vendor.t($data.toolInfo.limit_days),
-    y: common_vendor.t($data.toolInfo.leftCount),
-    z: common_vendor.t($data.toolInfo.totalCount),
-    A: common_vendor.o(($event) => $options.actionsClick("取消")),
-    B: common_vendor.o($options.onClick),
-    C: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
-    D: common_vendor.sr("popupinfo", "087ca766-10"),
-    E: common_vendor.p({
+    w: $data.toolInfo.url,
+    x: common_vendor.t($data.toolInfo.name),
+    y: common_vendor.t($data.toolInfo.limit_days),
+    z: common_vendor.t($data.toolInfo.leftCount),
+    A: common_vendor.t($data.toolInfo.totalCount),
+    B: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    C: common_vendor.o($options.onClick),
+    D: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
+    E: common_vendor.sr("popupinfo", "0d4ca327-10"),
+    F: common_vendor.p({
       ["background-color"]: "#fff"
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/ToolList/ToolList.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/ToolList/ToolList.vue"]]);
 wx.createPage(MiniProgramPage);

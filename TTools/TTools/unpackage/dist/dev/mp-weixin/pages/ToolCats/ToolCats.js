@@ -4,25 +4,25 @@ const _sfc_main = {
   data() {
     return {
       username: "JING",
-      title: "借用工具",
+      title: "\u501F\u7528\u5DE5\u5177",
       labelList: [
         {
-          name: "机械工具",
+          name: "\u673A\u68B0\u5DE5\u5177",
           id: 1,
           level: 1,
-          lowerLabel: [{ name: "机械工具", id: 4, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png" }]
+          lowerLabel: [{ name: "\u673A\u68B0\u5DE5\u5177", id: 4, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png" }]
         },
         {
-          name: "电控工具",
+          name: "\u7535\u63A7\u5DE5\u5177",
           id: 2,
           level: 1,
-          lowerLabel: [{ name: "电控工具", id: 5, level: 2, url: "http://121.4.160.157/media/image/3_FhHGkv1.png" }]
+          lowerLabel: [{ name: "\u7535\u63A7\u5DE5\u5177", id: 5, level: 2, url: "http://121.4.160.157/media/image/3_FhHGkv1.png" }]
         },
         {
-          name: "机械电子设备",
+          name: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907",
           id: 3,
           level: 1,
-          lowerLabel: [{ name: "机械电子设备", id: 6, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png" }]
+          lowerLabel: [{ name: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907", id: 6, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png" }]
         }
       ],
       pattern: {
@@ -93,7 +93,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.p({
       title: $data.title,
       subTitleFontSize: "16px",
-      subTitle: "请选择工具分类",
+      subTitle: "\u8BF7\u9009\u62E9\u5DE5\u5177\u5206\u7C7B",
       titleFontSize: "20px",
       type: "line"
     })

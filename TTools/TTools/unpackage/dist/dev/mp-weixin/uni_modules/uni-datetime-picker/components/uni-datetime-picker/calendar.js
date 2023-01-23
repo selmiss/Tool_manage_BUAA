@@ -201,9 +201,6 @@ const _sfc_main = {
       const res = activeDate === this.endDate ? this.selectableTimes.end : "";
       return res;
     },
-    /**
-     * for i18n
-     */
     selectDateText() {
       return t("uni-datetime-picker.selectDate");
     },
@@ -249,12 +246,10 @@ const _sfc_main = {
   },
   created() {
     this.cale = new uni_modules_uniDatetimePicker_components_uniDatetimePicker_util.Calendar({
-      // date: new Date(),
       selected: this.selected,
       startDate: this.startDate,
       endDate: this.endDate,
       range: this.range
-      // multipleStatus: this.pleStatus
     });
     this.init(this.date);
   },
@@ -286,11 +281,9 @@ const _sfc_main = {
       const [yearB, monthB] = B.split("-");
       return yearA === yearB && monthA === monthB;
     },
-    // 取消穿透
     clean() {
       this.close();
     },
-    // 蒙版点击事件
     maskClick() {
       this.$emit("maskClose");
     },
@@ -315,29 +308,11 @@ const _sfc_main = {
       const value = e.detail.value + "-1";
       this.init(value);
     },
-    /**
-     * 初始化日期显示
-     * @param {Object} date
-     */
     init(date) {
       this.cale.setDate(date);
       this.weeks = this.cale.weeks;
       this.nowDate = this.calendar = this.cale.getInfo(date);
     },
-    // choiceDate(weeks) {
-    // 	if (weeks.disable) return
-    // 	this.calendar = weeks
-    // 	// 设置多选
-    // 	this.cale.setMultiple(this.calendar.fullDate, true)
-    // 	this.weeks = this.cale.weeks
-    // 	this.tempSingleDate = this.calendar.fullDate
-    // 	this.tempRange.before = this.cale.multipleStatus.before
-    // 	this.tempRange.after = this.cale.multipleStatus.after
-    // 	this.change()
-    // },
-    /**
-     * 打开日历弹窗
-     */
     open() {
       if (this.clearDate && !this.insert) {
         this.cale.cleanMultipleStatus();
@@ -350,9 +325,6 @@ const _sfc_main = {
         }, 50);
       });
     },
-    /**
-     * 关闭日历弹窗
-     */
     close() {
       this.aniMaskShow = false;
       this.$nextTick(() => {
@@ -362,24 +334,15 @@ const _sfc_main = {
         }, 300);
       });
     },
-    /**
-     * 确认按钮
-     */
     confirm() {
       this.setEmit("confirm");
       this.close();
     },
-    /**
-     * 变化触发
-     */
     change() {
       if (!this.insert)
         return;
       this.setEmit("change");
     },
-    /**
-     * 选择月份触发
-     */
     monthSwitch() {
       let {
         year,
@@ -390,10 +353,6 @@ const _sfc_main = {
         month: Number(month)
       });
     },
-    /**
-     * 派发事件
-     * @param {Object} name
-     */
     setEmit(name) {
       let {
         year,
@@ -415,10 +374,6 @@ const _sfc_main = {
         extraInfo: extraInfo || {}
       });
     },
-    /**
-     * 选择天触发
-     * @param {Object} weeks
-     */
     choiceDate(weeks) {
       if (weeks.disable)
         return;
@@ -439,17 +394,11 @@ const _sfc_main = {
       }
       this.change();
     },
-    /**
-     * 回到今天
-     */
     backtoday() {
       let date = this.cale.getDate(new Date()).fullDate;
       this.init(date);
       this.change();
     },
-    /**
-     * 比较时间大小
-     */
     dateCompare(startDate, endDate) {
       startDate = new Date(startDate.replace("-", "/").replace("-", "/"));
       endDate = new Date(endDate.replace("-", "/").replace("-", "/"));
@@ -459,26 +408,16 @@ const _sfc_main = {
         return false;
       }
     },
-    /**
-     * 上个月
-     */
     pre() {
       const preDate = this.cale.getDate(this.nowDate.fullDate, -1, "month").fullDate;
       this.setDate(preDate);
       this.monthSwitch();
     },
-    /**
-     * 下个月
-     */
     next() {
       const nextDate = this.cale.getDate(this.nowDate.fullDate, 1, "month").fullDate;
       this.setDate(nextDate);
       this.monthSwitch();
     },
-    /**
-     * 设置日期
-     * @param {Object} date
-     */
     setDate(date) {
       this.cale.setDate(date);
       this.weeks = this.cale.weeks;

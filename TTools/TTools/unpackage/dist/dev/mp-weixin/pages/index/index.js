@@ -1,5 +1,5 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
+var common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -21,13 +21,13 @@ const _sfc_main = {
         {
           iconPath: "https://img2.baidu.com/it/u=546153345,3989268214&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
           selectedIconPath: "https://img2.baidu.com/it/u=546153345,3989268214&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-          text: "学生",
+          text: "\u5B66\u751F",
           active: true
         },
         {
           iconPath: "https://img1.baidu.com/it/u=3315202342,1207980959&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
           selectedIconPath: "https://img1.baidu.com/it/u=3315202342,1207980959&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-          text: "教师",
+          text: "\u6559\u5E08",
           active: false
         }
       ],
@@ -84,7 +84,7 @@ const _sfc_main = {
           }
         });
       } else {
-        console.log("两次密码不一致");
+        console.log("\u4E24\u6B21\u5BC6\u7801\u4E0D\u4E00\u81F4");
       }
     },
     managerEdit() {
@@ -113,7 +113,7 @@ const _sfc_main = {
           }
         });
       } else {
-        console.log("两次密码不一致");
+        console.log("\u4E24\u6B21\u5BC6\u7801\u4E0D\u4E00\u81F4");
       }
     },
     wxlogin() {
@@ -132,7 +132,6 @@ const _sfc_main = {
         success(res) {
           if (res.code) {
             common_vendor.index.request({
-              //这里填你自己的appid 和 wxspSecret 
               url: "https://api.weixin.qq.com/sns/jscode2session?appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + res.code + "&grant_type=authorization_code",
               method: "POST",
               success(res2) {
@@ -151,12 +150,12 @@ const _sfc_main = {
                   method: "POST",
                   success: (res3) => {
                     if (res3.data.haveuser === "1") {
-                      console.log("到这里");
+                      console.log("\u5230\u8FD9\u91CC");
                       that.form.email = res3.data.email;
                       that.form.password = res3.data.pwd;
                       that.wxsubmitLogin();
                     } else {
-                      console.log("没有检测到");
+                      console.log("\u6CA1\u6709\u68C0\u6D4B\u5230");
                       if (that.isManager) {
                         that.$refs.managerRe.open("center");
                       } else {
@@ -170,7 +169,7 @@ const _sfc_main = {
               }
             });
           } else {
-            console.log("登录失败！" + res.errMsg);
+            console.log("\u767B\u5F55\u5931\u8D25\uFF01" + res.errMsg);
           }
         }
       });
@@ -233,7 +232,7 @@ const _sfc_main = {
             getApp().globalData.uid = res.data.uid;
             getApp().globalData.token = res.data.hash_code;
             common_vendor.index.showToast({
-              title: "登录成功！",
+              title: "\u767B\u5F55\u6210\u529F\uFF01",
               icon: "none"
             });
             if (this.isManager) {
@@ -256,7 +255,7 @@ const _sfc_main = {
             }
           } else if (res.data.error_code == 2 || res.data.error_code == 4) {
             common_vendor.index.showToast({
-              title: String("用户名或密码不正确！"),
+              title: String("\u7528\u6237\u540D\u6216\u5BC6\u7801\u4E0D\u6B63\u786E\uFF01"),
               icon: "none"
             });
           }
@@ -285,7 +284,7 @@ const _sfc_main = {
             getApp().globalData.uid = res.data.uid;
             getApp().globalData.token = res.data.hash_code;
             common_vendor.index.showToast({
-              title: "登录成功！",
+              title: "\u767B\u5F55\u6210\u529F\uFF01",
               icon: "none"
             });
             if (this.isManager) {
@@ -308,7 +307,7 @@ const _sfc_main = {
             }
           } else if (res.data.error_code == 2 || res.data.error_code == 4) {
             common_vendor.index.showToast({
-              title: String("用户名或密码不正确！"),
+              title: String("\u7528\u6237\u540D\u6216\u5BC6\u7801\u4E0D\u6B63\u786E\uFF01"),
               icon: "none"
             });
           }
@@ -317,7 +316,7 @@ const _sfc_main = {
     },
     fabClick() {
       common_vendor.index.showToast({
-        title: "切换登录方式",
+        title: "\u5207\u6362\u767B\u5F55\u65B9\u5F0F",
         icon: "none"
       });
     },
@@ -373,7 +372,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   }, !$data.isManager ? {
     c: common_vendor.p({
       type: "h1",
-      title: "学生登录"
+      title: "\u5B66\u751F\u767B\u5F55"
     })
   } : {}, {
     d: $data.isManager
@@ -381,28 +380,28 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.p({
       type: "h1",
       color: "orange",
-      title: "教师登录"
+      title: "\u6559\u5E08\u767B\u5F55"
     })
   } : {}, {
     f: common_vendor.o(($event) => $data.form.email = $event),
     g: common_vendor.p({
       type: "text",
-      placeholder: "请输入邮箱",
+      placeholder: "\u8BF7\u8F93\u5165\u90AE\u7BB1",
       modelValue: $data.form.email
     }),
     h: common_vendor.p({
-      label: "邮箱",
+      label: "\u90AE\u7BB1",
       name: "name"
     }),
     i: common_vendor.o(($event) => $data.form.password = $event),
     j: common_vendor.p({
       type: "password",
-      placeholder: "请输入密码",
+      placeholder: "\u8BF7\u8F93\u5165\u5BC6\u7801",
       modelValue: $data.form.password
     }),
     k: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
     l: common_vendor.o((...args) => $options.toweb && $options.toweb(...args)),
-    m: common_vendor.sr("fab", "2ba1e30c-7,2ba1e30c-5"),
+    m: common_vendor.sr("fab", "c7f3f8e6-7,c7f3f8e6-5"),
     n: common_vendor.o($options.trigger),
     o: common_vendor.o($options.fabClick),
     p: common_vendor.p({
@@ -413,7 +412,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       direction: _ctx.direction
     }),
     q: common_vendor.p({
-      label: "密码",
+      label: "\u5BC6\u7801",
       name: "name"
     }),
     r: common_vendor.p({
@@ -431,7 +430,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     z: common_vendor.o((...args) => $options.logout && $options.logout(...args)),
     A: common_vendor.p({
       title: $data.userInfo.name,
-      extra: "学工号:" + $data.userInfo.studentId
+      extra: "\u5B66\u5DE5\u53F7:" + $data.userInfo.studentId
     }),
     B: common_vendor.p({
       type: "eye-filled",
@@ -456,7 +455,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     I: common_vendor.p({
       titleFontSize: "18px",
-      title: "已登录",
+      title: "\u5DF2\u767B\u5F55",
       type: "line"
     })
   } : {}, {
@@ -464,7 +463,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       href: "http://121.4.160.157:8080/",
       text: "http://121.4.160.157:8080/"
     }),
-    K: common_vendor.sr("toWeb", "2ba1e30c-17"),
+    K: common_vendor.sr("toWeb", "c7f3f8e6-17"),
     L: common_vendor.p({
       type: "top",
       ["background-color"]: "#fff"
@@ -472,66 +471,66 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     M: common_vendor.p({
       type: "h1",
       align: "center",
-      title: "填写个人信息"
+      title: "\u586B\u5199\u4E2A\u4EBA\u4FE1\u606F"
     }),
     N: common_vendor.o(($event) => $data.managerform.tId = $event),
     O: common_vendor.p({
       type: "text",
-      placeholder: "您的学号",
+      placeholder: "\u60A8\u7684\u5B66\u53F7",
       modelValue: $data.managerform.tId
     }),
     P: common_vendor.p({
-      label: "工号",
+      label: "\u5DE5\u53F7",
       name: "name"
     }),
     Q: common_vendor.o(($event) => $data.managerform.name = $event),
     R: common_vendor.p({
       type: "text",
-      placeholder: "您的姓名",
+      placeholder: "\u60A8\u7684\u59D3\u540D",
       modelValue: $data.managerform.name
     }),
     S: common_vendor.p({
-      label: "姓名",
+      label: "\u59D3\u540D",
       name: "name"
     }),
     T: common_vendor.o(($event) => $data.managerform.email = $event),
     U: common_vendor.p({
       type: "text",
-      placeholder: "您的邮箱",
+      placeholder: "\u60A8\u7684\u90AE\u7BB1",
       modelValue: $data.managerform.email
     }),
     V: common_vendor.p({
-      label: "邮箱",
+      label: "\u90AE\u7BB1",
       name: "name"
     }),
     W: common_vendor.o(($event) => $data.managerform.number = $event),
     X: common_vendor.p({
       type: "text",
-      placeholder: "您的电话",
+      placeholder: "\u60A8\u7684\u7535\u8BDD",
       modelValue: $data.managerform.number
     }),
     Y: common_vendor.p({
-      label: "电话",
+      label: "\u7535\u8BDD",
       name: "name"
     }),
     Z: common_vendor.o(($event) => $data.managerform.password = $event),
     aa: common_vendor.p({
       type: "password",
-      placeholder: "您的密码",
+      placeholder: "\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.managerform.password
     }),
     ab: common_vendor.p({
-      label: "密码",
+      label: "\u5BC6\u7801",
       name: "name"
     }),
     ac: common_vendor.o(($event) => $data.managerform.password1 = $event),
     ad: common_vendor.p({
       type: "password",
-      placeholder: "重新输入您的密码",
+      placeholder: "\u91CD\u65B0\u8F93\u5165\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.managerform.password1
     }),
     ae: common_vendor.p({
-      label: "确认密码",
+      label: "\u786E\u8BA4\u5BC6\u7801",
       name: "name"
     }),
     af: common_vendor.p({
@@ -539,83 +538,83 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["label-position"]: "left"
     }),
     ag: common_vendor.o(($event) => $options.managerEdit()),
-    ah: common_vendor.sr("managerRe", "2ba1e30c-19"),
+    ah: common_vendor.sr("managerRe", "c7f3f8e6-19"),
     ai: common_vendor.p({
       ["background-color"]: "#fff"
     }),
     aj: common_vendor.p({
       type: "h1",
       align: "center",
-      title: "填写个人信息"
+      title: "\u586B\u5199\u4E2A\u4EBA\u4FE1\u606F"
     }),
     ak: common_vendor.o(($event) => $data.userform.studentId = $event),
     al: common_vendor.p({
       type: "text",
-      placeholder: "您的学号",
+      placeholder: "\u60A8\u7684\u5B66\u53F7",
       modelValue: $data.userform.studentId
     }),
     am: common_vendor.p({
-      label: "学号",
+      label: "\u5B66\u53F7",
       name: "name"
     }),
     an: common_vendor.o(($event) => $data.userform.name = $event),
     ao: common_vendor.p({
       type: "text",
-      placeholder: "您的姓名",
+      placeholder: "\u60A8\u7684\u59D3\u540D",
       modelValue: $data.userform.name
     }),
     ap: common_vendor.p({
-      label: "姓名",
+      label: "\u59D3\u540D",
       name: "name"
     }),
     aq: common_vendor.o(($event) => $data.userform.college = $event),
     ar: common_vendor.p({
       type: "text",
-      placeholder: "您的学院",
+      placeholder: "\u60A8\u7684\u5B66\u9662",
       modelValue: $data.userform.college
     }),
     as: common_vendor.p({
-      label: "学院",
+      label: "\u5B66\u9662",
       name: "name"
     }),
     at: common_vendor.o(($event) => $data.userform.email = $event),
     av: common_vendor.p({
       type: "text",
-      placeholder: "您的邮箱",
+      placeholder: "\u60A8\u7684\u90AE\u7BB1",
       modelValue: $data.userform.email
     }),
     aw: common_vendor.p({
-      label: "邮箱",
+      label: "\u90AE\u7BB1",
       name: "name"
     }),
     ax: common_vendor.o(($event) => $data.userform.number = $event),
     ay: common_vendor.p({
       type: "text",
-      placeholder: "您的电话",
+      placeholder: "\u60A8\u7684\u7535\u8BDD",
       modelValue: $data.userform.number
     }),
     az: common_vendor.p({
-      label: "电话",
+      label: "\u7535\u8BDD",
       name: "name"
     }),
     aA: common_vendor.o(($event) => $data.userform.password = $event),
     aB: common_vendor.p({
       type: "password",
-      placeholder: "您的密码",
+      placeholder: "\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.userform.password
     }),
     aC: common_vendor.p({
-      label: "密码",
+      label: "\u5BC6\u7801",
       name: "name"
     }),
     aD: common_vendor.o(($event) => $data.userform.password1 = $event),
     aE: common_vendor.p({
       type: "password",
-      placeholder: "重新输入您的密码",
+      placeholder: "\u91CD\u65B0\u8F93\u5165\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.userform.password1
     }),
     aF: common_vendor.p({
-      label: "确认密码",
+      label: "\u786E\u8BA4\u5BC6\u7801",
       name: "name"
     }),
     aG: common_vendor.p({
@@ -623,11 +622,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["label-position"]: "left"
     }),
     aH: common_vendor.o(($event) => $options.userEdit()),
-    aI: common_vendor.sr("userRe", "2ba1e30c-35"),
+    aI: common_vendor.sr("userRe", "c7f3f8e6-35"),
     aJ: common_vendor.p({
       ["background-color"]: "#fff"
     })
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/git_clong/Tool_manage_BUAA/TTools/TTools/pages/index/index.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

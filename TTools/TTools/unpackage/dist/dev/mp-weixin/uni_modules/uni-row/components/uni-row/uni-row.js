@@ -7,7 +7,6 @@ const _sfc_main = {
   componentName: "uniRow",
   options: {
     virtualHost: true
-    // 在微信小程序中将组件节点渲染为虚拟节点，更加接近Vue组件的表现，可使用flex布局
   },
   props: {
     type: String,
@@ -20,7 +19,6 @@ const _sfc_main = {
       type: String,
       default: "top"
     },
-    // nvue如果使用span等属性，需要配置宽度
     width: {
       type: [String, Number],
       default: 750

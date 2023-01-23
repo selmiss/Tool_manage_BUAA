@@ -12,24 +12,20 @@ const _sfc_main = {
       fixNvueBug: {},
       dateShow: true,
       timeShow: true,
-      title: "日期和时间",
-      // 输入框当前时间
+      title: "\u65E5\u671F\u548C\u65F6\u95F4",
       time: "",
-      // 当前的年月日时分秒
       year: 1920,
       month: 0,
       day: 0,
       hour: 0,
       minute: 0,
       second: 0,
-      // 起始时间
       startYear: 1920,
       startMonth: 1,
       startDay: 1,
       startHour: 0,
       startMinute: 0,
       startSecond: 0,
-      // 结束时间
       endYear: 2120,
       endMonth: 12,
       endDay: 31,
@@ -94,15 +90,15 @@ const _sfc_main = {
         if (newValue === "date") {
           this.dateShow = true;
           this.timeShow = false;
-          this.title = "日期";
+          this.title = "\u65E5\u671F";
         } else if (newValue === "time") {
           this.dateShow = false;
           this.timeShow = true;
-          this.title = "时间";
+          this.title = "\u65F6\u95F4";
         } else {
           this.dateShow = true;
           this.timeShow = true;
-          this.title = "日期和时间";
+          this.title = "\u65E5\u671F\u548C\u65F6\u95F4";
         }
       },
       immediate: true
@@ -119,7 +115,6 @@ const _sfc_main = {
       },
       immediate: true
     },
-    // 月、日、时、分、秒可选范围变化后，检查当前值是否在范围内，不在则当前值重置为可选范围第一项
     months(newVal) {
       this.checkValue("month", this.month, newVal);
     },
@@ -137,7 +132,6 @@ const _sfc_main = {
     }
   },
   computed: {
-    // 当前年、月、日、时、分、秒选择范围
     years() {
       return this.getCurrentRange("year");
     },
@@ -156,22 +150,18 @@ const _sfc_main = {
     seconds() {
       return this.getCurrentRange("second");
     },
-    // picker 当前值数组
     ymd() {
       return [this.year - this.minYear, this.month - this.minMonth, this.day - this.minDay];
     },
     hms() {
       return [this.hour - this.minHour, this.minute - this.minMinute, this.second - this.minSecond];
     },
-    // 当前 date 是 start
     currentDateIsStart() {
       return this.year === this.startYear && this.month === this.startMonth && this.day === this.startDay;
     },
-    // 当前 date 是 end
     currentDateIsEnd() {
       return this.year === this.endYear && this.month === this.endMonth && this.day === this.endDay;
     },
-    // 当前年、月、日、时、分、秒的最小值和最大值
     minYear() {
       return this.startYear;
     },
@@ -294,9 +284,6 @@ const _sfc_main = {
         }
       }
     },
-    /**
-     * for i18n
-     */
     selectTimeText() {
       return t("uni-datetime-picker.selectTime");
     },
@@ -313,17 +300,9 @@ const _sfc_main = {
   mounted() {
   },
   methods: {
-    /**
-     * @param {Object} item
-     * 小于 10 在前面加个 0
-     */
     lessThanTen(item) {
       return item < 10 ? "0" + item : item;
     },
-    /**
-     * 解析时分秒字符串，例如：00:00:00
-     * @param {String} timeString
-     */
     parseTimeType(timeString) {
       if (timeString) {
         let timeArr = timeString.split(":");
@@ -332,10 +311,6 @@ const _sfc_main = {
         this.second = Number(timeArr[2]);
       }
     },
-    /**
-     * 解析选择器初始值，类型可以是字符串、时间戳，例如：2000-10-02、'08:30:00'、 1610695109000
-     * @param {String | Number} datetime
-     */
     initPickerValue(datetime) {
       let defaultValue = null;
       if (datetime) {
@@ -346,17 +321,6 @@ const _sfc_main = {
       }
       this.parseValue(defaultValue);
     },
-    /**
-     * 初始值规则：
-     * - 用户设置初始值 value
-     * 	- 设置了起始时间 start、终止时间 end，并 start < value < end，初始值为 value， 否则初始值为 start
-     * 	- 只设置了起始时间 start，并 start < value，初始值为 value，否则初始值为 start
-     * 	- 只设置了终止时间 end，并 value < end，初始值为 value，否则初始值为 end
-     * 	- 无起始终止时间，则初始值为 value
-     * - 无初始值 value，则初始值为当前本地时间 Date.now()
-     * @param {Object} value
-     * @param {Object} dateBase
-     */
     compareValueWithStartAndEnd(value, start, end) {
       let winner = null;
       value = this.superTimeStamp(value);
@@ -379,10 +343,6 @@ const _sfc_main = {
       }
       return winner;
     },
-    /**
-     * 转换为可比较的时间戳，接受日期、时分秒、时间戳
-     * @param {Object} value
-     */
     superTimeStamp(value) {
       let dateBase = "";
       if (this.type === "time" && value && typeof value === "string") {
@@ -398,10 +358,6 @@ const _sfc_main = {
       }
       return this.createTimeStamp(dateBase + value);
     },
-    /**
-     * 解析默认值 value，字符串、时间戳
-     * @param {Object} defaultTime
-     */
     parseValue(value) {
       if (!value) {
         return;
@@ -426,10 +382,6 @@ const _sfc_main = {
         this.second = 0;
       }
     },
-    /**
-     * 解析可选择时间范围 start、end，年月日字符串、时间戳
-     * @param {Object} defaultTime
-     */
     parseDatetimeRange(point, pointType) {
       if (!point) {
         if (pointType === "start") {
@@ -478,7 +430,6 @@ const _sfc_main = {
         }
       }
     },
-    // 获取 年、月、日、时、分、秒 当前可选范围
     getCurrentRange(value) {
       const range = [];
       for (let i = this["min" + this.capitalize(value)]; i <= this["max" + this.capitalize(value)]; i++) {
@@ -486,31 +437,23 @@ const _sfc_main = {
       }
       return range;
     },
-    // 字符串首字母大写
     capitalize(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     },
-    // 检查当前值是否在范围内，不在则当前值重置为可选范围第一项
     checkValue(name, value, values) {
       if (values.indexOf(value) === -1) {
         this[name] = values[0];
       }
     },
-    // 每个月的实际天数
     daysInMonth(year, month) {
       return new Date(year, month, 0).getDate();
     },
-    //兼容 iOS、safari 日期格式
     fixIosDateFormat(value) {
       if (typeof value === "string") {
         value = value.replace(/-/g, "/");
       }
       return value;
     },
-    /**
-     * 生成时间戳
-     * @param {Object} time
-     */
     createTimeStamp(time) {
       if (!time)
         return;
@@ -524,9 +467,6 @@ const _sfc_main = {
         return Date.parse(time);
       }
     },
-    /**
-     * 生成日期或时间的字符串
-     */
     createDomSting() {
       const yymmdd = this.year + "-" + this.lessThanTen(this.month) + "-" + this.lessThanTen(this.day);
       let hhmmss = this.lessThanTen(this.hour) + ":" + this.lessThanTen(this.minute);
@@ -541,9 +481,6 @@ const _sfc_main = {
         return yymmdd + " " + hhmmss;
       }
     },
-    /**
-     * 初始化返回值，并抛出 change 事件
-     */
     initTime(emit = true) {
       this.time = this.createDomSting();
       if (!emit)
@@ -558,10 +495,6 @@ const _sfc_main = {
         this.$emit("update:modelValue", this.time);
       }
     },
-    /**
-     * 用户选择日期或时间更新 data
-     * @param {Object} e
-     */
     bindDateChange(e) {
       const val = e.detail.value;
       this.year = this.years[val[0]];
@@ -574,9 +507,6 @@ const _sfc_main = {
       this.minute = this.minutes[val[1]];
       this.second = this.seconds[val[2]];
     },
-    /**
-     * 初始化弹出层
-     */
     initTimePicker() {
       if (this.disabled)
         return;
@@ -584,15 +514,9 @@ const _sfc_main = {
       this.initPickerValue(value);
       this.visible = !this.visible;
     },
-    /**
-     * 触发或关闭弹框
-     */
     tiggerTimePicker(e) {
       this.visible = !this.visible;
     },
-    /**
-     * 用户点击“清空”按钮，清空当前值
-     */
     clearTime() {
       this.time = "";
       this.$emit("change", this.time);
@@ -600,9 +524,6 @@ const _sfc_main = {
       this.$emit("update:modelValue", this.time);
       this.tiggerTimePicker();
     },
-    /**
-     * 用户点击“确定”按钮
-     */
     setTime() {
       this.initTime();
       this.tiggerTimePicker();

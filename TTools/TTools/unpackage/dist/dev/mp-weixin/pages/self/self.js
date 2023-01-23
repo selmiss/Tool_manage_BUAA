@@ -42,7 +42,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "修改成功",
+              title: "\u4FEE\u6539\u6210\u529F",
               icon: "none"
             });
             common_vendor.index.reLaunch({
@@ -50,7 +50,7 @@ const _sfc_main = {
             });
           } else {
             common_vendor.index.showToast({
-              title: "修改失败，请联系管理员",
+              title: "\u4FEE\u6539\u5931\u8D25\uFF0C\u8BF7\u8054\u7CFB\u7BA1\u7406\u5458",
               icon: "none"
             });
           }
@@ -78,36 +78,36 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.p({
       type: "h1",
       align: "center",
-      title: "修改个人信息"
+      title: "\u4FEE\u6539\u4E2A\u4EBA\u4FE1\u606F"
     }),
     b: common_vendor.o(($event) => $data.userInfo.studentId = $event),
     c: common_vendor.p({
       type: "text",
-      placeholder: "您的学号",
+      placeholder: "\u60A8\u7684\u5B66\u53F7",
       modelValue: $data.userInfo.studentId
     }),
     d: common_vendor.p({
-      label: "学号",
+      label: "\u5B66\u53F7",
       name: "name"
     }),
     e: common_vendor.o(($event) => $data.userInfo.name = $event),
     f: common_vendor.p({
       type: "text",
-      placeholder: "您的姓名",
+      placeholder: "\u60A8\u7684\u59D3\u540D",
       modelValue: $data.userInfo.name
     }),
     g: common_vendor.p({
-      label: "姓名",
+      label: "\u59D3\u540D",
       name: "name"
     }),
     h: common_vendor.o(($event) => $data.userInfo.college = $event),
     i: common_vendor.p({
       type: "text",
-      placeholder: "您的学院",
+      placeholder: "\u60A8\u7684\u5B66\u9662",
       modelValue: $data.userInfo.college
     }),
     j: common_vendor.p({
-      label: "学院",
+      label: "\u5B66\u9662",
       name: "name"
     }),
     k: common_vendor.p({

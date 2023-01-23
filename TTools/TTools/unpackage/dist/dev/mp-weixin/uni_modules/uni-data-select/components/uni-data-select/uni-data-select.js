@@ -33,11 +33,11 @@ const _sfc_main = {
     },
     placeholder: {
       type: String,
-      default: "请选择"
+      default: "\u8BF7\u9009\u62E9"
     },
     emptyTips: {
       type: String,
-      default: "无选项"
+      default: "\u65E0\u9009\u9879"
     },
     clear: {
       type: Boolean,
@@ -61,9 +61,9 @@ const _sfc_main = {
   computed: {
     typePlaceholder() {
       const text = {
-        "opendb-stat-app-versions": "版本",
-        "opendb-app-channels": "渠道",
-        "opendb-app-list": "应用"
+        "opendb-stat-app-versions": "\u7248\u672C",
+        "opendb-app-channels": "\u6E20\u9053",
+        "opendb-app-list": "\u5E94\u7528"
       };
       const common = this.placeholder;
       const placeholder = text[this.collection];
@@ -117,10 +117,6 @@ const _sfc_main = {
       const def = this.mixinDatacomResData.find((item) => item.value === defValue);
       this.current = def ? this.formatItemName(def) : "";
     },
-    /**
-     * @param {[String, Number]} value
-     * 判断用户给的 value 是否同时为禁用状态
-     */
     isDisabled(value) {
       let isDisabled = false;
       this.mixinDatacomResData.forEach((item) => {
@@ -164,7 +160,7 @@ const _sfc_main = {
         channel_code
       } = item;
       channel_code = channel_code ? `(${channel_code})` : "";
-      return this.collection.indexOf("app-list") > 0 ? `${text}(${value})` : text ? text : `未命名${channel_code}`;
+      return this.collection.indexOf("app-list") > 0 ? `${text}(${value})` : text ? text : `\u672A\u547D\u540D${channel_code}`;
     }
   }
 };
@@ -180,7 +176,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
     a: $props.label
   }, $props.label ? {
-    b: common_vendor.t($props.label + "：")
+    b: common_vendor.t($props.label + "\uFF1A")
   } : {}, {
     c: $data.current
   }, $data.current ? {

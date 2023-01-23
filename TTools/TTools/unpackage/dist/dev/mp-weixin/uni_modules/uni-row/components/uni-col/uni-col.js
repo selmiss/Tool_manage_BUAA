@@ -5,7 +5,6 @@ const _sfc_main = {
   name: "uniCol",
   options: {
     virtualHost: true
-    // 在微信小程序中将组件节点渲染为虚拟节点，更加接近Vue组件的表现
   },
   props: {
     span: {

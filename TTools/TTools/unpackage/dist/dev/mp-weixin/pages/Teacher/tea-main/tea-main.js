@@ -89,7 +89,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["show-border"]: false
     }),
     i: common_vendor.p({
-      title: "审批管理",
+      title: "\u5BA1\u6279\u7BA1\u7406",
       extra: ""
     }),
     j: common_vendor.p({
@@ -114,7 +114,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["show-border"]: false
     }),
     q: common_vendor.p({
-      title: "工具管理",
+      title: "\u5DE5\u5177\u7BA1\u7406",
       extra: ""
     })
   };
