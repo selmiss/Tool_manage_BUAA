@@ -442,7 +442,12 @@ def getInfo(request):  # 获取个人信息
             return JsonResponse({"error_code": e.key})
         u = User.objects.filter(id=request.POST.get('uid'))
         if not u.exists():
-            return JsonResponse({"error_code": e.noUser})
+            u = Manager.objects.filter(id=request.POST.get('uid'))
+            if not u.exists():
+                return JsonResponse({"error_code": e.noUser})
+            u = u.get()
+            return JsonResponse({"error_code": 0, 'name': u.name, 'acc': u.acc, 'teacherId': u.teacherId,
+                     'uid': u.id,'phoneNumber': u.phoneNumber})
         u = u.get()
         return JsonResponse({"error_code": 0, 'name': u.name, 'acc': u.acc, 'studentId': u.studentId,
                              'uid': u.id, 'college': u.college, 'phoneNumber': u.phoneNumber})

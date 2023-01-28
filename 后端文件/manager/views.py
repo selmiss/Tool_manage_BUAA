@@ -285,9 +285,9 @@ def deleteTeacher(request):
         kwargs = json.loads(request.body.decode("utf-8"))
         Error = EasyDict()
         Error.key,Error.noTeacher= 1, 2
-        if kwargs.keys() != {'teacherId'}:
+        if kwargs.keys() != {'uid'}:
             return JsonResponse({'error_code': Error.key})
-        teacher = Manager.get_manager_by_id(kwargs['teacherId'])
+        teacher = Manager.get_manager_by_id(kwargs['uid'])
         if teacher is None:
             return JsonResponse({'error_code': Error.noTeacher})
         teacher.delete()

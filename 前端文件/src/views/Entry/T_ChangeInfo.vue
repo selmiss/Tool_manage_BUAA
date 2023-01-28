@@ -8,7 +8,7 @@
                 <div style="margin: 0 auto; align-items: center;">
                     <el-form label-width="80px">
                         <el-form-item label="工号" style="width: 80%">
-                            <el-input v-model="studentId" type="text" :placeholder=studentId></el-input>
+                            <el-input v-model="teacherId" type="text" :placeholder=studentId></el-input>
                         </el-form-item>
                         <el-form-item label="姓名" style="width: 80%">
                             <el-input v-model="name" type="text" :placeholder=name></el-input>
@@ -36,7 +36,7 @@ export default({
     data(){
         return {
             userId : '',
-            studentId: '',
+            teacherId: '',
             email :'',
             name : '',
         }
@@ -57,8 +57,7 @@ export default({
                 console.log(res);
                 if(res.data.error_code == 0) {
                     this.name = res.data.name,
-                    this.email = res.data.acc,
-                    this.studentId = res.data.studentId
+                    this.teacherId = res.data.teacherId
                 }
             })
         },
