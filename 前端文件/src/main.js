@@ -11,7 +11,8 @@ Vue.use(ElementUI);
 
 //原来的baseURL http://tool.selmiss.xyz/
 Vue.prototype.axios=axios
-axios.defaults.baseURL='http://127.0.0.1:8000/'
+//axios.defaults.baseURL='http://127.0.0.1:8000/'
+axios.defaults.baseURL='http://tool.selmiss.xyz/'
 
 
 
