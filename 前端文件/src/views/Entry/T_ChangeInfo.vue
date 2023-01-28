@@ -14,7 +14,7 @@
                             <el-input v-model="name" type="text" :placeholder=name></el-input>
                         </el-form-item>
                         <el-form-item style="width: 80%">
-                            <el-button @click="confirm">确认修改</el-button>
+                            <el-button @click="confirm">请联系管理员修改</el-button>
                         </el-form-item>
                     </el-form>
                 </div>

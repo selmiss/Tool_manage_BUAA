@@ -1,6 +1,6 @@
 <template>
   <div class="x-head" >
-    <img style="cursor: pointer;height:60px;margin-left: 10px ;margin-top:0.5%" src="headerLogo.png">
+    <img @click="toMain" style="cursor: pointer;height:60px;margin-left: 10px ;margin-top:0.5%" src="headerLogo.png">
     <div style="margin:0 auto"></div>
     <div style="line-height:6vh;margin:0 4vh 0 0" >
       <el-dropdown>
@@ -60,7 +60,7 @@ export default {
       this.$router.push('/teacherChangePwd');
     },
     toMain(){
-      this.$router.push('/toolManagement');
+      this.$router.push('/borrowProcessing');
     }
   }
 
