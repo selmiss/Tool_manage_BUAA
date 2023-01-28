@@ -62,7 +62,7 @@ export default {
         let that = this;
         axios({
           method:'post',
-          url: 'http://127.0.0.1:8000/manager/getTeacherApproveList',
+          url: '/manager/getTeacherApproveList',
           data: {
           }
         })

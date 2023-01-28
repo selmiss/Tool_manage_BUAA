@@ -166,9 +166,9 @@ export default{
   methods:{
 	  
 	  
-	          changeFile(e){
-	              console.log(e.target.files[0]);
-	              this.file=e.target.files[0];
+	    changeFile(e){
+	        console.log(e.target.files[0]);
+	        this.file=e.target.files[0];
 				  let formData=new FormData()
 				  formData.append('managerId',this.$store.state.UID)
 				  formData.append('files',this.file)
