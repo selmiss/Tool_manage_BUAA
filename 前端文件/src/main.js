@@ -32,7 +32,6 @@ axios.interceptors.request.use(
 Vue.config.productionTip = false
 
 
-
 new Vue({
   router,
   store,

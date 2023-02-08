@@ -20,7 +20,7 @@ class ware1(MiddlewareMixin):
             else:
                 print(token)
                 print("token错误被返回了")
-                return JsonResponse({"token_message" : "token错误"})
+                #return JsonResponse({"token_message" : "token错误"})
         else:
             print("不属于需要验证的请求")
 

@@ -2,7 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
-
+// Vue.http.interceptors.push((request, next) => {
+//   //请求发送前的处理逻辑
+//   request.headers.set('Authorization', localStorage.getItem('token'))
+//   next((response) => {
+//       //请求发送后的处理逻辑
+//       //根据请求的状态，response参数返回给successCallback或errorCallback
+//       return response
+//   })
+// })
 const routes = [
   {
     path:"/testlogin",
