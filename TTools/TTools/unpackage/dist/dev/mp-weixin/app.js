@@ -21,7 +21,7 @@ if (!Math) {
 const _sfc_main = {
   globalData: {
     uid: -1,
-    urlRoot: "http://127.0.0.1:8000",
+    urlRoot: "http://tool.selmiss.com",
     token: "wutoken"
   },
   onLaunch: function() {

@@ -166,7 +166,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       square: false
     }),
     d: common_vendor.p({
-      title: "\u5DE5\u5177\u501F\u7528",
+      title: "\u5DE5\u5177\u7F16\u8F91",
       subTitle: "",
       titleFontSize: "20px",
       subTitleFontSize: "18px",

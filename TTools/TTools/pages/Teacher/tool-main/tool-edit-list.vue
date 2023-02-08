@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="listInfo">
-			<uni-section title="工具借用" subTitle="" titleFontSize="20px" subTitleFontSize="18px" type="line">
+			<uni-section title="工具编辑" subTitle="" titleFontSize="20px" subTitleFontSize="18px" type="line">
 						<uni-grid :column="2" :highlight="true" :square="false" >
 										<uni-grid-item v-for="(item, index) in toolList" :index="index" :key="index">
 											<view class="grid-item-box" style="background-color: #fff;">
