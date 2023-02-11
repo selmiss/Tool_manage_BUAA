@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-			<img src="../../static/MainMenu.jpeg" alt="">
+			<img style='width: 100%;' src="../../static/MainMenu.jpeg" alt="">
 			<view v-if="isLogin === 0">
 			<uni-title type="h1" v-if="!isManager" title="学生登录"></uni-title>
 			<uni-title type="h1" v-if="isManager" color="orange" title="教师登录"></uni-title>
@@ -28,7 +28,7 @@
 
 					</uni-forms>
 					<button @click="submitLogin" size="default" type="default">登录</button>
-					<button @click="wxlogin" size="default" type="default">使用微信账号登录</button>
+					<!-- <button @click="wxlogin" size="default" type="default">使用微信账号登录</button> -->
 				</view>
 				<view v-if="isLogin === 1">
 					<uni-section titleFontSize="18px" title="已登录" type="line">
@@ -436,7 +436,7 @@
 								})
 							}
 							
-						} else if (res.data.error_code == 2 || res.data.error_code == 4) {
+						} else if (res.data.error_code == 2 || res.data.error_code == 3) {
 							uni.showToast({
 								title: String("用户名或密码不正确！"),
 								icon: 'none'
@@ -498,7 +498,7 @@
 								})
 							}
 							
-						} else if (res.data.error_code == 2 || res.data.error_code == 4) {
+						} else if (res.data.error_code == 2 || res.data.error_code == 3) {
 							uni.showToast({
 								title: String("用户名或密码不正确！"),
 								icon: 'none'

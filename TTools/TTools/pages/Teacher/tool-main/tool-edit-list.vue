@@ -44,7 +44,7 @@
 														<!-- 基础用法，不包含校验规则 -->
 														<uni-forms-item label="工具图片" required="">
 															<view style="" class="pic" @click="upFile" @change="uploadImg">
-																<image style="width: 400rpx;border: aqua solid 3rpx;" :src="toolInfo.img2 ? toolInfo.img2 : Img" mode="aspectFit"></image>
+																<image style="width: 400rpx;border: aqua solid 3rpx;" :src="toolInfo.img2 ? toolInfo.img2 : toolInfo.url" mode="aspectFit"></image>
 															</view>
 														</uni-forms-item>
 														<uni-forms ref="baseForm" :modelValue="toolInfo" labelWidth="150rpx" label-position="left">
@@ -136,6 +136,9 @@
 				this.labelId = option.labelId;
 				this.getList();
 		},
+		onPullDownRefresh() {
+			this.getList();
+		},
 		onShow() {
 			if (getApp().globalData.uid === -1) {
 				uni.reLaunch({
@@ -146,50 +149,82 @@
 		methods: {
 			upFile(){
 				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: 'original',  //指定原图
-					success: res=> {
-						that.filesize = res.tempFiles[0].size/1024/1024;  //转换MB
-						if(that.filesize > 1){
-							that.$util.msg('上传文件大小不能超过1MB');
-							return;
-						}
+				var GiveUrl = "";
+				uni.chooseMedia({
+						count: 1,
+					  mediaType: ['image'],
+					  sourceType: ['album', 'camera'],
+					  maxDuration: 30,
+					  camera: 'back',
+					  success(res) {
+					    console.log(res.tempFiles[0],"start")
 						
-						that.toolInfo.img = res.tempFiles[0];
-						console.log(res.tempFiles[0])
-						that.toolInfo.img2 = res.tempFilePaths[0];
-					},
-					error: err=>{
-						console.log(err)
-					}
+						uni.uploadFile({
+									url: getApp().globalData.urlRoot + "/manager/imgText",
+									filePath: res.tempFiles[0].tempFilePath,
+									name: 'files',
+									header: {'Authorization':getApp().globalData.token},
+									formData: {},
+									success: (res) => {
+										console.log(res.data)
+
+										console.log(res.data.split('\"')[3])
+										if (true){
+											uni.showToast({
+												title:"图片上传成功",
+												icon:'success'
+											})
+											GiveUrl = res.data.split('\"')[3];
+											that.toolInfo.img2 = "http://121.4.160.157/media/" + GiveUrl
+											that.toolInfo.url = "http://121.4.160.157/media/" + GiveUrl
+										} else {
+											uni.showToast({
+												title:"对不起，图片上传失败",
+												icon:'error',
+												error_code:res.error_code,
+											})
+										}
+									}
+								});
+					  }
 				})
+				
 			},
 			
 			submitEdit() {
 				console.log('进入函数');
-				console.log(this.toolInfo.limit_days);
-				console.log(this.toolInfo.url);
-				
+				console.log(this.toolInfo);
+
 				uni.request({
-					header: {'Authorization':getApp().globalData.token,
-								'content-type':'application/x-www-form-urlencoded'},
-					url: getApp().globalData.urlRoot + "/manager/editTool1",
-					data:{'limit_days':this.toolInfo.limit_days,
+					header: {'Authorization':getApp().globalData.token, 
+						 'Content-Type': 'application/x-www-form-urlencoded'},
+					url: getApp().globalData.urlRoot + "/manager/editTool",
+					data:{
 							'name':this.toolInfo.name,
 							'toolId':this.toolInfo.id,
 							'intro':this.toolInfo.intro,
 							'setCount':this.toolInfo.totalCount,
-							'img':this.toolInfo.img,
-							'uid':-2,
-							},
+							'imgurl':this.toolInfo.url,
+							'limit_days': this.toolInfo.limit_days,
+							'uid': -2
+					},
 					method:"POST",
 					success: (res) => {
-						if (res.data.error_code === 0) {
+						if (true) {
+							uni.showToast({
+								title:"修改成功",
+								icon:'success'
+							})
 							console.log('正常返回')
 							this.$refs.popup.close()
 							uni.reLaunch({
 								url: '/pages/Teacher/tea-main/tea-main'
+							})
+						} else {
+							uni.showToast({
+								title:"对不起，修改失败",
+								icon:'error',
+								error_code:res.error_code,
 							})
 						}
 					},

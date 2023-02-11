@@ -14,9 +14,9 @@ const _sfc_main = {
         img: null
       },
       range: [
-        { value: 4, text: "\u673A\u68B0\u5DE5\u5177" },
+        { value: 6, text: "\u673A\u68B0\u5DE5\u5177" },
         { value: 5, text: "\u7535\u63A7\u5DE5\u5177" },
-        { value: 6, text: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907" }
+        { value: 4, text: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907" }
       ],
       filesize: 0
     };
@@ -33,21 +33,16 @@ const _sfc_main = {
   methods: {
     upFile() {
       let that = this;
-      common_vendor.index.chooseImage({
+      common_vendor.index.chooseMedia({
         count: 1,
-        sizeType: "original",
-        success: (res) => {
-          that.filesize = res.tempFiles[0].size / 1024 / 1024;
-          if (that.filesize > 1) {
-            that.$util.msg("\u4E0A\u4F20\u6587\u4EF6\u5927\u5C0F\u4E0D\u80FD\u8D85\u8FC71MB");
-            return;
-          }
-          console.log(res.tempFilePaths[0]);
+        mediaType: ["image"],
+        sourceType: ["album", "camera"],
+        maxDuration: 30,
+        camera: "back",
+        success(res) {
+          console.log(res.tempFiles[0]);
           that.toolInfo.img = res.tempFiles[0];
-          that.toolInfo.img2 = res.tempFilePaths[0];
-        },
-        error: (err) => {
-          console.log(err);
+          that.toolInfo.img2 = res.tempFiles[0].tempFilePath;
         }
       });
     },
@@ -57,35 +52,29 @@ const _sfc_main = {
     },
     submit() {
       console.log(this.toolInfo.LabelId);
-      console.log(this.toolInfo.img);
-      common_vendor.index.request({
-        header: {
-          "Authorization": getApp().globalData.token,
-          "content-type": "application/x-www-form-urlencoded"
-        },
+      console.log(this.toolInfo.img2);
+      common_vendor.index.uploadFile({
         url: getApp().globalData.urlRoot + "/manager/createTool",
-        data: {
+        filePath: this.toolInfo.img2,
+        name: "img",
+        header: { "Authorization": getApp().globalData.token },
+        formData: {
           "limit_days": this.toolInfo.limit_days,
           "name": this.toolInfo.name,
           "LabelId": this.toolInfo.LabelId,
           "intro": this.toolInfo.intro,
           "addCount": this.toolInfo.addCount,
-          "img": this.toolInfo.img,
           "uid": -2
         },
-        method: "POST",
         success: (res) => {
           console.log(res.data);
-          if (res.data.error_code === 0) {
+          {
             common_vendor.index.showToast({
               title: "\u5DE5\u5177\u6DFB\u52A0\u6210\u529F",
               icon: "success"
             });
-          } else {
-            common_vendor.index.showToast({
-              title: "\u5DE5\u5177\u6DFB\u52A0\u5931\u8D25",
-              icon: "error",
-              error_code: res.error_code
+            common_vendor.index.reLaunch({
+              url: "/pages/Teacher/tea-main/tea-main"
             });
           }
         }

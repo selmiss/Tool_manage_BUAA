@@ -253,6 +253,14 @@
 				})
 			}
 			this.getToolList();
+		},
+		onPullDownRefresh() {
+			if (getApp().globalData.uid === -1) {
+				uni.reLaunch({
+					url:"/pages/index/index"
+				})
+			}
+			this.getToolList();
 		}
 	}
 </script>

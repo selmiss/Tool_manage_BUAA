@@ -66,7 +66,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         a: common_vendor.o(($event) => $options.onClick(item.lowerLabel[0].id)),
         b: "a552f410-1-" + i0 + ",a552f410-0",
         c: common_vendor.p({
-          title: item.name,
+          title: item.lowerLabel[0].name,
           thumbnail: item.lowerLabel[0].url
         })
       };

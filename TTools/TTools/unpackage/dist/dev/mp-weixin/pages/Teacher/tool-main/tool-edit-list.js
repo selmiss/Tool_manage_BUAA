@@ -25,6 +25,9 @@ const _sfc_main = {
     this.labelId = option.labelId;
     this.getList();
   },
+  onPullDownRefresh() {
+    this.getList();
+  },
   onShow() {
     if (getApp().globalData.uid === -1) {
       common_vendor.index.reLaunch({
@@ -35,46 +38,63 @@ const _sfc_main = {
   methods: {
     upFile() {
       let that = this;
-      common_vendor.index.chooseImage({
+      var GiveUrl = "";
+      common_vendor.index.chooseMedia({
         count: 1,
-        sizeType: "original",
-        success: (res) => {
-          that.filesize = res.tempFiles[0].size / 1024 / 1024;
-          if (that.filesize > 1) {
-            that.$util.msg("\u4E0A\u4F20\u6587\u4EF6\u5927\u5C0F\u4E0D\u80FD\u8D85\u8FC71MB");
-            return;
-          }
-          that.toolInfo.img = res.tempFiles[0];
-          console.log(res.tempFiles[0]);
-          that.toolInfo.img2 = res.tempFilePaths[0];
-        },
-        error: (err) => {
-          console.log(err);
+        mediaType: ["image"],
+        sourceType: ["album", "camera"],
+        maxDuration: 30,
+        camera: "back",
+        success(res) {
+          console.log(res.tempFiles[0], "start");
+          common_vendor.index.uploadFile({
+            url: getApp().globalData.urlRoot + "/manager/imgText",
+            filePath: res.tempFiles[0].tempFilePath,
+            name: "files",
+            header: { "Authorization": getApp().globalData.token },
+            formData: {},
+            success: (res2) => {
+              console.log(res2.data);
+              console.log(res2.data.split('"')[3]);
+              {
+                common_vendor.index.showToast({
+                  title: "\u56FE\u7247\u4E0A\u4F20\u6210\u529F",
+                  icon: "success"
+                });
+                GiveUrl = res2.data.split('"')[3];
+                that.toolInfo.img2 = "http://121.4.160.157/media/" + GiveUrl;
+                that.toolInfo.url = "http://121.4.160.157/media/" + GiveUrl;
+              }
+            }
+          });
         }
       });
     },
     submitEdit() {
       console.log("\u8FDB\u5165\u51FD\u6570");
-      console.log(this.toolInfo.limit_days);
-      console.log(this.toolInfo.url);
+      console.log(this.toolInfo);
       common_vendor.index.request({
         header: {
           "Authorization": getApp().globalData.token,
-          "content-type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        url: getApp().globalData.urlRoot + "/manager/editTool1",
+        url: getApp().globalData.urlRoot + "/manager/editTool",
         data: {
-          "limit_days": this.toolInfo.limit_days,
           "name": this.toolInfo.name,
           "toolId": this.toolInfo.id,
           "intro": this.toolInfo.intro,
           "setCount": this.toolInfo.totalCount,
-          "img": this.toolInfo.img,
+          "imgurl": this.toolInfo.url,
+          "limit_days": this.toolInfo.limit_days,
           "uid": -2
         },
         method: "POST",
         success: (res) => {
-          if (res.data.error_code === 0) {
+          {
+            common_vendor.index.showToast({
+              title: "\u4FEE\u6539\u6210\u529F",
+              icon: "success"
+            });
             console.log("\u6B63\u5E38\u8FD4\u56DE");
             this.$refs.popup.close();
             common_vendor.index.reLaunch({
@@ -172,7 +192,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       subTitleFontSize: "18px",
       type: "line"
     }),
-    e: $data.toolInfo.img2 ? $data.toolInfo.img2 : _ctx.Img,
+    e: $data.toolInfo.img2 ? $data.toolInfo.img2 : $data.toolInfo.url,
     f: common_vendor.o((...args) => $options.upFile && $options.upFile(...args)),
     g: common_vendor.o((...args) => _ctx.uploadImg && _ctx.uploadImg(...args)),
     h: common_vendor.p({

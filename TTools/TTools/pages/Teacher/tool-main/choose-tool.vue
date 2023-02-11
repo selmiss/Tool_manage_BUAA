@@ -4,7 +4,7 @@
 		<view class="mainlist">
 		<uni-section  title="编辑工具" subTitleFontSize="16px" subTitle="请选择工具分类" titleFontSize="20px" type="line" >
 				
-					<uni-card v-for="item in labelList" :title="item.name"  :thumbnail="item.lowerLabel[0].url" @click="onClick(item.lowerLabel[0].id)">
+					<uni-card v-for="item in labelList" :title="item.lowerLabel[0].name"  :thumbnail="item.lowerLabel[0].url" @click="onClick(item.lowerLabel[0].id)">
 					</uni-card>
 					
 				</uni-section>

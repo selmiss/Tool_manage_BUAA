@@ -4,7 +4,7 @@
 		<view class="mainlist">
 		<uni-section  :title="title" subTitleFontSize="16px" subTitle="请选择工具分类" titleFontSize="20px" type="line" >
 				
-					<uni-card v-for="item in labelList" :title="item.name"  :thumbnail="item.lowerLabel[0].url" @click="onClick(item.lowerLabel[0].id)">
+					<uni-card v-for="item in labelList" :title="item.lowerLabel[0].name"  :thumbnail="item.lowerLabel[0].url" @click="onClick(item.lowerLabel[0].id)">
 					</uni-card>
 					
 				</uni-section>
@@ -24,7 +24,7 @@
 							id : 1,
 							level: 1,
 							lowerLabel :
-							[{name: "机械工具", id: 4, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png"}]
+							[{name: "机械工具", id: 6, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png"}]
 					},
 					{
 							name: '电控工具',
@@ -38,7 +38,7 @@
 						id: 3,
 						level: 1,
 						lowerLabel :
-						[{name: "机械电子设备", id: 6, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png"}]
+						[{name: "机械电子设备", id: 4, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png"}]
 					}
 				],
 				pattern: {

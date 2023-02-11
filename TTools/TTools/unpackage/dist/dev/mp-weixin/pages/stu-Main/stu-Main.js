@@ -128,6 +128,14 @@ const _sfc_main = {
       });
     }
     this.getToolList();
+  },
+  onPullDownRefresh() {
+    if (getApp().globalData.uid === -1) {
+      common_vendor.index.reLaunch({
+        url: "/pages/index/index"
+      });
+    }
+    this.getToolList();
   }
 };
 if (!Array) {

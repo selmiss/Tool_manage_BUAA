@@ -253,7 +253,7 @@ const _sfc_main = {
                 }
               });
             }
-          } else if (res.data.error_code == 2 || res.data.error_code == 4) {
+          } else if (res.data.error_code == 2 || res.data.error_code == 3) {
             common_vendor.index.showToast({
               title: String("\u7528\u6237\u540D\u6216\u5BC6\u7801\u4E0D\u6B63\u786E\uFF01"),
               icon: "none"
@@ -305,7 +305,7 @@ const _sfc_main = {
                 }
               });
             }
-          } else if (res.data.error_code == 2 || res.data.error_code == 4) {
+          } else if (res.data.error_code == 2 || res.data.error_code == 3) {
             common_vendor.index.showToast({
               title: String("\u7528\u6237\u540D\u6216\u5BC6\u7801\u4E0D\u6B63\u786E\uFF01"),
               icon: "none"
@@ -419,211 +419,210 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.form,
       ["label-position"]: "top"
     }),
-    s: common_vendor.o((...args) => $options.submitLogin && $options.submitLogin(...args)),
-    t: common_vendor.o((...args) => $options.wxlogin && $options.wxlogin(...args))
+    s: common_vendor.o((...args) => $options.submitLogin && $options.submitLogin(...args))
   }) : {}, {
-    v: $data.isLogin === 1
+    t: $data.isLogin === 1
   }, $data.isLogin === 1 ? {
-    w: common_vendor.t($data.userInfo.college),
-    x: common_vendor.t($data.userInfo.acc),
-    y: common_vendor.t($data.userInfo.phoneNumber),
-    z: common_vendor.o((...args) => $options.logout && $options.logout(...args)),
-    A: common_vendor.p({
+    v: common_vendor.t($data.userInfo.college),
+    w: common_vendor.t($data.userInfo.acc),
+    x: common_vendor.t($data.userInfo.phoneNumber),
+    y: common_vendor.o((...args) => $options.logout && $options.logout(...args)),
+    z: common_vendor.p({
       title: $data.userInfo.name,
       extra: "\u5B66\u5DE5\u53F7:" + $data.userInfo.studentId
     }),
-    B: common_vendor.p({
+    A: common_vendor.p({
       type: "eye-filled",
       size: "30"
     }),
-    C: common_vendor.o((...args) => $options.changePassword && $options.changePassword(...args)),
-    D: common_vendor.p({
+    B: common_vendor.o((...args) => $options.changePassword && $options.changePassword(...args)),
+    C: common_vendor.p({
       type: "person",
       size: "30"
     }),
-    E: common_vendor.o((...args) => $options.editInfo && $options.editInfo(...args)),
-    F: common_vendor.p({
+    D: common_vendor.o((...args) => $options.editInfo && $options.editInfo(...args)),
+    E: common_vendor.p({
       type: "settings-filled",
       size: "30"
     }),
-    G: common_vendor.o((...args) => $options.goTools && $options.goTools(...args)),
-    H: common_vendor.p({
+    F: common_vendor.o((...args) => $options.goTools && $options.goTools(...args)),
+    G: common_vendor.p({
       column: 3,
       highlight: true,
       square: true,
       ["show-border"]: false
     }),
-    I: common_vendor.p({
+    H: common_vendor.p({
       titleFontSize: "18px",
       title: "\u5DF2\u767B\u5F55",
       type: "line"
     })
   } : {}, {
-    J: common_vendor.p({
+    I: common_vendor.p({
       href: "http://121.4.160.157:8080/",
       text: "http://121.4.160.157:8080/"
     }),
-    K: common_vendor.sr("toWeb", "c7f3f8e6-17"),
-    L: common_vendor.p({
+    J: common_vendor.sr("toWeb", "c7f3f8e6-17"),
+    K: common_vendor.p({
       type: "top",
       ["background-color"]: "#fff"
     }),
-    M: common_vendor.p({
+    L: common_vendor.p({
       type: "h1",
       align: "center",
       title: "\u586B\u5199\u4E2A\u4EBA\u4FE1\u606F"
     }),
-    N: common_vendor.o(($event) => $data.managerform.tId = $event),
-    O: common_vendor.p({
+    M: common_vendor.o(($event) => $data.managerform.tId = $event),
+    N: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u5B66\u53F7",
       modelValue: $data.managerform.tId
     }),
-    P: common_vendor.p({
+    O: common_vendor.p({
       label: "\u5DE5\u53F7",
       name: "name"
     }),
-    Q: common_vendor.o(($event) => $data.managerform.name = $event),
-    R: common_vendor.p({
+    P: common_vendor.o(($event) => $data.managerform.name = $event),
+    Q: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u59D3\u540D",
       modelValue: $data.managerform.name
     }),
-    S: common_vendor.p({
+    R: common_vendor.p({
       label: "\u59D3\u540D",
       name: "name"
     }),
-    T: common_vendor.o(($event) => $data.managerform.email = $event),
-    U: common_vendor.p({
+    S: common_vendor.o(($event) => $data.managerform.email = $event),
+    T: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u90AE\u7BB1",
       modelValue: $data.managerform.email
     }),
-    V: common_vendor.p({
+    U: common_vendor.p({
       label: "\u90AE\u7BB1",
       name: "name"
     }),
-    W: common_vendor.o(($event) => $data.managerform.number = $event),
-    X: common_vendor.p({
+    V: common_vendor.o(($event) => $data.managerform.number = $event),
+    W: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u7535\u8BDD",
       modelValue: $data.managerform.number
     }),
-    Y: common_vendor.p({
+    X: common_vendor.p({
       label: "\u7535\u8BDD",
       name: "name"
     }),
-    Z: common_vendor.o(($event) => $data.managerform.password = $event),
-    aa: common_vendor.p({
+    Y: common_vendor.o(($event) => $data.managerform.password = $event),
+    Z: common_vendor.p({
       type: "password",
       placeholder: "\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.managerform.password
     }),
-    ab: common_vendor.p({
+    aa: common_vendor.p({
       label: "\u5BC6\u7801",
       name: "name"
     }),
-    ac: common_vendor.o(($event) => $data.managerform.password1 = $event),
-    ad: common_vendor.p({
+    ab: common_vendor.o(($event) => $data.managerform.password1 = $event),
+    ac: common_vendor.p({
       type: "password",
       placeholder: "\u91CD\u65B0\u8F93\u5165\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.managerform.password1
     }),
-    ae: common_vendor.p({
+    ad: common_vendor.p({
       label: "\u786E\u8BA4\u5BC6\u7801",
       name: "name"
     }),
-    af: common_vendor.p({
+    ae: common_vendor.p({
       modelValue: $data.managerform,
       ["label-position"]: "left"
     }),
-    ag: common_vendor.o(($event) => $options.managerEdit()),
-    ah: common_vendor.sr("managerRe", "c7f3f8e6-19"),
-    ai: common_vendor.p({
+    af: common_vendor.o(($event) => $options.managerEdit()),
+    ag: common_vendor.sr("managerRe", "c7f3f8e6-19"),
+    ah: common_vendor.p({
       ["background-color"]: "#fff"
     }),
-    aj: common_vendor.p({
+    ai: common_vendor.p({
       type: "h1",
       align: "center",
       title: "\u586B\u5199\u4E2A\u4EBA\u4FE1\u606F"
     }),
-    ak: common_vendor.o(($event) => $data.userform.studentId = $event),
-    al: common_vendor.p({
+    aj: common_vendor.o(($event) => $data.userform.studentId = $event),
+    ak: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u5B66\u53F7",
       modelValue: $data.userform.studentId
     }),
-    am: common_vendor.p({
+    al: common_vendor.p({
       label: "\u5B66\u53F7",
       name: "name"
     }),
-    an: common_vendor.o(($event) => $data.userform.name = $event),
-    ao: common_vendor.p({
+    am: common_vendor.o(($event) => $data.userform.name = $event),
+    an: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u59D3\u540D",
       modelValue: $data.userform.name
     }),
-    ap: common_vendor.p({
+    ao: common_vendor.p({
       label: "\u59D3\u540D",
       name: "name"
     }),
-    aq: common_vendor.o(($event) => $data.userform.college = $event),
-    ar: common_vendor.p({
+    ap: common_vendor.o(($event) => $data.userform.college = $event),
+    aq: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u5B66\u9662",
       modelValue: $data.userform.college
     }),
-    as: common_vendor.p({
+    ar: common_vendor.p({
       label: "\u5B66\u9662",
       name: "name"
     }),
-    at: common_vendor.o(($event) => $data.userform.email = $event),
-    av: common_vendor.p({
+    as: common_vendor.o(($event) => $data.userform.email = $event),
+    at: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u90AE\u7BB1",
       modelValue: $data.userform.email
     }),
-    aw: common_vendor.p({
+    av: common_vendor.p({
       label: "\u90AE\u7BB1",
       name: "name"
     }),
-    ax: common_vendor.o(($event) => $data.userform.number = $event),
-    ay: common_vendor.p({
+    aw: common_vendor.o(($event) => $data.userform.number = $event),
+    ax: common_vendor.p({
       type: "text",
       placeholder: "\u60A8\u7684\u7535\u8BDD",
       modelValue: $data.userform.number
     }),
-    az: common_vendor.p({
+    ay: common_vendor.p({
       label: "\u7535\u8BDD",
       name: "name"
     }),
-    aA: common_vendor.o(($event) => $data.userform.password = $event),
-    aB: common_vendor.p({
+    az: common_vendor.o(($event) => $data.userform.password = $event),
+    aA: common_vendor.p({
       type: "password",
       placeholder: "\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.userform.password
     }),
-    aC: common_vendor.p({
+    aB: common_vendor.p({
       label: "\u5BC6\u7801",
       name: "name"
     }),
-    aD: common_vendor.o(($event) => $data.userform.password1 = $event),
-    aE: common_vendor.p({
+    aC: common_vendor.o(($event) => $data.userform.password1 = $event),
+    aD: common_vendor.p({
       type: "password",
       placeholder: "\u91CD\u65B0\u8F93\u5165\u60A8\u7684\u5BC6\u7801",
       modelValue: $data.userform.password1
     }),
-    aF: common_vendor.p({
+    aE: common_vendor.p({
       label: "\u786E\u8BA4\u5BC6\u7801",
       name: "name"
     }),
-    aG: common_vendor.p({
+    aF: common_vendor.p({
       modelValue: $data.userform,
       ["label-position"]: "left"
     }),
-    aH: common_vendor.o(($event) => $options.userEdit()),
-    aI: common_vendor.sr("userRe", "c7f3f8e6-35"),
-    aJ: common_vendor.p({
+    aG: common_vendor.o(($event) => $options.userEdit()),
+    aH: common_vendor.sr("userRe", "c7f3f8e6-35"),
+    aI: common_vendor.p({
       ["background-color"]: "#fff"
     })
   });

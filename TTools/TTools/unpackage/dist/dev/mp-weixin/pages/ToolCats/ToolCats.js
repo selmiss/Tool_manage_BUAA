@@ -10,7 +10,7 @@ const _sfc_main = {
           name: "\u673A\u68B0\u5DE5\u5177",
           id: 1,
           level: 1,
-          lowerLabel: [{ name: "\u673A\u68B0\u5DE5\u5177", id: 4, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png" }]
+          lowerLabel: [{ name: "\u673A\u68B0\u5DE5\u5177", id: 6, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png" }]
         },
         {
           name: "\u7535\u63A7\u5DE5\u5177",
@@ -22,7 +22,7 @@ const _sfc_main = {
           name: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907",
           id: 3,
           level: 1,
-          lowerLabel: [{ name: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907", id: 6, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png" }]
+          lowerLabel: [{ name: "\u673A\u68B0\u7535\u5B50\u8BBE\u5907", id: 4, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png" }]
         }
       ],
       pattern: {
@@ -85,7 +85,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         a: common_vendor.o(($event) => $options.onClick(item.lowerLabel[0].id)),
         b: "564cda07-1-" + i0 + ",564cda07-0",
         c: common_vendor.p({
-          title: item.name,
+          title: item.lowerLabel[0].name,
           thumbnail: item.lowerLabel[0].url
         })
       };
