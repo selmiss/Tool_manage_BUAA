@@ -118,8 +118,8 @@ const _sfc_main = {
     },
     wxlogin() {
       var that = this;
-      let wxspAppid = "wxc6210b45fc53b29d";
-      let wxspSecret = "a84513f04d24a63539294f919b61cacd";
+      let wxspAppid = "";
+      let wxspSecret = "";
       let oid = "";
       let isM = "0";
       if (this.isManager) {

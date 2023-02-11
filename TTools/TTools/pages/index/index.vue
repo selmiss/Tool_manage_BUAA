@@ -299,8 +299,8 @@
 			
 			wxlogin(){
 				var that=this;
-				let wxspAppid = 'wxc6210b45fc53b29d';
-				let wxspSecret='a84513f04d24a63539294f919b61cacd';
+				let wxspAppid = ''; //不能明文显示
+				let wxspSecret='';	//不能明文显示
 				let oid='';
 				let isM='0';
 				if(this.isManager){
