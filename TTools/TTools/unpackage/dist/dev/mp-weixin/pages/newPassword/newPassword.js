@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -19,7 +19,7 @@ const _sfc_main = {
     change_pwd() {
       if (this.new_pwd1 != this.new_pwd2) {
         common_vendor.index.showToast({
-          title: "\u4E24\u6B21\u65B0\u5BC6\u7801\u4E0D\u4E00\u81F4!",
+          title: "两次新密码不一致!",
           icon: "none"
         });
         this.new_pwd1 = "";
@@ -37,12 +37,12 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 2) {
             common_vendor.index.showToast({
-              title: "\u539F\u5BC6\u7801\u4E0D\u6B63\u786E",
+              title: "原密码不正确",
               icon: "none"
             });
           } else if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u4FEE\u6539\u6210\u529F",
+              title: "修改成功",
               icon: "none"
             });
             common_vendor.index.reLaunch({
@@ -50,7 +50,7 @@ const _sfc_main = {
             });
           } else {
             common_vendor.index.showToast({
-              title: "\u8BF7\u6CE8\u610F\u5BC6\u7801\u683C\u5F0F",
+              title: "请注意密码格式",
               icon: "none"
             });
           }
@@ -78,7 +78,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.p({
       type: "h1",
       align: "center",
-      title: "\u4FEE\u6539\u5BC6\u7801"
+      title: "修改密码"
     }),
     b: common_vendor.o(($event) => $data.old_pwd = $event),
     c: common_vendor.p({
@@ -88,7 +88,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     d: common_vendor.p({
       labelWidth: "150rpx",
-      label: "\u539F\u5BC6\u7801",
+      label: "原密码",
       name: "name"
     }),
     e: common_vendor.o(($event) => $data.new_pwd1 = $event),
@@ -99,7 +99,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     g: common_vendor.p({
       labelWidth: "150rpx",
-      label: "\u65B0\u5BC6\u7801",
+      label: "新密码",
       name: "name"
     }),
     h: common_vendor.o(($event) => $data.new_pwd2 = $event),
@@ -110,7 +110,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     j: common_vendor.p({
       labelWidth: "150rpx",
-      label: "\u786E\u8BA4\u5BC6\u7801",
+      label: "确认密码",
       name: "name"
     }),
     k: common_vendor.p({
@@ -120,5 +120,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     l: common_vendor.o((...args) => $options.change_pwd && $options.change_pwd(...args))
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/newPassword/newPassword.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/newPassword/newPassword.vue"]]);
 wx.createPage(MiniProgramPage);

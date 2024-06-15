@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const ComponentClass = "uni-row";
 const modifierSeparator = "--";
 const _sfc_main = {
@@ -7,6 +7,7 @@ const _sfc_main = {
   componentName: "uniRow",
   options: {
     virtualHost: true
+    // 在微信小程序中将组件节点渲染为虚拟节点，更加接近Vue组件的表现，可使用flex布局
   },
   props: {
     type: String,
@@ -19,6 +20,7 @@ const _sfc_main = {
       type: String,
       default: "top"
     },
+    // nvue如果使用span等属性，需要配置宽度
     width: {
       type: [String, Number],
       default: 750
@@ -53,5 +55,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: `${Number($options.marginValue)}rpx`
   };
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-row/components/uni-row/uni-row.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-row/components/uni-row/uni-row.vue"]]);
 wx.createComponent(Component);

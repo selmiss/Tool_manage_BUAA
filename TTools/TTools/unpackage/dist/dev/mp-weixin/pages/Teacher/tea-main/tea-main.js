@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {};
@@ -89,7 +89,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["show-border"]: false
     }),
     i: common_vendor.p({
-      title: "\u5BA1\u6279\u7BA1\u7406",
+      title: "审批管理",
       extra: ""
     }),
     j: common_vendor.p({
@@ -114,10 +114,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["show-border"]: false
     }),
     q: common_vendor.p({
-      title: "\u5DE5\u5177\u7BA1\u7406",
+      title: "工具管理",
       extra: ""
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/tea-main.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/tea-main.vue"]]);
 wx.createPage(MiniProgramPage);

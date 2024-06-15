@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     const currentDate = this.getDate({
@@ -39,7 +39,7 @@ const _sfc_main = {
       date: currentDate,
       startTime: "08:30",
       endTime: "18:30",
-      position: "\u5DE5\u7A0B\u8BAD\u7EC3\u4E2D\u5FC3\u5357208",
+      position: "工程训练中心南208",
       agree_id: 0
     };
   },
@@ -77,7 +77,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.$refs.agree.close();
             common_vendor.index.showToast({
-              title: "\u6210\u529F\u501F\u51FA",
+              title: "成功借出",
               icon: "none"
             });
             this.getBorrowList();
@@ -95,7 +95,7 @@ const _sfc_main = {
       this.endTime = e.detail.value;
     },
     getDate(type) {
-      const date = new Date();
+      const date = /* @__PURE__ */ new Date();
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
       let day = date.getDate();
@@ -109,7 +109,7 @@ const _sfc_main = {
       return `${year}-${month}-${day}`;
     },
     maskClick(e) {
-      console.log("maskClick\u4E8B\u4EF6:", e);
+      console.log("maskClick事件:", e);
     },
     before_refuse() {
       this.$refs.refuseDialog.open();
@@ -140,7 +140,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u62D2\u7EDD\u6210\u529F",
+              title: "拒绝成功",
               icon: "none"
             });
             this.getBorrowList();
@@ -201,8 +201,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         l: "069f9643-1-" + i0 + ",069f9643-0",
         m: common_vendor.p({
           title: item.toolName,
-          ["sub-title"]: item.startTime + " \u5230 " + item.returnTime + " \u5EF6\u671F\u81F3" + item.postPoneTime,
-          extra: "\u6570\u91CF:" + item.borrowCount,
+          ["sub-title"]: item.startTime + " 到 " + item.returnTime + " 延期至" + item.postPoneTime,
+          extra: "数量:" + item.borrowCount,
           thumbnail: _ctx.avatar
         })
       };
@@ -227,9 +227,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     h: common_vendor.o(_ctx.onClick),
     i: common_vendor.p({
-      title: "\u5F85\u5BA1\u6279\u5EF6\u671F\u501F\u7528\u7533\u8BF7",
+      title: "待审批延期借用申请",
       subTitleFontSize: "16px",
-      subTitle: "\u672A\u5BA1\u6279\u6570\u91CF:" + $data.borrow_list.length,
+      subTitle: "未审批数量:" + $data.borrow_list.length,
       titleFontSize: "20px",
       type: "line"
     }),
@@ -248,9 +248,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     p: common_vendor.o($options.refuse),
     q: common_vendor.p({
       mode: "input",
-      title: "\u62D2\u7EDD",
+      title: "拒绝",
       value: "",
-      placeholder: "\u8BF7\u8F93\u5165\u62D2\u7EDD\u7406\u7531"
+      placeholder: "请输入拒绝理由"
     }),
     r: common_vendor.sr("refuseDialog", "069f9643-10"),
     s: common_vendor.p({
@@ -272,7 +272,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     H: common_vendor.o((...args) => $options.cancel && $options.cancel(...args)),
     I: common_vendor.o((...args) => $options.lend && $options.lend(...args)),
     J: common_vendor.p({
-      title: "\u9886\u53D6\u4FE1\u606F",
+      title: "领取信息",
       titleFontSize: "20px",
       type: "line"
     }),
@@ -282,5 +282,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/delay-borrow.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/delay-borrow.vue"]]);
 wx.createPage(MiniProgramPage);

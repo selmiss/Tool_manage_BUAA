@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports[Symbol.toStringTag] = "Module";
-var common_vendor = require("./common/vendor.js");
+Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+const common_vendor = require("./common/vendor.js");
 if (!Math) {
   "./pages/index/index.js";
   "./pages/Teacher/tea-main/tea-main.js";
@@ -21,11 +20,11 @@ if (!Math) {
 const _sfc_main = {
   globalData: {
     uid: -1,
-    urlRoot: "https://tool.selmiss.com",
+    urlRoot: "https://tool.selmiss.cn",
     token: "wutoken"
   },
   onLaunch: function() {
-    console.warn("\u5F53\u524D\u7EC4\u4EF6\u4EC5\u652F\u6301 uni_modules \u76EE\u5F55\u7ED3\u6784 \uFF0C\u8BF7\u5347\u7EA7 HBuilderX \u5230 3.1.0 \u7248\u672C\u4EE5\u4E0A\uFF01");
+    console.warn("当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！");
     console.log("App Launch");
   },
   onShow: function() {
@@ -35,7 +34,7 @@ const _sfc_main = {
     console.log("App Hide");
   }
 };
-var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   return {

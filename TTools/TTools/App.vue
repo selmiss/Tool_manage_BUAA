@@ -2,7 +2,7 @@
 	export default {
 		globalData: {
 			uid: -1,
-			urlRoot: "https://tool.selmiss.com",
+			urlRoot: "https://tool.selmiss.cn",
 			token:"wutoken",
 		},
 		onLaunch: function() {

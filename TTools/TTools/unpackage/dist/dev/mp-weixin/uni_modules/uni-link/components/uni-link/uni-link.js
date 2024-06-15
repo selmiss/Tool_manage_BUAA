@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uniLink",
   props: {
@@ -21,7 +21,7 @@ const _sfc_main = {
     },
     copyTips: {
       type: String,
-      default: "\u5DF2\u81EA\u52A8\u590D\u5236\u7F51\u5740\uFF0C\u8BF7\u5728\u624B\u673A\u6D4F\u89C8\u5668\u91CC\u7C98\u8D34\u8BE5\u7F51\u5740"
+      default: "已自动复制网址，请在手机浏览器里粘贴该网址"
     },
     color: {
       type: String,
@@ -84,5 +84,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     l: common_vendor.o((...args) => $options.openURL && $options.openURL(...args))
   });
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-link/components/uni-link/uni-link.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-link/components/uni-link/uni-link.vue"]]);
 wx.createComponent(Component);

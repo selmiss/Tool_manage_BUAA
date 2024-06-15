@@ -1,21 +1,25 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "UniGrid",
   emits: ["change"],
   props: {
+    // 每列显示个数
     column: {
       type: Number,
       default: 3
     },
+    // 是否显示边框
     showBorder: {
       type: Boolean,
       default: true
     },
+    // 边框颜色
     borderColor: {
       type: String,
       default: "#D2D2D2"
     },
+    // 是否正方形显示,默认为 true
     square: {
       type: Boolean,
       default: true
@@ -73,5 +77,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $props.borderColor
   };
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
 wx.createComponent(Component);

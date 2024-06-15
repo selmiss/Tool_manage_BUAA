@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<image src="../../../static/flower.jpg"></image>
+		<image src="../../../static/flower.jpeg"></image>
 		<view style="margin-left: 45rpx;color: orange;margin-top: 30rpx;font-size: 20px;">
 			<text>工具管理系统</text>
 			<view @click="logout" style="font-size: 14px;color:orangered;text-align: right;margin-right: 30rpx;">注销登录</view>

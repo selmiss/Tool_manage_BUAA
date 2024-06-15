@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -9,10 +9,10 @@ const _sfc_main = {
       toolId: -1,
       username: "JING",
       nowInfo: {},
-      title: "\u5DE5\u5177\u501F\u7528\u5217\u8868",
+      title: "工具借用列表",
       toolList: [
         {
-          toolName: "\u70ED\u7194\u80F6\u68D2",
+          toolName: "热熔胶棒",
           borrowCount: 1,
           startTime: "2022-10-17",
           returnTime: "2022-10-19",
@@ -21,7 +21,7 @@ const _sfc_main = {
           requestId: 42
         },
         {
-          toolName: "\u70ED\u7194\u80F6\u68D2",
+          toolName: "热熔胶棒",
           borrowCount: 1,
           startTime: "2022-10-17",
           returnTime: "2022-10-19",
@@ -58,7 +58,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u7EED\u501F\u6210\u529F\uFF0C\u8BF7\u8010\u5FC3\u7B49\u5F85\u5BA1\u6838\uFF01",
+              title: "续借成功，请耐心等待审核！",
               icon: "none"
             });
             this.$refs.popup.close();
@@ -80,7 +80,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u64A4\u9500\u6210\u529F",
+              title: "撤销成功",
               icon: "none"
             });
             this.$refs.popup1.close();
@@ -200,8 +200,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         r: "74e12ab2-2-" + i0 + ",74e12ab2-1",
         s: common_vendor.p({
           title: item.toolName,
-          ["sub-title"]: item.startTime + " \u5230 " + item.returnTime,
-          extra: "\u6570\u91CF:" + item.borrowCount,
+          ["sub-title"]: item.startTime + " 到 " + item.returnTime,
+          extra: "数量:" + item.borrowCount,
           thumbnail: _ctx.avatar
         })
       });
@@ -250,15 +250,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     w: common_vendor.o(($event) => $data.purpose = $event),
     x: common_vendor.p({
       type: "textarea",
-      placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
+      placeholder: "请输入内容",
       modelValue: $data.purpose
     }),
     y: common_vendor.p({
-      title: "*\u64A4\u9500\u7406\u7531",
+      title: "*撤销理由",
       type: "line",
       padding: true
     }),
-    z: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    z: common_vendor.o(($event) => $options.actionsClick("取消")),
     A: common_vendor.o(($event) => $options.RepealRenew()),
     B: common_vendor.o(_ctx.onClick),
     C: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
@@ -273,22 +273,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.range
     }),
     I: common_vendor.p({
-      title: "*\u501F\u7528\u65F6\u95F4",
+      title: "*借用时间",
       type: "line",
       padding: true
     }),
     J: common_vendor.o(($event) => $data.purpose = $event),
     K: common_vendor.p({
       type: "textarea",
-      placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9",
+      placeholder: "请输入内容",
       modelValue: $data.purpose
     }),
     L: common_vendor.p({
-      title: "*\u7EED\u501F\u7406\u7531",
+      title: "*续借理由",
       type: "line",
       padding: true
     }),
-    M: common_vendor.o(($event) => $options.actionsClick("\u53D6\u6D88")),
+    M: common_vendor.o(($event) => $options.actionsClick("取消")),
     N: common_vendor.o(($event) => $options.submitBorrow()),
     O: common_vendor.o(_ctx.onClick),
     P: _ctx.type === "left" || _ctx.type === "right" ? 1 : "",
@@ -298,5 +298,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/stu-Main/stu-Main.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/stu-Main/stu-Main.vue"]]);
 wx.createPage(MiniProgramPage);

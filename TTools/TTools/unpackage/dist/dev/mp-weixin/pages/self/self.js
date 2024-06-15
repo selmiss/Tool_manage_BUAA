@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -42,7 +42,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u4FEE\u6539\u6210\u529F",
+              title: "修改成功",
               icon: "none"
             });
             common_vendor.index.reLaunch({
@@ -50,7 +50,7 @@ const _sfc_main = {
             });
           } else {
             common_vendor.index.showToast({
-              title: "\u4FEE\u6539\u5931\u8D25\uFF0C\u8BF7\u8054\u7CFB\u7BA1\u7406\u5458",
+              title: "修改失败，请联系管理员",
               icon: "none"
             });
           }
@@ -78,36 +78,36 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.p({
       type: "h1",
       align: "center",
-      title: "\u4FEE\u6539\u4E2A\u4EBA\u4FE1\u606F"
+      title: "修改个人信息"
     }),
     b: common_vendor.o(($event) => $data.userInfo.studentId = $event),
     c: common_vendor.p({
       type: "text",
-      placeholder: "\u60A8\u7684\u5B66\u53F7",
+      placeholder: "您的学号",
       modelValue: $data.userInfo.studentId
     }),
     d: common_vendor.p({
-      label: "\u5B66\u53F7",
+      label: "学号",
       name: "name"
     }),
     e: common_vendor.o(($event) => $data.userInfo.name = $event),
     f: common_vendor.p({
       type: "text",
-      placeholder: "\u60A8\u7684\u59D3\u540D",
+      placeholder: "您的姓名",
       modelValue: $data.userInfo.name
     }),
     g: common_vendor.p({
-      label: "\u59D3\u540D",
+      label: "姓名",
       name: "name"
     }),
     h: common_vendor.o(($event) => $data.userInfo.college = $event),
     i: common_vendor.p({
       type: "text",
-      placeholder: "\u60A8\u7684\u5B66\u9662",
+      placeholder: "您的学院",
       modelValue: $data.userInfo.college
     }),
     j: common_vendor.p({
-      label: "\u5B66\u9662",
+      label: "学院",
       name: "name"
     }),
     k: common_vendor.p({
@@ -117,5 +117,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     l: common_vendor.o((...args) => $options.change && $options.change(...args))
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/self/self.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/self/self.vue"]]);
 wx.createPage(MiniProgramPage);

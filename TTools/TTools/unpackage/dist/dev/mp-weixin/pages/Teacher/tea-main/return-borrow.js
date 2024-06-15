@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     const currentDate = this.getDate({
@@ -39,7 +39,7 @@ const _sfc_main = {
       date: currentDate,
       startTime: "08:30",
       endTime: "18:30",
-      position: "\u5DE5\u7A0B\u8BAD\u7EC3\u4E2D\u5FC3\u5357208",
+      position: "工程训练中心南208",
       agree_id: 0
     };
   },
@@ -75,7 +75,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.$refs.agree.close();
             common_vendor.index.showToast({
-              title: "\u786E\u8BA4\u5F52\u8FD8\u6210\u529F",
+              title: "确认归还成功",
               icon: "none"
             });
             this.getBorrowList();
@@ -93,7 +93,7 @@ const _sfc_main = {
       this.endTime = e.detail.value;
     },
     getDate(type) {
-      const date = new Date();
+      const date = /* @__PURE__ */ new Date();
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
       let day = date.getDate();
@@ -107,7 +107,7 @@ const _sfc_main = {
       return `${year}-${month}-${day}`;
     },
     maskClick(e) {
-      console.log("maskClick\u4E8B\u4EF6:", e);
+      console.log("maskClick事件:", e);
     },
     before_refuse() {
       this.$refs.refuseDialog.open();
@@ -144,7 +144,7 @@ const _sfc_main = {
         success: (res) => {
           if (res.data.error_code === 0) {
             common_vendor.index.showToast({
-              title: "\u62D2\u7EDD\u6210\u529F",
+              title: "拒绝成功",
               icon: "none"
             });
             this.getBorrowList();
@@ -203,8 +203,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         j: "933dd2c4-1-" + i0 + ",933dd2c4-0",
         k: common_vendor.p({
           title: item.toolName,
-          ["sub-title"]: item.startTime + " \u5230 " + item.returnTime,
-          extra: "\u6570\u91CF:" + item.borrowCount,
+          ["sub-title"]: item.startTime + " 到 " + item.returnTime,
+          extra: "数量:" + item.borrowCount,
           thumbnail: _ctx.avatar
         })
       };
@@ -226,9 +226,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     g: common_vendor.o(_ctx.onClick),
     h: common_vendor.p({
-      title: "\u5F52\u8FD8\u5BA1\u6279",
+      title: "归还审批",
       subTitleFontSize: "16px",
-      subTitle: "\u672A\u5BA1\u6279\u6570\u91CF:" + $data.borrow_list.length,
+      subTitle: "未审批数量:" + $data.borrow_list.length,
       titleFontSize: "20px",
       type: "line"
     }),
@@ -247,9 +247,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     o: common_vendor.o($options.refuse),
     p: common_vendor.p({
       mode: "input",
-      title: "\u62D2\u7EDD",
+      title: "拒绝",
       value: "",
-      placeholder: "\u8BF7\u8F93\u5165\u62D2\u7EDD\u7406\u7531"
+      placeholder: "请输入拒绝理由"
     }),
     q: common_vendor.sr("refuseDialog", "933dd2c4-9"),
     r: common_vendor.p({
@@ -271,7 +271,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     G: common_vendor.o((...args) => $options.cancel && $options.cancel(...args)),
     H: common_vendor.o((...args) => $options.lend && $options.lend(...args)),
     I: common_vendor.p({
-      title: "\u9886\u53D6\u4FE1\u606F",
+      title: "领取信息",
       titleFontSize: "20px",
       type: "line"
     }),
@@ -281,5 +281,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/return-borrow.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tea-main/return-borrow.vue"]]);
 wx.createPage(MiniProgramPage);

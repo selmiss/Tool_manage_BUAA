@@ -45,7 +45,7 @@
 	export default {
 		data() {
 			return {
-				Img:"/static/add.webp",
+				Img:"/static/add.jpeg",
 				toolInfo:{
 					name:"",
 					LabelId:0,

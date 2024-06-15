@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uniFormsItem",
   options: {
@@ -17,12 +17,14 @@ const _sfc_main = {
     }
   },
   props: {
+    // 表单校验规则
     rules: {
       type: Array,
       default() {
         return null;
       }
     },
+    // 表单域的属性名，在使用校验规则时必填
     name: {
       type: [String, Array],
       default: ""
@@ -35,18 +37,32 @@ const _sfc_main = {
       type: String,
       default: ""
     },
+    // label的宽度 ，默认 80
     labelWidth: {
       type: [String, Number],
       default: ""
     },
+    // label 居中方式，默认 left 取值 left/center/right
     labelAlign: {
       type: String,
       default: ""
     },
+    // 强制显示错误信息
     errorMessage: {
       type: [String, Boolean],
       default: ""
     },
+    // 1.4.0 弃用，统一使用 form 的校验时机
+    // validateTrigger: {
+    // 	type: String,
+    // 	default: ''
+    // },
+    // 1.4.0 弃用，统一使用 form 的label 位置
+    // labelPosition: {
+    // 	type: String,
+    // 	default: ''
+    // },
+    // 1.4.0 以下属性已经废弃，请使用  #label 插槽代替
     leftIcon: String,
     iconColor: {
       type: String,
@@ -66,11 +82,13 @@ const _sfc_main = {
     };
   },
   computed: {
+    // 处理错误信息
     msg() {
       return this.errorMessage || this.errMsg;
     }
   },
   watch: {
+    // 规则发生变化通知子组件更新
     "form.formRules"(val) {
       this.init();
     },
@@ -86,18 +104,22 @@ const _sfc_main = {
   created() {
     this.init(true);
     if (this.name && this.form) {
-      this.$watch(() => {
-        const val = this.form._getDataValue(this.name, this.form.localData);
-        return val;
-      }, (value, oldVal) => {
-        const isEqual = this.form._isEqual(value, oldVal);
-        if (!isEqual) {
-          const val = this.itemSetValue(value);
-          this.onFieldChange(val, false);
+      this.$watch(
+        () => {
+          const val = this.form._getDataValue(this.name, this.form.localData);
+          return val;
+        },
+        (value, oldVal) => {
+          const isEqual = this.form._isEqual(value, oldVal);
+          if (!isEqual) {
+            const val = this.itemSetValue(value);
+            this.onFieldChange(val, false);
+          }
+        },
+        {
+          immediate: false
         }
-      }, {
-        immediate: false
-      });
+      );
     }
   },
   unmounted() {
@@ -105,12 +127,25 @@ const _sfc_main = {
     this.unInit();
   },
   methods: {
+    /**
+     * 外部调用方法
+     * 设置规则 ，主要用于小程序自定义检验规则
+     * @param {Array} rules 规则源数据
+     */
     setRules(rules = null) {
       this.userRules = rules;
       this.init(false);
     },
+    // 兼容老版本表单组件
     setValue() {
     },
+    /**
+     * 外部调用方法
+     * 校验数据
+     * @param {any} value 需要校验的数据
+     * @param {boolean} 是否立即校验
+     * @return {Array|null} 校验内容
+     */
     async onFieldChange(value, formtrigger = true) {
       const {
         formData,
@@ -131,9 +166,12 @@ const _sfc_main = {
       const isRequiredField = _isRequiredField(this.itemRules.rules || []);
       let result = null;
       if (validateTrigger === "bind" || formtrigger) {
-        result = await this.validator.validateUpdate({
-          [name]: value
-        }, formData);
+        result = await this.validator.validateUpdate(
+          {
+            [name]: value
+          },
+          formData
+        );
         if (!isRequiredField && (value === void 0 || value === "")) {
           result = null;
         }
@@ -143,14 +181,14 @@ const _sfc_main = {
           }
           if (errShowType === "toast") {
             common_vendor.index.showToast({
-              title: result.errorMessage || "\u6821\u9A8C\u9519\u8BEF",
+              title: result.errorMessage || "校验错误",
               icon: "none"
             });
           }
           if (errShowType === "modal") {
             common_vendor.index.showModal({
-              title: "\u63D0\u793A",
-              content: result.errorMessage || "\u6821\u9A8C\u9519\u8BEF"
+              title: "提示",
+              content: result.errorMessage || "校验错误"
             });
           }
         } else {
@@ -162,6 +200,9 @@ const _sfc_main = {
       }
       return result ? result : null;
     },
+    /**
+     * 初始组件数据
+     */
     init(type = false) {
       const {
         validator,
@@ -221,6 +262,7 @@ const _sfc_main = {
         });
       }
     },
+    // 设置item 的值
     itemSetValue(value) {
       const name = this.form._realName(this.name);
       const rules = this.itemRules.rules || [];
@@ -228,12 +270,17 @@ const _sfc_main = {
       this.form._setDataValue(name, this.form.formData, val);
       return val;
     },
+    /**
+     * 移除该表单项的校验结果
+     */
     clearValidate() {
       this.errMsg = "";
     },
+    // 是否显示星号
     _isRequired() {
       return this.required;
     },
+    // 处理对齐方式
     _justifyContent() {
       if (this.form) {
         const {
@@ -249,14 +296,22 @@ const _sfc_main = {
       }
       return "flex-start";
     },
+    // 处理 label宽度单位 ,继承父元素的值
     _labelWidthUnit(labelWidth) {
       return this.num2px(this.labelWidth ? this.labelWidth : labelWidth || (this.label ? 65 : "auto"));
     },
+    // 处理 label 位置
     _labelPosition() {
       if (this.form)
         return this.form.labelPosition || "left";
       return "left";
     },
+    /**
+     * 触发时机
+     * @param {Object} rule 当前规则内时机
+     * @param {Object} itemRlue 当前组件时机
+     * @param {Object} parentRule 父组件时机
+     */
     isTrigger(rule, itemRlue, parentRule) {
       if (rule === "submit" || !rule) {
         if (rule === void 0) {
@@ -295,5 +350,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     j: common_vendor.n($data.border && $data.isFirstBorder ? "is-first-border" : "")
   });
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue"]]);
 wx.createComponent(Component);

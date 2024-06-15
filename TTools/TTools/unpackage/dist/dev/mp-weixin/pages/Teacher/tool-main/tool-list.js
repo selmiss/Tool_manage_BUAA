@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
+const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
@@ -30,7 +30,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.tool_list3 = res.data.toolList;
             for (var i = 0; i < this.tool_list3.length; i++) {
-              this.tool_list3[i]["cat"] = "\u673A\u68B0\u7535\u5B50\u8BBE\u5907";
+              this.tool_list3[i]["cat"] = "机械电子设备";
             }
             this.tool_list = this.tool_list.concat(this.tool_list3);
           }
@@ -47,7 +47,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.tool_list1 = res.data.toolList;
             for (var i = 0; i < this.tool_list1.length; i++) {
-              this.tool_list1[i]["cat"] = "\u7535\u63A7\u5DE5\u5177";
+              this.tool_list1[i]["cat"] = "电控工具";
             }
             this.tool_list = this.tool_list.concat(this.tool_list1);
           }
@@ -64,7 +64,7 @@ const _sfc_main = {
           if (res.data.error_code === 0) {
             this.tool_list2 = res.data.toolList;
             for (var i = 0; i < this.tool_list2.length; i++) {
-              this.tool_list2[i]["cat"] = "\u673A\u68B0\u5DE5\u5177";
+              this.tool_list2[i]["cat"] = "机械工具";
             }
             this.tool_list = this.tool_list.concat(this.tool_list2);
           }
@@ -94,8 +94,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: "106bd41d-1-" + i0 + ",106bd41d-0",
         d: common_vendor.p({
           title: index + 1 + "." + item.name,
-          ["sub-title"]: "\u7C7B\u522B : " + item.cat,
-          extra: "\u5269\u4F59\u6570\u91CF:" + item.leftCount + "/" + item.totalCount,
+          ["sub-title"]: "类别 : " + item.cat,
+          extra: "剩余数量:" + item.leftCount + "/" + item.totalCount,
           thumbnail: _ctx.avatar
         })
       };
@@ -104,13 +104,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       width: _ctx.nvueWidth
     }),
     c: common_vendor.p({
-      title: "\u5DE5\u5177\u5217\u8868",
+      title: "工具列表",
       subTitleFontSize: "16px",
-      subTitle: "\u6240\u6709\u5DE5\u5177",
+      subTitle: "所有工具",
       titleFontSize: "20px",
       type: "line"
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/pages/Teacher/tool-main/tool-list.vue"]]);
 wx.createPage(MiniProgramPage);

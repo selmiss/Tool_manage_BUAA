@@ -1,7 +1,7 @@
 "use strict";
-var uni_modules_uniPopup_components_uniPopup_popup = require("../uni-popup/popup.js");
-var common_vendor = require("../../../../common/vendor.js");
-var uni_modules_uniPopup_components_uniPopup_i18n_index = require("../uni-popup/i18n/index.js");
+const uni_modules_uniPopup_components_uniPopup_popup = require("../uni-popup/popup.js");
+const common_vendor = require("../../../../common/vendor.js");
+const uni_modules_uniPopup_components_uniPopup_i18n_index = require("../uni-popup/i18n/index.js");
 const { t } = common_vendor.initVueI18n(uni_modules_uniPopup_components_uniPopup_i18n_index.messages);
 const _sfc_main = {
   name: "uniPopupDialog",
@@ -92,6 +92,9 @@ const _sfc_main = {
     this.focus = true;
   },
   methods: {
+    /**
+     * 点击确认按钮
+     */
     onOk() {
       if (this.mode === "input") {
         this.$emit("confirm", this.val);
@@ -102,6 +105,9 @@ const _sfc_main = {
         return;
       this.popup.close();
     },
+    /**
+     * 点击取消按钮
+     */
     closeDialog() {
       this.$emit("close");
       if (this.beforeClose)
@@ -132,5 +138,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     l: common_vendor.o((...args) => $options.onOk && $options.onOk(...args))
   });
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/\u5DE5\u8BAD\u4E2D\u5FC3\u5DE5\u5177\u7BA1\u7406/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/fancy/工训中心工具管理/Tool_manage_BUAA/TTools/TTools/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue"]]);
 wx.createComponent(Component);
