@@ -92,7 +92,7 @@ import axios from "axios";
 				console.log("已发送"),
 						axios({
 						method:"post",
-						url:'http://121.4.160.157/user/forget/sendCode',
+						url:'http://10.212.87.185/user/forget/sendCode',
 						data:{
 							acc:this.form.phone,
 						}
@@ -144,7 +144,7 @@ import axios from "axios";
 				if (this.form.email != "" && this.form.password != "") {
 					axios({
 						method:'post',
-						url: 'http://121.4.160.157/user/login',
+						url: 'http://10.212.87.185/user/login',
 						data: {
 							acc: this.form.email,
 							pwd: this.form.password
@@ -178,7 +178,7 @@ import axios from "axios";
 				if(this.form.password != "" && this.form.email != ""){
 					axios({
 						method:'post',
-						url: 'http://121.4.160.157/user/register',
+						url: 'http://10.212.87.185/user/register',
 						data: {
 							studentId:this.form.sid,
 							name:this.form.name,

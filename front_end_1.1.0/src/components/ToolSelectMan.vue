@@ -174,7 +174,7 @@ export default{
 				  formData.append('files',this.file)
 				  this.axios.post('/manager/imgText',formData).then(res=>{
 				      console.log(res);
-					  this.thetool.url= "http://121.4.160.157/media/" + res.data['url'];
+					  this.thetool.url= "http://10.212.87.185/media/" + res.data['url'];
 					  console.log(this.thetool.url+"改变成功!!!!!!!!!!!");
 				  })
 	          },
