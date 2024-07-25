@@ -13,7 +13,7 @@ Vue.use(ElementUI);
 Vue.prototype.axios=axios
 // axios.defaults.baseURL='http://127.0.0.1:8000/'
 // axios.defaults.baseURL='http://tool.selmiss.com/'
-axios.defaults.baseURL='http://121.4.160.157/'
+axios.defaults.baseURL='http://10.212.87.185/'
 
 
 
