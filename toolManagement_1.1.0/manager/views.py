@@ -160,8 +160,6 @@ def hashLogin(request):
         return JsonResponse({'error_code': 0, 'uid': -2, 'is_superUser': user.is_supperUser, 'hash_code': hash_after})
 
 
-
-
 def Login(request):
     if request.method == 'POST':
         kwargs = json.loads(request.body.decode("utf-8"))
@@ -195,7 +193,6 @@ def Login(request):
         print(TOKEN_DIC)
         Timer(127000, delToken, args=[hash_after]).start()
         return JsonResponse({'error_code': 0, 'uid': -2, 'is_superUser': user.is_supperUser, 'hash_code': hash_after})
-
 
 
 def setPwd(request):  # 设置密码
@@ -980,8 +977,8 @@ def createTool(request):#todo：考虑修改工具数量导致其leftcount是否
         # img_root = os.path.join(settings.MEDIA_ROOT, img)
         
 
-        tool.portrait= "http://121.4.160.157/media/image/" + img.name
-        # tool.portrait= "http://121.4.160.157/media/image/"
+        tool.portrait= "http://10.212.87.185/media/image/" + img.name
+        # tool.portrait= "http://10.212.87.185/media/image/"
         tool.save()
         return JsonResponse({'error_code': 0,'toolId':tool.id})
 

@@ -6,8 +6,9 @@ urlpatterns = [
 
     # 管理员添加教师账号
     path('RegisterTeacherAcc', views.RegisterTeacherAcc, name='register'),
-    # 用户登录
+    # 教师用户登录
     path('Login', views.Login, name='login'),
+    path('login', views.Login, name='login'),
 
     path('forget/setPwd', views.setPwd, name='setPwd'),
     # 上传用户信息

@@ -62,8 +62,8 @@ const _sfc_main = {
                   icon: "success"
                 });
                 GiveUrl = res2.data.split('"')[3];
-                that.toolInfo.img2 = "http://121.4.160.157/media/" + GiveUrl;
-                that.toolInfo.url = "http://121.4.160.157/media/" + GiveUrl;
+                that.toolInfo.img2 = "http://10.212.87.185/media/" + GiveUrl;
+                that.toolInfo.url = "http://10.212.87.185/media/" + GiveUrl;
               }
             }
           });

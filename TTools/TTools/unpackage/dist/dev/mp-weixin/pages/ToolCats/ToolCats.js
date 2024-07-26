@@ -10,19 +10,19 @@ const _sfc_main = {
           name: "机械工具",
           id: 1,
           level: 1,
-          lowerLabel: [{ name: "机械工具", id: 6, level: 2, url: "http://121.4.160.157/media/image/2_c4GQaje.png" }]
+          lowerLabel: [{ name: "机械工具", id: 6, level: 2, url: "http://10.212.87.185/media/image/2_c4GQaje.png" }]
         },
         {
           name: "电控工具",
           id: 2,
           level: 1,
-          lowerLabel: [{ name: "电控工具", id: 5, level: 2, url: "http://121.4.160.157/media/image/3_FhHGkv1.png" }]
+          lowerLabel: [{ name: "电控工具", id: 5, level: 2, url: "http://10.212.87.185/media/image/3_FhHGkv1.png" }]
         },
         {
           name: "机械电子设备",
           id: 3,
           level: 1,
-          lowerLabel: [{ name: "机械电子设备", id: 4, level: 2, url: "http://121.4.160.157/media/image/1_nUbPquK.png" }]
+          lowerLabel: [{ name: "机械电子设备", id: 4, level: 2, url: "http://10.212.87.185/media/image/1_nUbPquK.png" }]
         }
       ],
       pattern: {

@@ -187,9 +187,9 @@ export default {
       }
     },
     login() {
-		localStorage.setItem('token',"wutoken");
-		var a=localStorage.getItem('token');
-		console.log(a);
+      localStorage.setItem('token',"wutoken");
+      var a=localStorage.getItem('token');
+      console.log(a);
       if (this.form.email != "" && this.form.password != "") {
         axios({
           method: "post",
@@ -199,39 +199,38 @@ export default {
             pwd: this.form.password,
           },
         })
-          .then((res) => {
-            console.log(res.data.error_code);
-            let user={};
-            user.Mail=this.form.email;
-            user.UID=res.data.uid;
-			user.hash_code=res.data.hash_code;
-			console.log(user.hash_code);
-            //TODO:页面跳转
-            if(res.data.error_code==0){
-              localStorage.setItem('uid',res.data.uid);
-              localStorage.setItem('Mail',this.form.email);
-              localStorage.setItem('isSuperUser',res.data.is_superUser);
-				localStorage.setItem('token',res.data.hash_code);
-              if(!res.data.is_superUser) {
-                this.$router.push('/settools');
-                this.$store.commit("changeLogin",user);
-              }
-              else{
-                this.$router.push('/borrowProcessing');
-                this.$store.commit("changeLogin",user);
-              }
+        .then((res) => {
+          console.log(res.data.error_code);
+          let user={};
+          user.Mail=this.form.email;
+          user.UID=res.data.uid;
+          user.hash_code=res.data.hash_code;
+          console.log(user.hash_code);
+          //TODO:页面跳转
+          if(res.data.error_code==0){
+            localStorage.setItem('uid',res.data.uid);
+            localStorage.setItem('Mail',this.form.email);
+            localStorage.setItem('isSuperUser',res.data.is_superUser);
+            localStorage.setItem('token',res.data.hash_code);
+            if(!res.data.is_superUser) {
+              this.$router.push('/settools');
+              this.$store.commit("changeLogin",user);
             }
-            else if(res.data.error_code==1){
-              alert('存在输入为空！')
+            else{
+              this.$router.push('/borrowProcessing');
+              this.$store.commit("changeLogin",user);
             }
-            else if(res.data.error_code==2){
-              alert('用户不存在！')
-            }
-            else if(res.data.error_code==3){
-              alert('密码错误！请重新输入。')
-            }
-            else alert('请重新输入！')
-          })
+          } else if(res.data.error_code==1){
+            alert('存在输入为空！')
+          }
+          else if(res.data.error_code==2){
+            alert('用户不存在！')
+          }
+          else if(res.data.error_code==3){
+            alert('密码错误！请重新输入。')
+          }
+          else alert('请重新输入！')
+        })
       } else {
         alert("填写不能为空");
       }
@@ -239,21 +238,21 @@ export default {
     register() {
       console.log(this.form.phone+" : "+this.form.tid);
       if (this.form.password != "" && this.form.email != "") {
-        if(this.form.password != this.form.password2) alert("两次密码输入不一致。");
+        if(this.form.password != this.form.password2) 
+          alert("两次密码输入不一致。");
         else{
           axios({
-          method: "post",
-          url: "manager/RegisterTeacherAcc",
-          data: {
-            acc: this.form.email,
-            teacherId: this.form.tid,
-            name: this.form.name,
-            pwd: this.form.password,
-            key: this.form.code,
-            phoneNumber: this.form.phone,
-          },
-        })
-          .then((res) => {
+            method: "post",
+            url: "manager/RegisterTeacherAcc",
+            data: {
+              acc: this.form.email,
+              teacherId: this.form.tid,
+              name: this.form.name,
+              pwd: this.form.password,
+              key: this.form.code,
+              phoneNumber: this.form.phone,
+            },
+          }).then((res) => {
             console.log(res);
             if(res.data.error_code == 0) {
               alert('您的注册请求已提交！请等待管理员审核。')
@@ -267,8 +266,7 @@ export default {
             }
           })
         }
-      }
-      else {
+      } else {
         alert("填写不能为空！");
       }
     },
