@@ -20,7 +20,7 @@
         <div style="width: 150px;height: 150px;margin: 5px auto;">
           <img height="100%" width="100%" style="border-radius: 5px;" :src="tool.url"/>
         </div>
-        <div style="height: 30px;line-height:30px;width: 160px;">{{tool.name}}</div>
+        <div style="height: 30px;width: 160px;">{{tool.name}}</div>
         <div style="height: 40px;width: 160px;margin-top:10px;display:inline-block;">
           <el-button  size="mini" style="margin-top:5px;" @click="info(tool)" icon="el-icon-info"></el-button>
           <el-button type="primary" size="mini" style="margin-top:5px;" :loading="editButtonLoading" @click="edit1(tool)" icon="el-icon-edit"></el-button>
@@ -409,10 +409,10 @@ export default{
   cursor: pointer;
   width: 160px;
   height: 250px;
-  font-size: 1.3em;
+  /* font-size: 1.3em; */
   border-radius: 5px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
-  font-family: '宋体';
+  /* font-family: '宋体'; */
 }
 .borrow-tool-title{
   font-weight: bold;

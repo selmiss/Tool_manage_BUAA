@@ -15,12 +15,13 @@
           </div>
           <div class="tagselect-content">
             <div v-if="tagid==0">
-              <div  style="display: grid;grid-template-columns: repeat(3,300px);
+              <div style="display: grid;grid-template-columns: repeat(3,300px);
               grid-template-rows: 400px;column-gap:100px;justify-content: space-around">
                 <div v-for="label in labellist">
-                  <div></div>
                   <div class="tagselect-onetype" @click="chooseTag(label.lowerLabel[0])">
-                    <div style="width: 100%;height: 300px;"><img style="height: 100%;width: 100%;" :src="label.lowerLabel[0].url"/></div>
+                    <div style="width: 100%;height: 300px;">
+                      <img style="height: 100%;width: 100%;" :src="label.lowerLabel[0].url"/>
+                    </div>
                     <h3 class="tagselect-onetype-title">{{label.lowerLabel[0].name}}</h3>
                   </div>
                 </div>
