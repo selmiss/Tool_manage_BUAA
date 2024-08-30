@@ -66,7 +66,7 @@ def Register(request):
         E.uk = -1
         E.key, E.emailuni, E.no_code, E.code_error = 1, 2, 3, 4
         kwargs = json.loads(request.body.decode("utf-8"))
-        if kwargs.keys() != {'acc', 'pwd', 'key', 'name', 'studentId', 'college', 'phoneNumber'}:
+        if kwargs.keys() != {'acc', 'pwd', 'name', 'studentId', 'college', 'phoneNumber'}:
             return JsonResponse({'error_code': E.key})  # 注册信息输入不完整
         ac = User.objects.filter(acc=kwargs['acc'])
         if ac.exists():
@@ -75,8 +75,8 @@ def Register(request):
         if not re.exists():
             return JsonResponse({"error_code": E.no_code})
         re = re.get()
-        if str(re.code).upper() != str(kwargs['key']).upper():
-            return JsonResponse({"error_code": E.code_error})
+        # if str(re.code).upper() != str(kwargs['key']).upper():
+        #     return JsonResponse({"error_code": E.code_error})
         new_user = User()
         new_user.acc = kwargs['acc']
         new_user.pwd = hash_password(kwargs['pwd'])

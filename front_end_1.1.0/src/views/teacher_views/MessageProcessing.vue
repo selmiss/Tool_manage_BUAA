@@ -15,7 +15,7 @@
                 border>
               <el-table-column align="center" prop="toolName" label="工具名称" min-width="100"></el-table-column>
               <el-table-column align="center" label="借用者信息" min-width="100">
-                <template slot-scope="scope">
+                <template #default="scope">
                   <el-popover
                     placement="bottom"
                     width="250"
@@ -32,7 +32,7 @@
               <el-table-column align="center" prop="returnTime" label="原定归还时间" min-width="100"> </el-table-column>
               <el-table-column align="center" prop="postPoneTime" label="延期归还时间" min-width="100"> </el-table-column>
               <el-table-column align="center" label="操作" min-width="200">
-                <template slot-scope="scope">
+                <template #default="scope">
                   <el-popover
                     placement="left"
                     width="250"

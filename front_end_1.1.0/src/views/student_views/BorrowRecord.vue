@@ -14,7 +14,7 @@
                 <el-table-column align="center" prop="startTime" label="借用开始时间" min-width="100"></el-table-column>
                 <el-table-column align="center" prop="returnTime" label="最晚归还时间" min-width="100"> </el-table-column>
                 <el-table-column align="center" label="状态" min-width="120">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-button v-if="scope.row.status === 'A'" size="mini" type="warning" >工具借用中</el-button>
                     <el-button v-if="scope.row.status === 'W'" size="mini" type="primary" >等待审核中</el-button>
                     <el-button v-if="scope.row.status === 'R'" size="mini" type="danger" >申请被拒绝</el-button>
@@ -23,7 +23,7 @@
                 </el-table-column>
 				
 				<el-table-column align="center" label="借用信息" min-width="120">
-				  <template slot-scope="scope">
+				  <template #default="scope">
 					  <el-popover
 					    placement="bottom"
 					    width="250"
@@ -40,7 +40,7 @@
 				
 				
                 <el-table-column align="center" label="操作" min-width="120">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-button v-if="scope.row.status === 'A'" size="mini" type="primary" plain  @click="handleCreate(scope.row)">申请续借</el-button>
                     <el-button v-if="scope.row.status === 'W'" size="mini" type="warning" plain  @click="withdraw(scope.row)">撤销申请</el-button>
                     <el-button v-if="scope.row.status === 'R'" size="mini" type="info" plain disabled @click="handleCreate()"></el-button>
@@ -105,7 +105,7 @@
 import axios from "axios";
 import HeadBar from "@/components/HeadBar";
 import StudentMenu from "@/components/StudentMenu";
-import { Loading } from "element-ui";
+// import { Loading } from "element-ui";
 export default {
   inject: ['reload'],
   components:{HeadBar,StudentMenu},

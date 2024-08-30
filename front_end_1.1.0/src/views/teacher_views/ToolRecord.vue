@@ -13,7 +13,7 @@
                 <el-table-column align="center" prop="toolName" label="工具名称" min-width="120"></el-table-column>
                 <el-table-column align="center" prop="borrowCount" label="借用数量" min-width="110"></el-table-column>
                 <el-table-column align="center" label="借用者信息" min-width="120">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-popover
                       placement="bottom"
                       width="250"
@@ -29,7 +29,7 @@
                 <el-table-column align="center" prop="startTime" label="借用开始时间" min-width="110"></el-table-column>
                 <el-table-column align="center" prop="returnTime" label="最晚归还时间" min-width="110"> </el-table-column>
                 <el-table-column align="center" label="操作" min-width="130">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-button
                       size="mini"
                       type="primary"

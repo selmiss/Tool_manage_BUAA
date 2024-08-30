@@ -1,4 +1,3 @@
-import mutable as mutable
 from django.utils.deprecation import MiddlewareMixin
 import json
 from user import TOKEN_DIC

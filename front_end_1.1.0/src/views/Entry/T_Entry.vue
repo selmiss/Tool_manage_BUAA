@@ -11,8 +11,8 @@
             <input type="password" placeholder="密码" v-model="form.password" />
             <span class="errTips" v-if="emailError">* 密码填写错误 *</span>
           </div>
-          <!-- <button class="bbutton" @click="login">登录</button>
-          &nbsp;&nbsp;<button @click="teacherForgetPwd">忘记密码</button> -->
+          <button class="bbutton" @click="login">登录</button>
+          &nbsp;&nbsp;<button class="bbutton" @click="teacherForgetPwd">忘记密码</button>
           <!--  -->
           <!-- <br>
           <el-form size="medium">
@@ -204,13 +204,13 @@ export default {
       var a=localStorage.getItem('token');
       console.log(a);
       if (this.form.email != "" && this.form.password != "") {
-        axios.post({
-          url: "manager/login",
-          data: {
+        axios.post("manager/Login",
+          {
             acc: this.form.email,
             pwd: this.form.password,
           },
-        }).then((res) => {
+        ).then((res) => {
+          console.log(axios.defaults.baseURL)
           let user={};
           user.Mail=this.form.email;
           user.UID=res.data.uid;

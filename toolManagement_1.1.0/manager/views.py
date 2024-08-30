@@ -54,7 +54,6 @@ from datetime import datetime as pydatetime
 #     # 有错误就停止定时器
 #     scheduler.shutdown()
 
-# Create your views here.
 def hash_password(pwd):  # 哈希处理用户密码
     m = hashlib.md5()
     m.update(pwd.encode('utf-8'))

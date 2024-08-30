@@ -1,7 +1,9 @@
 <template>
-  <div id="app">
-    <router-view v-if="isShow"></router-view>    
-  </div>
+  <main>
+    <div id="app">
+      <router-view v-if="isShow"></router-view>    
+    </div>
+  </main>
 </template>
 
 <script>

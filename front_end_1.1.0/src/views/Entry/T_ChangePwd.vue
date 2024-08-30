@@ -1,9 +1,11 @@
 <template>
     <div>
-    <TeacherHeadBar></TeacherHeadBar>
-    <div class="title" style="margin-top: 80px"><h4>修改密码</h4></div>
-    <el-container>
-        <el-aside width="20%" style="min-height: 600px;" ></el-aside>
+        <TeacherHeadBar></TeacherHeadBar>
+        <div class="title" style="margin-top: 80px">
+            <h4>修改密码</h4>
+        </div>
+        <el-container>
+            <el-aside width="20%" style="min-height: 600px;"></el-aside>
             <el-main width="75%">
                 <div style="margin: 0 auto; align-items: center;">
                     <el-form label-width="80px">
@@ -22,62 +24,62 @@
                     </el-form>
                 </div>
             </el-main>
-        <el-aside width="5%"></el-aside>
-    </el-container>
-  </div>
+            <el-aside width="5%"></el-aside>
+        </el-container>
+    </div>
 </template>
 
 <script>
 import TeacherHeadBar from "@/components/TeacherHeadBar";
 import axios from "axios";
 
-export default({
-    components:{TeacherHeadBar},
-    data(){
+export default {
+    components: { TeacherHeadBar },
+    data() {
         return {
-            password : '',
-            newPassword : '',
-            confirmPassword : ''
+            password: '',
+            newPassword: '',
+            confirmPassword: ''
         }
     },
-    methods:{
-        confirm(){
+    methods: {
+        confirm() {
             console.log(localStorage.getItem('uid'));
-            if(this.confirmPassword == this.newPassword){
+            if (this.confirmPassword == this.newPassword) {
                 axios({
-                method:'post',
-                url: 'manager/resetPwd',
-                data: {
-                    uid: localStorage.getItem('uid'),
-                    old_pwd: this.password,
-                    new_pwd: this.newPassword
+                    method: 'post',
+                    url: 'manager/resetPwd',
+                    data: {
+                        uid: localStorage.getItem('uid'),
+                        old_pwd: this.password,
+                        new_pwd: this.newPassword
                     }
                 })
-                .then( res => {
-                    console.log(res);
-                    if(res.data.error_code == 0){
-                        alert('修改成功！请重新登录');
-                        this.$router.push('/studentLogin');
-                    }
-                    if(res.data.error_code == 2){
-                        alert('原密码错误！');
-                    }
-                    if(res.data.error_code == 3){
-                        alert('新密码格式错误！');
-                    }
-                    if(res.data.error_code == 4){
-                        alert('用户不存在！');
-                    }
-                })
+                    .then(res => {
+                        console.log(res);
+                        if (res.data.error_code == 0) {
+                            alert('修改成功！请重新登录');
+                            this.$router.push('/studentLogin');
+                        }
+                        if (res.data.error_code == 2) {
+                            alert('原密码错误！');
+                        }
+                        if (res.data.error_code == 3) {
+                            alert('新密码格式错误！');
+                        }
+                        if (res.data.error_code == 4) {
+                            alert('用户不存在！');
+                        }
+                    })
             }
             else alert('两次新密码输入不一致，请重新输入！')
-        },
+        }
     }
-})
+}
 </script>
 
 <style>
-    .title {
+.title {
     color: #06c;
     margin-bottom: 20px;
     font-family: 微软雅黑;
@@ -85,5 +87,5 @@ export default({
     /* text-align: left; */
     font-size: 25px;
     font-weight: bold;
-  }
+}
 </style>
