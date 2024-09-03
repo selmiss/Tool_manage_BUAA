@@ -31,7 +31,7 @@
 import HeadBar from "@/components/HeadBar";
 import axios from "axios";
 
-export default({
+export default{
     components:{HeadBar},
     mounted(){
         this.loadTable();
@@ -63,10 +63,10 @@ export default({
                 if(res.data.error_code == 0) {
                     this.name = res.data.name,
                     this.email = res.data.acc,
-                    this.college = res.data.college
-                    this.studentId = res.data.studentId
+                    this.college = res.data.college,
+                    this.studentId = res.data.studentId;
                 }
-            })
+            });
         },
         confirm(){
             console.log(localStorage.getItem('uid'));
@@ -85,10 +85,10 @@ export default({
                 if(res.data.error_code == 0) {
                     alert('修改成功！')
                 }
-            })
+            });
         },
     }
-})
+}
 </script>
 
 <style>

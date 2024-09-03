@@ -1,0 +1,1 @@
+import{_ as n,c as s,a as e,w as a,r as o,o as _,b as r}from"./index-56bR-A_b.js";const l={};function i(f,d){const c=o("el-button"),t=o("el-icon-backsss");return _(),s("div",null,[e(c,{icon:"el-icon-backsss"},{default:a(()=>[r("返回")]),_:1}),e(t)])}const p=n(l,[["render",i]]);export{p as default};

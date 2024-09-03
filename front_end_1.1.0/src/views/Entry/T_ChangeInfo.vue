@@ -28,7 +28,7 @@
 import TeacherHeadBar from "@/components/TeacherHeadBar";
 import axios from "axios";
 
-export default({
+export default{
     components:{TeacherHeadBar},
     mounted(){
         this.loadTable();
@@ -59,7 +59,7 @@ export default({
                     this.name = res.data.name,
                     this.teacherId = res.data.teacherId
                 }
-            })
+            });
         },
         confirm(){
             console.log(localStorage.getItem('uid'));
@@ -80,7 +80,7 @@ export default({
             })
         },
     }
-})
+}
 </script>
 
 <style>

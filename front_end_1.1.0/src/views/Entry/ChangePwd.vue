@@ -31,7 +31,7 @@
 import HeadBar from "@/components/HeadBar";
 import axios from "axios";
 
-export default({
+export default{
     components:{HeadBar},
     data(){
         return {
@@ -67,12 +67,12 @@ export default({
                     if(res.data.error_code == 4){
                         alert('用户不存在！');
                     }
-                })
+                });
             }
             else alert('两次新密码输入不一致，请重新输入！')
         },
     }
-})
+}
 </script>
 
 <style>
