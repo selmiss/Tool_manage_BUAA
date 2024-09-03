@@ -6,6 +6,7 @@ urlpatterns = [
 
     # 用户注册
     path('register', views.Register, name='register'),
+	path('register/verify', views.RegisterVerify, name='registerVerify'),
     # 用户登录
     path('login', views.Login, name='login'),
     # 发送验证码

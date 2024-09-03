@@ -3,14 +3,14 @@
     <div style="display: grid;grid-template-columns: 20% 40% 40%;align-items: center">
       <span>共 {{ rescount }} 条结果</span>
       <span>
-        <!-- <el-input
+        <el-input
             style="width: 400px;margin-left:100px;"
             placeholder="支持模糊搜索工具名称"
             v-model="searchkey"
             @keyup.enter.native="searchtool"
         >
           <el-button slot="append" icon="el-icon-search" @click="searchtool"></el-button>
-        </el-input> -->
+        </el-input>
       </span>
     </div>
     <div
@@ -133,6 +133,7 @@ export default {
   data() {
     return {
       searchkey: '',
+      fulltools: [],
       tools: [{
         id: 0,
         name: '',
@@ -205,6 +206,7 @@ export default {
           }
         });
         this.rescount = resp.data.data.length;
+        this.fulltools = this.tools;
         console.log(this.tools);
       })
       .catch(err => { 
@@ -215,18 +217,26 @@ export default {
       if (this.searchkey.length < 1) {
         this.init();
       } else {
-        axios({
-          url: 'user/searchToolByName',
-          method: 'post',
-          data: {
-            toolName: this.searchkey,
-          }
-        }).then(res => {
-          this.tools = res.data.dataList;
-          this.rescount = res.data.dataList.length;
-        }).catch(err => {
-          this.$message.error(err)
-        })
+        this.tools = this.fulltools.filter(tool => tool.name.includes(this.searchkey));
+        // axios({
+        //   url: 'user/searchToolByName',
+        //   method: 'post',
+        //   data: {
+        //     toolName: this.searchkey,
+        //   }
+        // }).then(res => {
+        //   this.tools = res.data.dataList;
+        //   this.tools.map(tool => {
+        //     if (tool.portrait.startsWith('http')) {
+        //       tool.portrait = tool.portrait;
+        //     } else {
+        //       tool.portrait = axios.defaults.baseURL + "media/image/" + tool.portrait;
+        //     }
+        //   });
+        //   this.rescount = res.data.dataList.length;
+        // }).catch(err => {
+        //   this.$message.error(err)
+        // })
       }
     },
     pre_del(tool) {

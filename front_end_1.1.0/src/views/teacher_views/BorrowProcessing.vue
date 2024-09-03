@@ -14,12 +14,16 @@
               <el-table-column align="center" prop="borrowCount" label="借用数量" min-width="110"></el-table-column>
               <el-table-column align="center" label="借用者信息" min-width="110">
                 <template #default="scope">
-                  <el-popover placement="bottom" width="250" trigger="hover">
-                    <div>{{ scope.row.requestUserName }} &nbsp &nbsp &nbsp {{ scope.row.stuid }}</div>
-                    <div>学院: &nbsp &nbsp &nbsp &nbsp {{ scope.row.stuCollege }}</div>
-                    <div>联系邮箱: &nbsp{{ scope.row.stuEmail }}</div>
-                    <div>联系电话: &nbsp{{ scope.row.phoneNumber }}</div>
-                    <el-button size="mini" slot="reference">{{ scope.row.requestUserName }}</el-button>
+                  <el-popover trigger="hover" placement="bottom" width="auto">
+                    <template #default>
+                      <div>{{ scope.row.requestUserName }} &nbsp &nbsp &nbsp {{ scope.row.stuid }}</div>
+                      <div>学院: &nbsp &nbsp &nbsp &nbsp {{ scope.row.stuCollege }}</div>
+                      <div>联系邮箱: &nbsp{{ scope.row.stuEmail }}</div>
+                      <div>联系电话: &nbsp{{ scope.row.phoneNumber }}</div>
+                    </template>
+                    <template #reference>
+                      <el-button size="mini" slot="reference">{{ scope.row.requestUserName }}</el-button>
+                    </template>
                   </el-popover>
                 </template>
               </el-table-column>
@@ -27,14 +31,18 @@
               <el-table-column align="center" prop="returnTime" label="原定归还时间" min-width="100"> </el-table-column>
               <el-table-column align="center" label="操作" min-width="180">
                 <template #default="scope">
-                  <el-popover placement="left" width="250" trigger="click">
-                    <div>借用目的: {{ scope.row.purpose }}:</div>
-                    <el-button style="margin-right:10px;" size="mini" plain slot="reference"
-                      type="primary">查看目的</el-button>
+                  <el-popover effect="light" trigger="click" placement="left" width="auto">
+                    <template #default>
+                      <div>借用目的: {{ scope.row.purpose }}</div>
+                    </template>
+                    <template #reference>
+                      <el-button style="margin-right:10px;" size="mini" plain slot="reference"
+                        type="primary">查看目的</el-button>
+                    </template>
                   </el-popover>
                   <el-button size="mini" type="success" plain @click="handleCreate2(scope.row)">同意借出</el-button>
                   <el-button size="mini" type="danger" plain @click="handleCreate(scope.row)">拒绝借出</el-button>
-                  <el-dialog :visible.sync="dialogFormVisible">
+                  <el-dialog v-model="dialogFormVisible">
                     <el-form :model="formData" ref="dataForm" label-position="left" label-width="80px"
                       style="width: 300px; margin-left:50px;">
                       <el-form-item label="拒绝原因">
@@ -47,33 +55,28 @@
                       <el-button type="primary" @click="handleRefuse(scope.$index)">拒绝</el-button>
                     </div>
                   </el-dialog>
-                  <el-dialog :visible.sync="dialogFormVisible2">
+                  <el-dialog v-model="dialogFormVisible2">
                     <el-form :model="formAgree" ref="dataForm" label-position="left" label-width="120px" align="left"
                       style="width: 600px; margin-left:50px;">
-
                       <el-form-item label="领取工具日期">
-                        <template>
-                          <el-date-picker v-model="formAgree.getDate" format="yyyy年MM月dd日" value-format="yyyy-MM-dd"
-                            align="left" type="date" placeholder="选择日期" :picker-options="pickerOptions">
-                          </el-date-picker>
-                        </template>
+                        <el-date-picker v-model="formAgree.getDate" format="YYYY年MM月DD日" value-format="YYYY-MM-DD"
+                          align="left" type="date" placeholder="选择日期" :picker-options="pickerOptions">
+                        </el-date-picker>
                       </el-form-item>
                       <el-form-item label="领取工具时间">
-                        <template>
-                          <el-time-select placeholder="起始时间" v-model="startTime" :picker-options="{
-                            start: '08:30',
-                            step: '00:30',
-                            end: '18:30'
-                          }">
-                          </el-time-select>
-                          <el-time-select placeholder="结束时间" v-model="endTime" :picker-options="{
-                            start: '08:30',
-                            step: '00:30',
-                            end: '22:30',
-                            minTime: startTime
-                          }">
-                          </el-time-select>
-                        </template>
+                        <el-time-select placeholder="起始时间" v-model="startTime" :picker-options="{
+                          start: '08:30',
+                          step: '00:30',
+                          end: '18:30'
+                        }">
+                        </el-time-select>
+                        <el-time-select placeholder="结束时间" v-model="endTime" :picker-options="{
+                          start: '08:30',
+                          step: '00:30',
+                          end: '22:30',
+                          minTime: startTime
+                        }">
+                        </el-time-select>
                       </el-form-item>
 
                       <el-form-item label="领取工具地点">
@@ -89,6 +92,8 @@
                 </template>
               </el-table-column>
             </el-table>
+
+
           </el-card>
         </div>
       </el-main>

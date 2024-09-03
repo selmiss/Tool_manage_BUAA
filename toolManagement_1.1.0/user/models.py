@@ -10,6 +10,7 @@ class User(models.Model):
         return u.get() if u.exists() else None
 
     # basic fields
+    # id = models.AutoField(primary_key=True)
     oid = models.CharField(verbose_name='微信id', max_length=1000, null=True)
     acc = models.EmailField(unique=True, verbose_name='账号', max_length=96, null=True)#邮箱作为账号进行登录注册
     pwd = models.CharField(verbose_name='密码', max_length=96, null=True)
@@ -39,3 +40,16 @@ class EmailRecord(models.Model):
     class Meta:
         verbose_name = '邮件'
         verbose_name_plural = verbose_name
+
+class UserRegisterRequest(models.Model):
+    id = models.AutoField(primary_key=True)
+    studentId = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
+    college = models.CharField(max_length=256)
+    email = models.CharField(max_length=256)
+    phone = models.CharField(max_length=256)
+    password = models.CharField(max_length=256)
+
+    isDeleted = models.BooleanField(default=False)
+    class Meta:
+        db_table = 'user_register_request'

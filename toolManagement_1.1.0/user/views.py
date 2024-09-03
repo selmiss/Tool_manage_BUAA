@@ -55,37 +55,105 @@ def wx_Register(request):
             return JsonResponse({'error_code': 0})
 
 
-
-
-
-
-
 def Register(request):
-    if request.method == 'POST':
-        E = EasyDict()
-        E.uk = -1
-        E.key, E.emailuni, E.no_code, E.code_error = 1, 2, 3, 4
-        kwargs = json.loads(request.body.decode("utf-8"))
-        if kwargs.keys() != {'acc', 'pwd', 'name', 'studentId', 'college', 'phoneNumber'}:
-            return JsonResponse({'error_code': E.key})  # 注册信息输入不完整
-        ac = User.objects.filter(acc=kwargs['acc'])
-        if ac.exists():
-            return JsonResponse({'error_code': E.emailuni})  # 输入的邮箱已注册账号
-        re = EmailRecord.objects.filter(acc=kwargs['phoneNumber'])
-        if not re.exists():
-            return JsonResponse({"error_code": E.no_code})
-        re = re.get()
-        # if str(re.code).upper() != str(kwargs['key']).upper():
-        #     return JsonResponse({"error_code": E.code_error})
-        new_user = User()
-        new_user.acc = kwargs['acc']
-        new_user.pwd = hash_password(kwargs['pwd'])
-        new_user.name = kwargs['name']
-        new_user.studentId = kwargs['studentId']
-        new_user.college = kwargs['college']
-        new_user.phoneNumber = kwargs['phoneNumber']
+    if request.method == 'GET':
+        reqs = UserRegisterRequest.objects.filter(isDeleted=False)
+        return JsonResponse({
+            "data": [
+                {
+                    "id": i.id,
+                    "name": i.name,
+                    "studentId": i.studentId,
+                    "college": i.college,
+                    "email": i.email,
+                    "phone": i.phone,
+                } for i in reqs
+            ],
+            "msg": "用户注册列表获取成功",
+        })
+    elif request.method == 'POST':
+        name = request.POST.get('name')
+        studentId = request.POST.get('studentId')
+        college = request.POST.get('college')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        user = User.objects.filter(acc=email)
+        user_reg_req = UserRegisterRequest.objects.filter(email=email)
+        if user.exists() or user_reg_req.exists():
+            return JsonResponse({
+                "msg": "该邮箱已被注册或正在审核中"
+            }, status=403)
+        user_reg_req = UserRegisterRequest(
+            name=name,
+            studentId=studentId,
+            college=college,
+            email=email,
+            phone=phone,
+            password=password
+        )
+        user_reg_req.save()
+        return JsonResponse({
+            "msg": "注册请求创建成功，请等待管理员审核",
+        }, status=201)
+
+def RegisterVerify(request):
+    qid = request.POST.get('qid')
+    op = request.POST.get('op')
+    user_reg_req = UserRegisterRequest.objects.filter(id=qid)
+    if not user_reg_req.exists():
+        return JsonResponse({
+            "msg": "请求不存在"
+        }, status=404)
+    user_reg_req = user_reg_req.get()
+    if op == 'accept':
+        new_user = User(
+            acc=user_reg_req.email,
+            pwd=hash_password(user_reg_req.password),
+            name=user_reg_req.name,
+            studentId=user_reg_req.studentId,
+            college=user_reg_req.college,
+            phoneNumber=user_reg_req.phone
+        )
         new_user.save()
-        return JsonResponse({'error_code': 0, 'uid': new_user.id})
+        user_reg_req.isDeleted = True
+        user_reg_req.save()
+        return JsonResponse({
+            "msg": "用户创建成功"
+        })
+    elif op == 'reject':
+        user_reg_req.isDeleted = True
+        user_reg_req.save()
+        return JsonResponse({
+            "msg": "用户注册请求已拒绝"
+        })
+
+# def Register(request):
+#     if request.method == 'POST':
+#         E = EasyDict()
+#         E.uk = -1
+#         E.key, E.emailuni, E.no_code, E.code_error = 1, 2, 3, 4
+#         kwargs = json.loads(request.body.decode("utf-8"))
+#         if kwargs.keys() != {'acc', 'pwd', 'name', 'studentId', 'college', 'phoneNumber'}:
+#             return JsonResponse({'error_code': E.key})  # 注册信息输入不完整
+#         ac = User.objects.filter(acc=kwargs['acc'])
+#         if ac.exists():
+#             return JsonResponse({'error_code': E.emailuni})  # 输入的邮箱已注册账号
+#         re = EmailRecord.objects.filter(acc=kwargs['phoneNumber'])
+#         if not re.exists():
+#             return JsonResponse({"error_code": E.no_code})
+#         re = re.get()
+#         # if str(re.code).upper() != str(kwargs['key']).upper():
+#         #     return JsonResponse({"error_code": E.code_error})
+#         new_user = User()
+#         new_user.acc = kwargs['acc']
+#         new_user.pwd = hash_password(kwargs['pwd'])
+#         new_user.name = kwargs['name']
+#         new_user.studentId = kwargs['studentId']
+#         new_user.college = kwargs['college']
+#         new_user.phoneNumber = kwargs['phoneNumber']
+#         new_user.save()
+#         return JsonResponse({'error_code': 0, 'uid': new_user.id})
 
 
 def uniNameJudge(request):
@@ -185,7 +253,7 @@ def Login(request):
         print(hash_after + "这是新生成的token")
         print(TOKEN_DIC)
         Timer(1270000, delToken, args=[hash_after]).start()
-        return JsonResponse({'error_code': 0, 'uid': -2, 'hash_code': hash_after})
+        return JsonResponse({'error_code': 0, 'uid': user.id, 'hash_code': hash_after})
 
 
 def unLogin(request):

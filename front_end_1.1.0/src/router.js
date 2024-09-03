@@ -33,6 +33,7 @@ const routes = [
   { path: '/studentForgetPwd', component: () => import('@/views/Entry/S_ForgetPwd.vue') },
   { path: '/borrowRecord', component: () => import('@/views/student_views/BorrowRecord.vue') },
   { path: '/tools', component: () => import('@/views/student_views/BorrowTools.vue') },
+  { path: '/register_verify', component: () => import('@/views/teacher_views/RegisterVerify.vue') },
 ]
 // const routes = [
 //   {

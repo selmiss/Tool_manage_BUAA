@@ -48,7 +48,7 @@
 
 
                 <el-dialog
-                    :visible.sync="dialogVisible"
+                    v-model="dialogVisible"
                     width="300px"
                     title="编辑分类名称"
                 >
@@ -71,7 +71,7 @@
                   </div>
                 </el-dialog>
                 <el-dialog
-                    :visible.sync="addDialog"
+                    v-model="addDialog"
                     width="300px"
                     title="添加分类"
                 >

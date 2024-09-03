@@ -32,6 +32,10 @@
             <!-- <el-icon class="el-icon-s-order"></el-icon> -->
             <span slot="title">教师列表</span>
           </el-menu-item>
+          <el-menu-item v-if="this.isSuperUser" index="/register_verify">
+            <!-- <el-icon class="el-icon-s-order"></el-icon> -->
+            <span slot="title">学生注册</span>
+          </el-menu-item>
         </el-sub-menu>
 
         <el-sub-menu index="3">
