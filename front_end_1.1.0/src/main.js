@@ -22,9 +22,9 @@ app.use(pinia)
 app.use(ElementPlus)
 
 //原来的baseURL http://tool.selmiss.xyz/
-axios.defaults.baseURL='http://127.0.0.1:8090/'
+// axios.defaults.baseURL='http://127.0.0.1:8090/'
 // axios.defaults.baseURL='http://tool.selmiss.com/'
-// axios.defaults.baseURL='http://10.212.87.185/';
+axios.defaults.baseURL='http://10.212.87.185:8090/';
 // axios.defaults.baseURL='http://121.4.160.157/';
 
 axios.interceptors.request.use(

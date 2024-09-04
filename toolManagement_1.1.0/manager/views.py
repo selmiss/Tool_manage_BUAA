@@ -100,18 +100,18 @@ def RegisterTeacherAcc(request):
         new_user.teacherId=kwargs['teacherId']
         new_user.save()
         return JsonResponse({'error_code': 0, 'uid': new_user.id})
-def searchStudentByName(request):
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.key= 1
-        if kwargs.keys() != {'Name'}:
-            return JsonResponse({'error_code': Error.key})
-        users=User.objects.filter(name__contains=kwargs['Name'])
-        dataList = []
-        for i in users:
-            dataList.append({"name": i.name, "studentId": i.studentId, "uid": i.id, "acc": i.acc, "phoneNumber":i.phoneNumber, "college":i.college})
-        return JsonResponse({'error_code': 0, 'dataList': dataList})
+# def searchStudentByName(request):
+#     if request.method == 'POST':
+#         kwargs = json.loads(request.body.decode("utf-8"))
+#         Error = EasyDict()
+#         Error.key= 1
+#         if kwargs.keys() != {'Name'}:
+#             return JsonResponse({'error_code': Error.key})
+#         users=User.objects.filter(name__contains=kwargs['Name'])
+#         dataList = []
+#         for i in users:
+#             dataList.append({"name": i.name, "studentId": i.studentId, "uid": i.id, "acc": i.acc, "phoneNumber":i.phoneNumber, "college":i.college})
+#         return JsonResponse({'error_code': 0, 'dataList': dataList})
 
 from user import TOKEN_DIC
 
@@ -615,20 +615,20 @@ def approvePostponeRequest(request):#处理延期请求
             return JsonResponse({"error_code": Error.mailFail})
         return JsonResponse({"error_code": 0})
 
-def setReturnTime(request):#修改借出设备的归还时间
-    kwargs = json.loads(request.body.decode("utf-8"))
-    Error = EasyDict()
-    Error.uk = -1
-    Error.key, Error.no_user, Error.no_request, Error.illegalRequest, Error.noEnoughCount = 1, 2, 3, 4, 5
-    if kwargs.keys() != {'requestId', 'changeTime'}:
-        return JsonResponse({'error_code': Error.key})
-    toolReq = ToolRequest.objects.filter(id=str(kwargs['requestId']), Status='A')
-    if not toolReq.exists():
-        return JsonResponse({"error_code": Error.no_request})
-    toolReq = toolReq.get()
-    toolReq.return_time=datetime.strptime(str(kwargs['changeTime']),TIME_FORMAT)
-    toolReq.save()
-    return JsonResponse({"error_code": 0})
+# def setReturnTime(request):#修改借出设备的归还时间
+#     kwargs = json.loads(request.body.decode("utf-8"))
+#     Error = EasyDict()
+#     Error.uk = -1
+#     Error.key, Error.no_user, Error.no_request, Error.illegalRequest, Error.noEnoughCount = 1, 2, 3, 4, 5
+#     if kwargs.keys() != {'requestId', 'changeTime'}:
+#         return JsonResponse({'error_code': Error.key})
+#     toolReq = ToolRequest.objects.filter(id=str(kwargs['requestId']), Status='A')
+#     if not toolReq.exists():
+#         return JsonResponse({"error_code": Error.no_request})
+#     toolReq = toolReq.get()
+#     toolReq.return_time=datetime.strptime(str(kwargs['changeTime']),TIME_FORMAT)
+#     toolReq.save()
+#     return JsonResponse({"error_code": 0})
 
 def getAllNeedReturnList(request):#获取待归还请求列表
     if request.method == 'POST':
@@ -992,22 +992,22 @@ def uploadImag(request):
             fp.close()
             message = '上传成功'
 
-def uploadImg1(request):
-    print("进入")
-    if request.method == 'POST':
-        toolId = request.POST.get('toolId')
-        tool = Tool.get_tool_by_id(toolId)
-        if tool is None:
-            return JsonResponse({'message': 1})
-        img=request.FILES.get('img')
-        file_path = os.path.join('media/image', img.name)
-        with open(file_path, 'wb') as fp:
-            for info in img.chunks():
-                fp.write(info)
-            fp.close()
-        tool.save()
-        print("执行完毕")
-        return JsonResponse({'message':"上传成功"})
+# def uploadImg1(request):
+#     print("进入")
+#     if request.method == 'POST':
+#         toolId = request.POST.get('toolId')
+#         tool = Tool.get_tool_by_id(toolId)
+#         if tool is None:
+#             return JsonResponse({'message': 1})
+#         img=request.FILES.get('img')
+#         file_path = os.path.join('media/image', img.name)
+#         with open(file_path, 'wb') as fp:
+#             for info in img.chunks():
+#                 fp.write(info)
+#             fp.close()
+#         tool.save()
+#         print("执行完毕")
+#         return JsonResponse({'message':"上传成功"})
 
 def editTool(request):
     if request.method == 'POST':
@@ -1128,19 +1128,19 @@ def deleteTool(request):#todo：判断工具是否全部收回？
         tool.delete()
         return JsonResponse({'error_code': 0})
 
-def deleteWithoutJduge(request):
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.uk = -1
-        Error.key, Error.noTool= 1, 2
-        if kwargs.keys() != {'toolId'}:
-            return JsonResponse({'error_code': Error.key})
-        tool = Tool.get_tool_by_id(kwargs['toolId'])
-        if tool is None:
-            return JsonResponse({'error_code': Error.noTool})
-        tool.delete()
-        return JsonResponse({'error_code': 0})
+# def deleteWithoutJduge(request):
+#     if request.method == 'POST':
+#         kwargs = json.loads(request.body.decode("utf-8"))
+#         Error = EasyDict()
+#         Error.uk = -1
+#         Error.key, Error.noTool= 1, 2
+#         if kwargs.keys() != {'toolId'}:
+#             return JsonResponse({'error_code': Error.key})
+#         tool = Tool.get_tool_by_id(kwargs['toolId'])
+#         if tool is None:
+#             return JsonResponse({'error_code': Error.noTool})
+#         tool.delete()
+#         return JsonResponse({'error_code': 0})
 
 def moveSecondLabel(request):
     if request.method == 'POST':

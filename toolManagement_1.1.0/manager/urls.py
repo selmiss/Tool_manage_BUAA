@@ -43,7 +43,7 @@ urlpatterns = [
     # 处理撤回申请
     #path('approveRepealRequest', views.approveRepealRequest, name='approveRepealRequest'),
     # 修改设备归还时间
-    path('setReturnTime', views.setReturnTime, name='setReturnTime'),
+    # path('setReturnTime', views.setReturnTime, name='setReturnTime'),
     # 获取所有待归还请求列表
     path('getAllNeedReturnList', views.getAllNeedReturnList, name='getAllNeedReturnList'),
     # 归还工具
@@ -62,7 +62,7 @@ urlpatterns = [
     # 上传标签图片
     path('putLabelImage', views.putLabelImage, name='putLabelImage'),
     # 编辑时上传图片
-    path('uploadImg1',views.uploadImg1,name='uploadImg1'),
+    # path('uploadImg1',views.uploadImg1,name='uploadImg1'),
     path('uploadImag',views.uploadImag,name='uploadImag'),
     # 删除标签
     path('deleteLabel', views.deleteLabel, name='deleteLabel'),
@@ -71,7 +71,7 @@ urlpatterns = [
     # 删除工具
     path('deleteTool', views.deleteTool, name='deleteTool'),
     # 无条件删除工具
-    path('deleteWithoutJduge', views.deleteWithoutJduge, name='deleteWithoutJduge'),
+    # path('deleteWithoutJduge', views.deleteWithoutJduge, name='deleteWithoutJduge'),
     # 编辑工具
     path('editTool', views.editTool, name='editTool'),
     # 移动二级标签
@@ -88,7 +88,7 @@ urlpatterns = [
     # 删除学生
     path('deleteStudent', views.deleteStudent, name='deleteStudent'),
     # 删除学生
-    path('searchStudentByName', views.searchStudentByName, name='searchStudentByName'),
+    # path('searchStudentByName', views.searchStudentByName, name='searchStudentByName'),
     path('allBorrowList', views.allBorrowList, name='allBorrowList'),
     path('editTool1', views.editTool1, name='editTool1'),
     path('wxlogin', views.wxlogin, name='wxlogin'),

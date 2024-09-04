@@ -9,7 +9,6 @@ from datetime import datetime, date
 from django.http import FileResponse, StreamingHttpResponse
 from django.template.defaultfilters import striptags
 from django.utils.encoding import escape_uri_path
-from easydict import EasyDict
 from django.views import View
 from django.db.utils import IntegrityError, DataError
 from django.db.models import Q, QuerySet
@@ -141,3 +140,20 @@ def toolsapi(request, tid):
 		return JsonResponse({
 			"msg": "工具删除成功",
 		})
+
+def usersapi(request):
+	if request.method == "GET":
+		users = User.objects.all()
+		return JsonResponse({
+			"data": [{
+				"id": u.id,
+				"username": u.username,
+				"email": u.acc,
+				"phone": u.phone,
+				"created_at": u.createTime,
+			} for u in users],
+			"msg": "获取成功",
+		})
+
+def managersapi(request):
+	pass

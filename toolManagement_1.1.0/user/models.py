@@ -8,9 +8,7 @@ class User(models.Model):
     def get_user_byid(id):
         u = User.objects.filter(id=id)
         return u.get() if u.exists() else None
-
-    # basic fields
-    # id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     oid = models.CharField(verbose_name='微信id', max_length=1000, null=True)
     acc = models.EmailField(unique=True, verbose_name='账号', max_length=96, null=True)#邮箱作为账号进行登录注册
     pwd = models.CharField(verbose_name='密码', max_length=96, null=True)

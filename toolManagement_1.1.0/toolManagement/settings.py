@@ -96,6 +96,7 @@ DATABASES = {
         'USER': 'root',                                                  #用户
         'PASSWORD': 'Chywgg1314@',                                              #密码
         'HOST': '121.4.160.157',                                         #看清楚是公网ip
+        # 'HOST': '10.212.87.185',
         'PORT': '3306',                                                # Set to empty string for default.
     }
 }
