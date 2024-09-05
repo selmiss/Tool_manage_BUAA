@@ -19,8 +19,6 @@ urlpatterns = [
     path('reSetPwd', views.reSetPwd, name='reSetPwd'),
     # 获取教师申请注册列表
     path('getTeacherApproveList', views.getTeacherApproveList, name='getTeacherApproveList'),
-    # 获取教师列表
-    path('getTeacherList', views.getTeacherList, name='getTeacherList'),
     # 处理注册请求
     path('approveTeacher', views.approveTeacher, name='approveTeacher'),
 
@@ -79,14 +77,6 @@ urlpatterns = [
     # 修改工具标签
     path('editToolLabel', views.editToolLabel, name='editToolLabel'),
 
-    # 获取学生用户列表
-    path('getStudentList', views.getStudentList, name='getStudentList'),
-    # 获取教师用户列表
-    path('getTeacherList', views.getTeacherList, name='getTeacherList'),
-    # 删除教师
-    path('deleteTeacher', views.deleteTeacher, name='deleteTeacher'),
-    # 删除学生
-    path('deleteStudent', views.deleteStudent, name='deleteStudent'),
     # 删除学生
     # path('searchStudentByName', views.searchStudentByName, name='searchStudentByName'),
     path('allBorrowList', views.allBorrowList, name='allBorrowList'),

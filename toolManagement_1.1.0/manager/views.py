@@ -81,17 +81,17 @@ def RegisterTeacherAcc(request):
         E.uk = -1
         E.key, E.emailuni, E.no_code, E.code_error = 1, 2, 3, 4
         kwargs = json.loads(request.body.decode("utf-8"))
-        if kwargs.keys() != {'acc', 'pwd', 'key','name','teacherId','phoneNumber'}:
+        if kwargs.keys() != {'acc', 'pwd', 'name','teacherId','phoneNumber'}:
             return JsonResponse({'error_code': E.key})  # 注册信息输入不完整
         ac = Manager.objects.filter(acc=kwargs['acc'])
         if ac.exists():
             return JsonResponse({'error_code': E.emailuni})  # 输入的邮箱已注册账号
-        re = EmailRecord.objects.filter(acc=kwargs['phoneNumber'])
-        if not re.exists():
-            return JsonResponse({"error_code": E.no_code})
-        re = re.get()
-        if str(re.code).upper() != str(kwargs['key']).upper():
-            return JsonResponse({"error_code": E.code_error})
+        # re = EmailRecord.objects.filter(acc=kwargs['phoneNumber'])
+        # if not re.exists():
+        #     return JsonResponse({"error_code": E.no_code})
+        # re = re.get()
+        # if str(re.code).upper() != str(kwargs['key']).upper():
+        #     return JsonResponse({"error_code": E.code_error})
         new_user = Manager()
         new_user.acc = kwargs['acc']
         new_user.pwd = hash_password(kwargs['pwd'])
@@ -251,60 +251,6 @@ def getInfo(request):  # 获取个人信息
         u = u.get()
         return JsonResponse({"error_code": 0, 'name': u.name,'acc': u.acc, 'teacherId': u.teacherId,
                              'uid': u.id, 'phoneNumber':u.phoneNumber})
-def getStudentList(request):
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.key, Error.name, Error.pwd, Error.noTeacher, Error.illegalStatus = 1, 2, 3, 4, 5
-        users = User.objects.all()
-        dataList = []
-        for i in users:
-            dataList.append({"name": i.name, "studentId": i.studentId, "uid": i.id, "acc": i.acc, "phoneNumber":i.phoneNumber, "college":i.college})
-        return JsonResponse({'error_code': 0, 'dataList': dataList, "handleCount": len(dataList)})
-def getTeacherList(request):
-    print("进入函数")
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.key, Error.name, Error.pwd, Error.noTeacher, Error.illegalStatus = 1, 2, 3, 4, 5
-        users = Manager.objects.all()
-        dataList = []
-        for i in users:
-            if i.isActive:
-                dataList.append(
-                    {"name": i.name, "teacherId": i.teacherId, "uid": i.id, "acc": i.acc, "phoneNumber": i.phoneNumber})
-        return JsonResponse({'error_code': 0, 'dataList': dataList, "handleCount": len(dataList)})
-
-
-def deleteTeacher(request):
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.key,Error.noTeacher= 1, 2
-        if kwargs.keys() != {'uid'}:
-            return JsonResponse({'error_code': Error.key})
-        teacher = Manager.get_manager_by_id(kwargs['uid'])
-        if teacher is None:
-            return JsonResponse({'error_code': Error.noTeacher})
-        teacher.delete()
-        return JsonResponse({'error_code': 0})
-
-
-def deleteStudent(request):
-    if request.method == 'POST':
-        kwargs = json.loads(request.body.decode("utf-8"))
-        Error = EasyDict()
-        Error.key, Error.name ,Error.noTeacher= 1, 2, 3
-        if kwargs.keys() != {'uid','stu_uid'}:
-            return JsonResponse({'error_code': Error.key})
-        teacher = User.get_user_byid(kwargs['stu_uid'])
-        if teacher is None:
-            return JsonResponse({'error_code': Error.noTeacher})
-        teacher.delete()
-        return JsonResponse({'error_code': 0})
-
-
-
 
 def getTeacherApproveList(request):
     if request.method == 'POST':
@@ -319,17 +265,6 @@ def getTeacherApproveList(request):
             dataList.append({"name":i.name,"teacherId":i.teacherId,"uid":i.id,"acc":i.acc})
         print("可以运行结束")
         return JsonResponse({'error_code': 0,'dataList':dataList,"handleCount":len(dataList)})
-
-# def getTeacherList(request):
-#     if request.method == 'POST':
-#         kwargs = json.loads(request.body.decode("utf-8"))
-#         Error = EasyDict()
-#         Error.key, Error.name, Error.pwd ,Error.noTeacher, Error.illegalStatus= 1, 2, 3, 4, 5
-#         users = Manager.objects.filter(isActive=True)
-#         dataList = []
-#         for i in users:
-#             dataList.append({"name":i.name,"teacherId":i.teacherId,"uid":i.id,"acc":i.acc})
-#         return JsonResponse({'error_code': 0,'dataList':dataList,"handleCount":len(dataList)})
 
 def getToolUseList(request):
     if request.method == 'POST':

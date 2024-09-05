@@ -8,7 +8,7 @@ class Label(models.Model):
         return u.get() if u.exists() else None
 
         # basic fields
-
+    id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name='标签名称', max_length=256, null=True)  # 邮箱作为账号进行登录注册
     level = models.IntegerField(verbose_name='标签等级',default=1)
     firstLabel = models.ForeignKey('tool.Label', related_name='lowerLabel', verbose_name="父级标签", on_delete=models.CASCADE, null=True)
@@ -22,7 +22,7 @@ class Tool(models.Model):
     def get_tool_by_id(id):
         u = Tool.objects.filter(id=id)
         return u.get() if u.exists() else None
-
+    id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name='工具名称', max_length=256, null=True)
     totalCount = models.IntegerField(verbose_name='工具总数量',default=0)
     leftCount = models.IntegerField(verbose_name='现有可用工具数量',default=0)
@@ -40,7 +40,7 @@ class ToolRequest(models.Model):
     def get_request_by_id(id):
         u = ToolRequest.objects.filter(id=id)
         return u.get() if u.exists() else None
-
+    id = models.AutoField(primary_key=True)
     request_user = models.ForeignKey(to=User, related_name="toolRequest", on_delete=models.CASCADE, null=False)
     purpose = models.CharField(verbose_name="用途", default=None,max_length=1000)
     borrowCount = models.IntegerField(verbose_name='需借工具数量')
@@ -65,7 +65,7 @@ class RequestPostpone(models.Model):
     def get_request_by_id(id):
         u = RequestPostpone.objects.filter(id=id)
         return u.get() if u.exists() else None
-
+    id = models.AutoField(primary_key=True)
     request_user = models.ForeignKey(to=User, related_name="postponeRequest", on_delete=models.CASCADE, null=False)
     request = models.ForeignKey(to=ToolRequest,related_name='postPoneRequest',on_delete=models.CASCADE,null=False)
     postponeTime = models.DateTimeField(null=False, verbose_name='延期时间')
@@ -83,7 +83,7 @@ class RepealPostpone(models.Model):
     def get_request_by_id(id):
         u = RepealPostpone.objects.filter(id=id)
         return u.get() if u.exists() else None
-
+    id = models.AutoField(primary_key=True)
     request_user = models.ForeignKey(to=User, related_name="RepealRequest", on_delete=models.CASCADE, null=False)
     request = models.ForeignKey(to=ToolRequest,related_name='RepealRequest',on_delete=models.CASCADE,null=False)
     request_time = models.DateTimeField(null=True, default=datetime.now, verbose_name='提交延期申请时间')

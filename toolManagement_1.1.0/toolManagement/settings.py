@@ -95,8 +95,8 @@ DATABASES = {
         'NAME': 'toolManagement',                               # 数据库名，不需要路径以及后缀的
         'USER': 'root',                                                  #用户
         'PASSWORD': 'Chywgg1314@',                                              #密码
-        'HOST': '121.4.160.157',                                         #看清楚是公网ip
-        # 'HOST': '10.212.87.185',
+        # 'HOST': '121.4.160.157',                                         #看清楚是公网ip
+        'HOST': '10.212.87.185',
         'PORT': '3306',                                                # Set to empty string for default.
     }
 }

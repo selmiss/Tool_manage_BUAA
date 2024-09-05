@@ -29,6 +29,7 @@ class EmailRecord(models.Model):
     @property
     def encoded_id(self):
         return self.id
+    id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=20, verbose_name='验证码',default='')
     acc = models.EmailField(max_length=50, verbose_name='用户邮箱', null=True, default='')
     send_time = models.DateTimeField(default=datetime.now, verbose_name='发送时间', null=True, blank=True)

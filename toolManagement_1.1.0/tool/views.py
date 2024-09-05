@@ -147,13 +147,65 @@ def usersapi(request):
 		return JsonResponse({
 			"data": [{
 				"id": u.id,
-				"username": u.username,
+				"student_id": u.studentId,
+				"name": u.name,
 				"email": u.acc,
-				"phone": u.phone,
-				"created_at": u.createTime,
+				"phone": u.phoneNumber,
+				"college": u.college,
 			} for u in users],
-			"msg": "获取成功",
+			"msg": "学生列表获取成功",
+		})
+
+def userapi(request, uid: int):
+	user = User.objects.filter(id=uid)
+	if not user.exists():
+		return JsonResponse({
+			"msg": "学生不存在",
+		}, status=404)
+	user = user.get()
+	if request.method == "GET":
+		return JsonResponse({
+			"data": {
+				"id": user.id,
+				"student_id": user.studentId,
+				"name": user.name,
+				"email": user.acc,
+				"phone": user.phoneNumber,
+				"college": user.college,
+			},
+			"msg": "学生列表获取成功",
+		})
+	elif request.method == "PUT":
+		pass
+	elif request.method == "DELETE":
+		user.delete()
+		return JsonResponse({
+			"msg": "学生删除成功",
 		})
 
 def managersapi(request):
-	pass
+	if request.method == "GET":
+		managers = Manager.objects.filter(isActive=True)
+		return JsonResponse({
+			"data": [{
+				"id": m.id,
+				"name": m.name,
+				"teacher_id": m.teacherId,
+				"email": m.acc,
+				"phone": m.phoneNumber,
+			} for m in managers],
+			"msg": "教师列表获取成功",
+		})
+	
+def managerapi(request, mid: int):
+	manager = Manager.objects.filter(id=mid)
+	if not manager.exists():
+		return JsonResponse({
+			"msg": "教师不存在",
+		}, status=404)
+	manager = manager.get()
+	if request.method == 'DELETE':
+		manager.delete()
+		return JsonResponse({
+			"msg": "教师删除成功",
+		})
