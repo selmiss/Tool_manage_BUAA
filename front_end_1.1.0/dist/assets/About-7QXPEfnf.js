@@ -1,1 +1,0 @@
-import{_ as t,c as o,a,w as s,e as c,r as n,o as r,b as _}from"./index-BBbOrejx.js";const l={},d={class:"about"},i=c("h1",null,"This is an about page",-1);function u(p,f){const e=n("el-button");return r(),o("div",d,[i,a(e,{type:"primary"},{default:s(()=>[_("lalal")]),_:1})])}const b=t(l,[["render",u]]);export{b as default};

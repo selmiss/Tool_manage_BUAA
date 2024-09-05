@@ -10,10 +10,10 @@
         <div style="margin: 0 auto; margin-top: 20px; align-items: center;">
           <el-card class="box-card" style="width: 80%">
             <el-table :data="tableData" style="width: 100%" border>
-              <el-table-column type="index" :index="indexMethod" align="center"></el-table-column>
+              <el-table-column type="index" align="center"></el-table-column>
               <el-table-column align="center" prop="name" label="教师姓名" min-width="50"></el-table-column>
-              <el-table-column align="center" prop="phoneNumber" label="手机号" min-width="80"></el-table-column>
-              <el-table-column align="center" prop="teacherId" label="工号" min-width="60"> </el-table-column>
+              <el-table-column align="center" prop="phone" label="手机号" min-width="80"></el-table-column>
+              <el-table-column align="center" prop="teacher_id" label="工号" min-width="60"> </el-table-column>
               <el-table-column align="center" label="操作" min-width="60">
                 <template #default="scope">
                   <el-button type="danger" plain @click="deleteTeacher(scope.row)">删除教师</el-button>
@@ -31,63 +31,46 @@
 <script>
 import TeacherHeadBar from "@/components/TeacherHeadBar";
 import TeacherMenu from "@/components/TeacherMenu";
+import { ElMessage } from "element-plus";
 import axios from "axios";
 
 export default {
   components: { TeacherHeadBar, TeacherMenu },
   inject: ['reload'],
   mounted() {
-    this.loadMessage()
+    this.loadData()
   },
   data() {
     return {
-      dialogFormVisible: false,
-      tableRecordData: [
-        {
-          toolName: "",
-          startTime: "",
-          returnTime: "",
-          requestId: "",
-          status: "",
-        },
-      ],
       tableData: [
-        {
-          uid: '',
-          name: '',
-          phoneNumber: '',
-          teacherId: '',
-        },
+        // {
+        //   id: '',
+        //   name: '',
+        //   phone: '',
+        //   teacher_id: '',
+        //   email: '',
+        // },
       ],
     };
   },
   methods: {
     deleteTeacher(row) {
-      console.log(row);
-      let that = this;
-      var i = row.uid;
-      axios({
-        url: 'manager/deleteTeacher',
-        method: 'post',
-        data: {
-          uid: i
-        }
-      }).then((res) => {
+      axios.delete('managers/' + row.id
+      ).then((res) => {
+        ElMessage.success(res.data.msg);
         this.reload();
-        alert('已删除该教师');
+      }).catch((err) => {
+        ElMessage.error(err);
       })
     },
-    loadMessage() {
-      let that = this;
-      axios({
-        url: 'manager/getTeacherList',
-        method: 'post',
-        data: {
-        }
-      }).then((res) => {
-        console.log(res);
-        this.tableData = res.data.dataList;
-      });
+    loadData() {
+      axios.get('managers'
+      ).then((res) => {
+        this.tableData = res.data.data;
+        ElMessage.success(res.data.msg);
+      }).catch((err) => {
+        ElMessage.error(err);
+      })
     },
   }
 };

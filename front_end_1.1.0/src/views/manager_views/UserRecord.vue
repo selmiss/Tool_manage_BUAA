@@ -10,10 +10,10 @@
         <div style="margin: 0 auto; margin-top: 20px; align-items: center;">
           <el-card class="box-card" style="width: 80%">
             <el-table :data="tableData" style="width: 100%" border>
-              <el-table-column type="index" :index="indexMethod" align="center"></el-table-column>
+              <el-table-column type="index" align="center"></el-table-column>
               <el-table-column align="center" prop="name" label="用户名" min-width="50"></el-table-column>
-              <el-table-column align="center" prop="phoneNumber" label="手机号" min-width="80"></el-table-column>
-              <el-table-column align="center" prop="studentId" label="学号" min-width="60"> </el-table-column>
+              <el-table-column align="center" prop="phone" label="手机号" min-width="80"></el-table-column>
+              <el-table-column align="center" prop="student_id" label="学号" min-width="60"> </el-table-column>
               <el-table-column align="center" prop="college" label="学院" min-width="50"> </el-table-column>
               <el-table-column align="center" label="操作" min-width="160">
                 <template #default="scope">
@@ -27,10 +27,8 @@
               <div style="margin: 0 auto; align-items: center;">
                 <el-card class="box-card" style="width: 80%">
                   <el-table :data="tableRecordData" style="width: 100%" border>
-                    <el-table-column align="center" prop="toolName" label="工具名称"
-                      min-width="120"></el-table-column>
-                    <el-table-column align="center" prop="startTime" label="借用开始时间"
-                      min-width="100"></el-table-column>
+                    <el-table-column align="center" prop="toolName" label="工具名称" min-width="120"></el-table-column>
+                    <el-table-column align="center" prop="startTime" label="借用开始时间" min-width="100"></el-table-column>
                     <el-table-column align="center" prop="returnTime" label="最晚归还时间" min-width="100">
                     </el-table-column>
                     <el-table-column align="center" label="状态" min-width="120">
@@ -57,12 +55,13 @@
 import TeacherHeadBar from "@/components/TeacherHeadBar";
 import TeacherMenu from "@/components/TeacherMenu";
 import axios from "axios";
+import { ElMessage } from "element-plus";
 
 export default {
   components: { TeacherHeadBar, TeacherMenu },
   inject: ['reload'],
   mounted() {
-    this.loadMessage()
+    this.loadData()
   },
   data() {
     return {
@@ -78,28 +77,28 @@ export default {
       ],
       tableData: [
         {
-          uid: '',
+          id: '',
           name: '',
-          phoneNumber: '',
+          phone: '',
           college: '',
-          studentId: '',
+          student_id: '',
+          email: '',
         },
       ],
     };
   },
   methods: {
     handleCreate(row) {
-      //打开弹窗
       this.dialogFormVisible = true;
       this.tableRecordData = [];
       let that = this;
-      console.log(row.uid)
+      console.log(row.id)
       axios({
         url: 'manager/allBorrowList',
         method: 'post',
         data: {
           uid: -2,
-          stu_uid: row.uid,
+          stu_uid: row.id,
         }
       }).then((response) => {
         if (response) {
@@ -116,35 +115,23 @@ export default {
         }
       });
     },
-
-
     deleteUser(row) {
-      console.log(row);
-      let that = this;
-      var i = row.uid;
-      axios({
-        url: 'manager/deleteStudent',
-        method: 'post',
-        data: {
-          uid: -2,
-          stu_uid: i,
-        }
-      }).then((res) => {
+      var i = row.id;
+      axios.delete('users/' + i,
+      ).then((res) => {
+        ElMessage.success(res.data.msg);
         this.reload();
-        alert('已删除该用户');
-      })
+      }).catch((err) => {
+        ElMessage.error(err);
+      });
     },
-
-
-    loadMessage() {
-      let that = this;
-      axios({
-        url: 'manager/getStudentList',
-        method: 'post',
-        data: {
-        }
-      }).then((res) => {
-        this.tableData = res.data.dataList;
+    loadData() {
+      axios.get('users'
+      ).then((resp) => {
+        this.tableData = resp.data.data;
+        ElMessage.success(resp.data.msg);
+      }).catch((err) => {
+        ElMessage.error(err);
       });
     },
   }

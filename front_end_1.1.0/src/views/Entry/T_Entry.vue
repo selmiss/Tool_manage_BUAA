@@ -25,7 +25,7 @@
             <el-button type="warning" round @click="login">登录</el-button>
             <el-button type="warning" round @click="teacherForgetPwd">忘记密码</el-button>
           </el-form> -->
-          
+
         </div>
         <div class="big-contain" v-else>
           <div v-if="!stateReg">
@@ -43,31 +43,14 @@
           <div v-else>
             <div class="btitle">欢迎，{{ this.form.name }}老师！</div>
             <div class="bform">
-              <input
-                type="text"
-                placeholder="手机号"
-                v-model="form.phone"
-              /><br />
-              <button @click="sendCode">获取验证码<span v-show="!show" class="count"> {{count}} s</span></button>
-              <br />
-              <input
-                type="code"
-                placeholder="验证码"
-                v-model="form.code"
-              /><br />
-              <input
-                type="password"
-                placeholder="密码"
-                v-model="form.password"
-              /><br />
-              <input
-                type="password"
-                placeholder="确认密码"
-                v-model="form.password2"
-              />
+              <input type="text" placeholder="手机号" v-model="form.phone" /><br />
+              <!-- <button @click="sendCode">获取验证码<span v-show="!show" class="count"> {{ count }} s</span></button> -->
+              <!-- <br /> -->
+              <!-- <input type="code" placeholder="验证码" v-model="form.code" /><br /> -->
+              <input type="password" placeholder="密码" v-model="form.password" /><br />
+              <input type="password" placeholder="确认密码" v-model="form.password2" />
             </div>
-            <button class="bbutton" @click="changeRegState">上一步</button
-            >&nbsp;
+            <button class="bbutton" @click="changeRegState">上一步</button>&nbsp;
             <button class="bbutton" @click="register">注册</button>
           </div>
         </div>
@@ -108,8 +91,8 @@ export default {
         tid: "",
         email: "",
         password: "",
-        password2 :"",
-        code: "",
+        password2: "",
+        // code: "",
         phone: "",
       },
       show: true,
@@ -118,7 +101,7 @@ export default {
     };
   },
   methods: {
-    studentEntry(){
+    studentEntry() {
       this.$router.push('/studentLogin')
     },
     changeType() {
@@ -129,45 +112,45 @@ export default {
       this.form.email = "";
       this.form.password = "";
     },
-  teacherForgetPwd(){
-    this.$router.push('/teacherForgetPwd');
-  },
-	sendCode(){
-    const TIME_COUNT = 60;
-     if (!this.timer) {
-       console.log("已发送"),
-		    axios({
-			  method:"post",
-			  url:'user/forget/sendCode',
-			  data:{
-			  	acc:this.form.phone,
-			  }
-        }).then((res)=>{
-        console.log(res.error_code);
-        alert("验证码已发送，请在手机信息中查看。")
-      })
-       this.count = TIME_COUNT;
-       this.show = false;
-       this.timer = setInterval(() => {
-       if (this.count > 0 && this.count <= TIME_COUNT) {
-         this.count--;
-       }
-        else {
-         this.show = true;
-         clearInterval(this.timer);
-         this.timer = null;
-        }
-       }, 1000)
+    teacherForgetPwd() {
+      this.$router.push('/teacherForgetPwd');
+    },
+    sendCode() {
+      const TIME_COUNT = 60;
+      if (!this.timer) {
+        console.log("已发送"),
+          axios({
+            method: "post",
+            url: 'user/forget/sendCode',
+            data: {
+              acc: this.form.phone,
+            }
+          }).then((res) => {
+            console.log(res.error_code);
+            alert("验证码已发送，请在手机信息中查看。")
+          })
+        this.count = TIME_COUNT;
+        this.show = false;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--;
+          }
+          else {
+            this.show = true;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000)
       }
-	},
-  changeRegState() {
-      if(this.form.sid != "" && this.form.name != "" && this.form.college != ""){
-          this.stateReg = !this.stateReg
+    },
+    changeRegState() {
+      if (this.form.sid != "" && this.form.name != "" && this.form.college != "") {
+        this.stateReg = !this.stateReg
       }
-      else{
-          alert("填写不能为空！");
+      else {
+        alert("填写不能为空！");
       }
-  },
+    },
     changePwd() {
       if (this.form.email != "" && this.form.password != "") {
         axios({
@@ -200,8 +183,8 @@ export default {
       }
     },
     login() {
-      localStorage.setItem('token',"wutoken");
-      var a=localStorage.getItem('token');
+      localStorage.setItem('token', "wutoken");
+      var a = localStorage.getItem('token');
       console.log(a);
       if (this.form.email != "" && this.form.password != "") {
         axios.post("manager/Login",
@@ -211,32 +194,32 @@ export default {
           },
         ).then((res) => {
           console.log(axios.defaults.baseURL)
-          let user={};
-          user.Mail=this.form.email;
-          user.UID=res.data.uid;
-          user.hash_code=res.data.hash_code;
+          let user = {};
+          user.Mail = this.form.email;
+          user.UID = res.data.uid;
+          user.hash_code = res.data.hash_code;
           console.log(user.hash_code);
           //TODO:页面跳转
-          if(res.data.error_code==0){
-            localStorage.setItem('uid',res.data.uid);
-            localStorage.setItem('Mail',this.form.email);
-            localStorage.setItem('isSuperUser',res.data.is_superUser);
-            localStorage.setItem('token',res.data.hash_code);
-            if(!res.data.is_superUser) {
+          if (res.data.error_code == 0) {
+            localStorage.setItem('uid', res.data.uid);
+            localStorage.setItem('Mail', this.form.email);
+            localStorage.setItem('isSuperUser', res.data.is_superUser);
+            localStorage.setItem('token', res.data.hash_code);
+            if (!res.data.is_superUser) {
               this.$router.push('/settools');
-              this.$store.commit("changeLogin",user);
+              this.$store.commit("changeLogin", user);
             }
-            else{
+            else {
               this.$router.push('/borrowProcessing');
-              this.$store.commit("changeLogin",user);
+              this.$store.commit("changeLogin", user);
             }
-          } else if(res.data.error_code==1){
+          } else if (res.data.error_code == 1) {
             alert('存在输入为空！')
           }
-          else if(res.data.error_code==2){
+          else if (res.data.error_code == 2) {
             alert('用户不存在！')
           }
-          else if(res.data.error_code==3){
+          else if (res.data.error_code == 3) {
             alert('密码错误！请重新输入。')
           }
           else alert('请重新输入！')
@@ -246,11 +229,11 @@ export default {
       }
     },
     register() {
-      console.log(this.form.phone+" : "+this.form.tid);
+      console.log(this.form.phone + " : " + this.form.tid);
       if (this.form.password != "" && this.form.email != "") {
-        if(this.form.password != this.form.password2) 
+        if (this.form.password != this.form.password2)
           alert("两次密码输入不一致。");
-        else{
+        else {
           axios({
             method: "post",
             url: "manager/RegisterTeacherAcc",
@@ -259,19 +242,19 @@ export default {
               teacherId: this.form.tid,
               name: this.form.name,
               pwd: this.form.password,
-              key: this.form.code,
+              // key: this.form.code,
               phoneNumber: this.form.phone,
             },
           }).then((res) => {
             console.log(res);
-            if(res.data.error_code == 0) {
+            if (res.data.error_code == 0) {
               alert('您的注册请求已提交！请等待管理员审核。')
               this.changeType();
             }
-            if(res.data.error_code == 1){
+            if (res.data.error_code == 1) {
               alert('输入有误！请检查并重新输入')
             }
-            if(res.data.error_code == 2){
+            if (res.data.error_code == 2) {
               alert('该邮箱已注册！')
             }
           })
@@ -290,8 +273,9 @@ export default {
   height: 100vh;
   box-sizing: border-box;
   background-image: url(/MainMenu.jpeg);
-	background-size: 1920px 980px;
+  background-size: 1920px 980px;
 }
+
 .contain {
   width: 60%;
   height: 60%;
@@ -303,6 +287,7 @@ export default {
   border-radius: 20px;
   box-shadow: 0 0 3px #f0f0f0, 0 0 6px #f0f0f0;
 }
+
 .big-box {
   width: 70%;
   height: 100%;
@@ -312,6 +297,7 @@ export default {
   transform: translateX(0%);
   transition: all 1s;
 }
+
 .big-contain {
   margin-top: 8%;
   width: 100%;
@@ -321,11 +307,13 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .btitle {
   font-size: 1.5em;
   font-weight: bold;
   color: rgb(221, 111, 8);
 }
+
 .bform {
   width: 100%;
   height: 40%;
@@ -335,6 +323,7 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
+
 .bform button {
   width: 20%;
   height: 32px;
@@ -347,6 +336,7 @@ export default {
   font-size: 0.9em;
   cursor: pointer;
 }
+
 .bform .errTips {
   display: block;
   width: 50%;
@@ -355,6 +345,7 @@ export default {
   font-size: 0.7em;
   margin-left: 1em;
 }
+
 .bform input {
   width: 50%;
   height: 30px;
@@ -364,6 +355,7 @@ export default {
   padding-left: 2em;
   background-color: #f0f0f0;
 }
+
 .bbutton {
   width: 20%;
   height: 40px;
@@ -375,6 +367,7 @@ export default {
   font-size: 0.9em;
   cursor: pointer;
 }
+
 .small-box {
   width: 30%;
   height: 100%;
@@ -387,6 +380,7 @@ export default {
   border-top-left-radius: inherit;
   border-bottom-left-radius: inherit;
 }
+
 .small-contain {
   width: 100%;
   height: 100%;
@@ -395,11 +389,13 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .stitle {
   font-size: 1.5em;
   font-weight: bold;
   color: #fff;
 }
+
 .scontent {
   font-size: 0.8em;
   color: #fff;
@@ -407,6 +403,7 @@ export default {
   padding: 2em 4em;
   line-height: 1.7em;
 }
+
 .sbutton {
   width: 60%;
   height: 40px;
@@ -423,6 +420,7 @@ export default {
   left: 0;
   transition: all 0.5s;
 }
+
 .small-box.active {
   left: 100%;
   border-top-left-radius: 0;
@@ -432,6 +430,7 @@ export default {
   transform: translateX(-100%);
   transition: all 1s;
 }
+
 .header {
   height: 50px;
   display: flex;
