@@ -6,6 +6,7 @@ urlpatterns = [
 	path('tools/<int:tid>', views.toolsapi),
 	path('users', views.usersapi),
 	path('users/<int:uid>', views.userapi),
+	# path('users/<int:uid>/passwd', views.userpasswdapi),
 	path('managers', views.managersapi),
 	path('managers/<int:mid>', views.managerapi),
 ]

@@ -2,9 +2,6 @@ from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    # 用户基础功能
-
-    # 用户注册
     path('register', views.Register, name='register'),
 	path('register/verify', views.RegisterVerify, name='registerVerify'),
     # 用户登录
