@@ -8,9 +8,9 @@ import legacy from '@vitejs/plugin-legacy'
 export default defineConfig({
   plugins: [
     vue(),
-    // legacy({
-    //   targets: ['defaults', 'not IE 11']
-    // })
+    legacy({
+      targets: ['defaults', 'not IE 11']
+    })
   ],
   resolve: {
     extensions: ['.js', '.vue'],
