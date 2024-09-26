@@ -30,6 +30,9 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0(vue@3.4.34)
     devDependencies:
+      '@babel/plugin-syntax-dynamic-import':
+        specifier: ^7.8.3
+        version: 7.8.3(@babel/core@7.25.2)
       '@vitejs/plugin-legacy':
         specifier: ^5.4.2
         version: 5.4.2(terser@5.33.0)(vite@5.3.5(terser@5.33.0))
