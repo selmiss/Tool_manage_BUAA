@@ -1,0 +1,1 @@
+System.register(["./index-legacy-D4Q9cYOW.js"],(function(e,t){"use strict";var n,s,c,r,i,u,o;return{setters:[e=>{n=e._,s=e.r,c=e.c,r=e.h,i=e.i,u=e.o,o=e.e}],execute:function(){e("default",n({},[["render",function(e,t){const n=s("el-button"),l=s("el-icon-backsss");return u(),c("div",null,[r(n,{icon:"el-icon-backsss"},{default:i((()=>[o("返回")])),_:1}),r(l)])}]]))}}}));

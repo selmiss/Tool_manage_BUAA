@@ -7,20 +7,26 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.7.2",
     "element-plus": "^2.7.8",
     "pinia": "^2.2.0",
+    "terser": "^5.33.0",
     "vue": "^3.4.34",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-legacy": "^5.4.2",
     "@vitejs/plugin-vue": "^5.1.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
-    "vite": "^5.3.1"
+    "vite": "^5.3.5"
   },
   "description": "## Project setup ``` npm install ```",
   "main": "babel.config.js",
