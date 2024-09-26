@@ -1,1 +1,0 @@
-import{_ as n,r as e,c as s,h as o,i as a,o as _,e as r}from"./index-CP_PIM7V.js";const l={};function i(f,d){const c=e("el-button"),t=e("el-icon-backsss");return _(),s("div",null,[o(c,{icon:"el-icon-backsss"},{default:a(()=>[r("返回")]),_:1}),o(t)])}const p=n(l,[["render",i]]);export{p as default};
