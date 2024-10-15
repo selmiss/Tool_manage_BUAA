@@ -54,8 +54,8 @@ app.use(ElementPlus)
 if (process.env.NODE_ENV === 'development') {
   print('Development mode')
 }
-// axios.defaults.baseURL='http://127.0.0.1:8090/'
-axios.defaults.baseURL='http://10.212.87.185:8090/';
+axios.defaults.baseURL='http://127.0.0.1:8000/'
+// axios.defaults.baseURL='http://10.212.87.185:8090/';
 
 axios.interceptors.request.use(
   config => {

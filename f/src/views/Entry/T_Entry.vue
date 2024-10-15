@@ -202,6 +202,7 @@ export default {
           //TODO:页面跳转
           if (res.data.error_code == 0) {
             localStorage.setItem('uid', res.data.uid);
+            console.log(localStorage.getItem('uid'));
             localStorage.setItem('Mail', this.form.email);
             localStorage.setItem('isSuperUser', res.data.is_superUser);
             localStorage.setItem('token', res.data.hash_code);

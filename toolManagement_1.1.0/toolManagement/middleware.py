@@ -27,7 +27,9 @@ class Http2Middleware(object):
 class Auth(MiddlewareMixin):
 	def process_request(self, request):
 		token = request.META.get('HTTP_AUTHORIZATION')
-		print("auth")
+		print("auth", token, TOKEN_DIC.get(token, None))
+		if not token:
+			token = request.META.get('authorization')
 		if token != "wutoken":
 			if token in TOKEN_DIC.keys():
 				request.POST._mutable = True   #让post的body是可以改变的
