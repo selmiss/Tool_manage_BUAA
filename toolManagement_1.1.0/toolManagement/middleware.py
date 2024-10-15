@@ -30,16 +30,17 @@ class Auth(MiddlewareMixin):
 		print("auth", token, TOKEN_DIC.get(token, None))
 		if not token:
 			token = request.META.get('authorization')
-		if token != "wutoken":
-			if token in TOKEN_DIC.keys():
-				request.POST._mutable = True   #让post的body是可以改变的
-				request.POST["uid"] = TOKEN_DIC[token]
-				#request.POST._mutable = mutable #重新改变post的body为不可改变
-				# print(request.POST["uid"])
-			else:
-				pass
-		else:
-			pass
+		request.POST["uid"] = token
+		# if token != "wutoken":
+		# 	if token in TOKEN_DIC.keys():
+		# 		request.POST._mutable = True   #让post的body是可以改变的
+		# 		request.POST["uid"] = TOKEN_DIC[token]
+		# 		#request.POST._mutable = mutable #重新改变post的body为不可改变
+		# 		# print(request.POST["uid"])
+		# 	else:
+		# 		pass
+		# else:
+		# 	pass
 
 	def process_response(self, request, response):
 		print("middle_ware1.process_response")
