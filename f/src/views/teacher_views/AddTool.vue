@@ -66,7 +66,7 @@
 import axios from "axios";
 import TeacherHeadBar from "@/components/TeacherHeadBar";
 import TeacherMenu from "@/components/TeacherMenu";
-import ElMessage from "element-plus";
+import { ElMessage } from "element-plus";
 export default {
   components: { TeacherHeadBar, TeacherMenu },
   data() {
@@ -159,10 +159,8 @@ export default {
             this.$message.error("由于网络安全原因失败，请重试！", resp.data.error_code);
           }
         }).catch(err => {
-          ElMessage({
-            message: '添加工具失败'+err,
-            type: 'error'
-          })
+          console.log("err", err)
+          ElMessage.error('添加工具失败'+err)
         })
       })
     },

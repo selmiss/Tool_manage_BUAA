@@ -186,7 +186,7 @@ export default {
         data:{
           LabelId:this.tagid,
           newName:this.tag.name,
-          uid:-1,this.$store.state.UID,
+          uid:-1,//this.$store.state.UID,
         }
       }).then(res=>{
         if(res.data.error_code==0){
@@ -204,7 +204,7 @@ export default {
         url:"manager/deleteLabel",
         method:'post',
         data:{
-          uid:-1,this.$store.state.UID,
+          uid:-1,//this.$store.state.UID,
           LabelId:id,
         }
       }).then(res=>{

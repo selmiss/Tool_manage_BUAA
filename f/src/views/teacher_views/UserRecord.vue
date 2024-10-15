@@ -118,8 +118,8 @@ export default {
     deleteUser(row) {
       var i = row.id;
       axios.delete('users/' + i,
-      ).then((res) => {
-        ElMessage.success(res.data.msg);
+      ).then((resp) => {
+        ElMessage.success(resp.data.msg);
         this.reload();
       }).catch((err) => {
         ElMessage.error(err);

@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// import { router } from './router'
 import { createPinia } from 'pinia'
 import axios from "axios";
 
@@ -10,12 +9,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/testlogin', component: () => import('@/components/myLogin.vue') },
-  { path: '/t', component: () => import('@/views/fk.vue') },
   { path: '/', component: () => import('@/views/Entry/S_Entry.vue') },
   { path: '/ChangeInfo', component: () => import('@/views/Entry/ChangeInfo.vue') },
   { path: '/ChangePwd', component: () => import('@/views/Entry/ChangePwd.vue') },
@@ -43,8 +40,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-
-
 const pinia = createPinia()
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -55,6 +50,10 @@ app.use(router)
 app.use(pinia)
 app.use(ElementPlus)
 
+// check if dev mode
+if (process.env.NODE_ENV === 'development') {
+  print('Development mode')
+}
 // axios.defaults.baseURL='http://127.0.0.1:8090/'
 axios.defaults.baseURL='http://10.212.87.185:8090/';
 

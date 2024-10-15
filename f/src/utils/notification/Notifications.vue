@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <template v-for="(item, index) in $store.state.message.msgPool">
+    <!-- <template v-for="(item, index) in $store.state.message.msgPool">
       <div
         class="d-flex justify-center"
         transition="slide-y-transition"
@@ -17,7 +17,7 @@
           }}</v-alert>
         </template>
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 <script>

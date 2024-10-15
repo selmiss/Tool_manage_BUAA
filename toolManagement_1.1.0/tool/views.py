@@ -63,7 +63,7 @@ def toolapi(request):
 			print("fucked")
 		label = label.get()
 		_, imgExt = os.path.splitext(img.name)
-		imgMd5 = md5(img.name+time.time())
+		imgMd5 = md5(img.name+str(time.time()))
 		imgName = f"{imgMd5}{imgExt}"
 		imgPath = os.path.join("media/image", imgName)
 		save_file(imgPath, img)

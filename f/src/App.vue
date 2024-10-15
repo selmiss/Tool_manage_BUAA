@@ -28,8 +28,8 @@ export default {
     }, 
     store() {
       console.log('正在保存store的状态到sessionStorage')
-      console.log(this.$store.state)
-      sessionStorage.setItem("store", JSON.stringify(this.$store.state))
+      // console.log(this.$store.state)
+      // sessionStorage.setItem("store", JSON.stringify(this.$store.state))
     }
   },
   created() {
