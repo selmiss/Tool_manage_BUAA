@@ -13,7 +13,7 @@
       style="display: grid;grid-template-columns: repeat(auto-fill,160px);grid-template-rows:repeat(auto-fill,250px);gap:30px 30px;">
       <div class="tagselect-onetag" v-for="tool in tools" @click="chooseTool(tool)">
         <div style="width: 150px;height: 150px;margin: 5px auto;">
-          <el-image style="height: 100%; width: 100%; border-radius: 5px;" :src="tool.url" :fit="fill"/>
+          <el-image style="height: 100%; width: 100%; border-radius: 5px;" :src="tool.portrait" :fit="fill"/>
         </div>
         <div style="height: 30px;line-height:30px;width: 160px;">{{ tool.name }}</div>
         <div style="height: 40px;width: 160px;margin-top:10px;display:inline-block;">
@@ -27,18 +27,18 @@
         <div v-if="borrowSuccess == false"
           style="width:100%;display: grid;grid-template-rows: 100px 200px 50px auto 100px;justify-items: center">
           <div class="borrow-tool-title">借用 {{ thetool.name }}</div>
-          <div style="width: 200px;height: 200px;margin: 0 auto"><img height="100%" width="100%" :src=thetool.url></div>
+          <div style="width: 200px;height: 200px;margin: 0 auto"><img height="100%" width="100%" :src=thetool.portrait></div>
           <div class="borrow-tool-text" style="line-height: 50px">
             <span>限借天数：{{ thetool.limit_days }}</span>
-            <span>&nbsp 总数：{{ thetool.totalCount }}</span>
-            <span>&nbsp 剩余数量：{{ thetool.leftCount }}</span>
-            <span v-if="thetool.leftCount == 0">&nbsp归还时间：{{ thetool.shortReturnTime }}</span>
+            <span>&nbsp 总数：{{ thetool.total_count }}</span>
+            <span>&nbsp 剩余数量：{{ thetool.left_count }}</span>
+            <span v-if="thetool.left_count == 0">&nbsp归还时间：{{ thetool.shortReturnTime }}</span>
           </div>
           <div class="borrow-tool-text">
             <el-form ref="thetool" :model="thetool" :rules="rules" style="margin-top:3vh;line-height: 50px"
               label-width="200px">
                              <el-form-item label="要借用此工具的数量" prop="borrowCount">
-                               <el-input-number style="width: 100%" v-model="thetool.borrowCount" :max=thetool.leftCount :min="1"></el-input-number>
+                               <el-input-number style="width: 100%" v-model="thetool.borrowCount" :max=thetool.left_count :min="1"></el-input-number>
                              </el-form-item>
               <el-form-item label="借用时间" prop="duration">
                 <el-date-picker v-model="thetool.duration" type="daterange" range-separator="至"
@@ -70,12 +70,12 @@
       <el-dialog v-model="Infodialog" center :modal=true :append-to-body=true width="700px" top="5px">
         <div style="width:100%;display: grid;grid-template-rows: 100px 200px 50px auto 100px;justify-items: center">
           <div class="borrow-tool-title">{{ thetool.name }}</div>
-          <div style="width: 200px;height: 200px;margin: 0 auto"><img height="100%" width="100%" :src=thetool.url></div>
+          <div style="width: 200px;height: 200px;margin: 0 auto"><img height="100%" width="100%" :src=thetool.portrait></div>
           <div class="borrow-tool-text" style="line-height: 50px">
             <span>限借天数：{{ thetool.limit_days }}</span>
-            <span>&nbsp 总数：{{ thetool.totalCount }}</span>
-            <span>&nbsp 剩余数量：{{ thetool.leftCount }}</span>
-            <span v-if="thetool.leftCount == 0">&nbsp归还时间：{{ thetool.shortReturnTime }}</span>
+            <span>&nbsp 总数：{{ thetool.total_count }}</span>
+            <span>&nbsp 剩余数量：{{ thetool.left_count }}</span>
+            <span v-if="thetool.left_count == 0">&nbsp归还时间：{{ thetool.shortReturnTime }}</span>
           </div>
           <div class="borrow-tool-text" style="display: grid;grid-template-columns: 100px 400px">
             <div style="font-weight: bold">详情介绍:</div>
@@ -109,8 +109,8 @@ export default {
       dialogVisible: false,
       thetool: {
         name: '',
-        totalCount: null,
-        leftCount: null,
+        total_count: null,
+        left_count: null,
         borrowCount: 1,
         begin: '',
         end: '',
@@ -137,21 +137,44 @@ export default {
   },
   methods: {
     init() {
+      // axios({
+      //   url: "user/getLabelToolList",
+      //   method: "post",
+      //   data: {
+      //     labelId: this.tagid,
+      //   },
+      // }).then((res) => {
+      //   if (res.data.error_code == 0) {
+      //     console.log(res);
+      //     this.tools = res.data.toolList;
+      //     this.rescount = res.data.toolList.length;
+      //   } else {
+      //     console.log(error);
+      //   }
+      // }).catch(err => { console.log(err) })
       axios({
-        url: "user/getLabelToolList",
-        method: "post",
-        data: {
-          labelId: this.tagid,
-        },
-      }).then((res) => {
-        if (res.data.error_code == 0) {
-          console.log(res);
-          this.tools = res.data.toolList;
-          this.rescount = res.data.toolList.length;
-        } else {
-          console.log(error);
+        url: 'tools',
+        method: 'get',
+        params: {
+          label: this.tagid,
         }
-      }).catch(err => { console.log(err) })
+      })
+      .then(resp => {
+        this.tools = resp.data.data;
+        this.tools.map(tool => {
+          if (tool.portrait.startsWith('http')) {
+            tool.portrait = tool.portrait;
+          } else {
+            tool.portrait = axios.defaults.baseURL + "media/image/" + tool.portrait;
+          }
+        });
+        this.rescount = resp.data.data.length;
+        this.fulltools = this.tools;
+        console.log("tools:", this.tools);
+      })
+      .catch(err => { 
+        this.$message.error(err)
+      })
     },
     ToolInfo(tool) {
       this.thetool = tool;
@@ -181,7 +204,7 @@ export default {
               toolId: this.thetool.id,
               uid: localStorage.getItem('uid'),
               // borrowCount: Number(this.thetool.borrowCount),
-              borrowCount: 1,
+              borrowCount: this.thetool.borrowCount,
               returnTime: this.formatDate(this.thetool.end),
               startTime: this.formatDate(this.thetool.begin),
               purpose: this.thetool.purpose

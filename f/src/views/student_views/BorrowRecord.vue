@@ -245,7 +245,7 @@ export default {
           if (response.data.error_code === 0) {
             console.log("获取成功", response.data);
             that.tableData = response.data.requestList;
-            loading = false;
+            this.loading = false;
           } else {
             console.log("获取失败" + response.data);
             alert(localStorage.getItem('uid') + " 获取失败,error: " + response.data.error_code);

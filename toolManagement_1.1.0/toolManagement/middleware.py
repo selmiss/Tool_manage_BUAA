@@ -30,6 +30,7 @@ class Auth(MiddlewareMixin):
 		print("auth", token, TOKEN_DIC.get(token, None))
 		if not token:
 			token = request.META.get('authorization')
+		request.POST._mutable = True
 		request.POST["uid"] = token
 		# if token != "wutoken":
 		# 	if token in TOKEN_DIC.keys():

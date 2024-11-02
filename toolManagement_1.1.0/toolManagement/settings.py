@@ -55,8 +55,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'migrations.token.ware1',
-	'toolManagement.middleware.Auth',
 	'toolManagement.middleware.Http2Middleware',
+	'toolManagement.middleware.Auth',
 ]
 
 ROOT_URLCONF = 'toolManagement.urls'
