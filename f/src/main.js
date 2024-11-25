@@ -12,7 +12,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  { path: '/testlogin', component: () => import('@/components/myLogin.vue') },
   { path: '/', component: () => import('@/views/Entry/S_Entry.vue') },
   { path: '/ChangeInfo', component: () => import('@/views/Entry/ChangeInfo.vue') },
   { path: '/ChangePwd', component: () => import('@/views/Entry/ChangePwd.vue') },
@@ -54,8 +53,8 @@ app.use(ElementPlus)
 if (process.env.NODE_ENV === 'development') {
   print('Development mode')
 }
-// axios.defaults.baseURL='http://127.0.0.1:8090/'
-axios.defaults.baseURL='http://10.212.87.185:8090/';
+axios.defaults.baseURL='http://127.0.0.1:8090/'
+// axios.defaults.baseURL='http://10.212.87.185:8090/';
 
 axios.interceptors.request.use(
   config => {

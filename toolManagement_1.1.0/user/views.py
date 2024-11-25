@@ -639,6 +639,16 @@ def borrowRequest(request):  # 借出申请
                                                      purpose=kwargs['purpose'], borrowCount=int(kwargs['borrowCount']),
                                                      )
         new_toolRequest.save()
+
+        message=f"老师您好，当前有同学 {user.name} 申请借用工具 {tool.name}，请及时审核。"
+        try:
+            if "test" == kwargs['purpose']:
+                acc = "by2406151@buaa.edu.cn"
+            else :
+                acc = "shichk@buaa.edu.cn"
+            send_mail("北航工训借用平台申请工具借用通知", message, settings.EMAIL_FROM, [acc])
+        except:
+            pass
         return JsonResponse({"error_code": 0, 'requestId': new_toolRequest.id})
 
 
